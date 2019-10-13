@@ -5,20 +5,11 @@ import java.util.InvalidPropertiesFormatException;
  */
 public class Rabbit extends Space implements MoveableSpace {
 
-    private int rabbitNumber;
 
-    public Rabbit(int rabbitNumber, int posX, int posY){
+    public Rabbit(int posX, int posY){
         super(posX, posY);
-        this.rabbitNumber = rabbitNumber;
     }
 
-    public int getRabbitNumber() {
-        return rabbitNumber;
-    }
-
-    public void setRabbitNumber(int rabbitNumber) {
-        this.rabbitNumber = rabbitNumber;
-    }
 
     @Override
     public void move(Space desiredSpace) {
