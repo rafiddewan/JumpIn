@@ -1,3 +1,6 @@
+/**
+ * @author Rafid
+ */
 public class Hole extends Space {
     private boolean isFilled;
 
@@ -6,8 +9,9 @@ public class Hole extends Space {
      * @param posX
      * @param posY
      */
-    public Hole(int posX, int posY) {
+    public Hole(int posX, int posY, boolean filled) {
         super(posX, posY);
+        this.isFilled = filled;
     }
 
     /**
