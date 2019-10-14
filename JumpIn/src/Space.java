@@ -29,4 +29,11 @@ public class Space {
         this.posY = posY;
     }
 
+    @Override
+    public String toString() {
+        return "Space{" +
+                "posX=" + posX +
+                ", posY=" + posY +
+                '}';
+    }
 }
