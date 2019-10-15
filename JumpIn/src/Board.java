@@ -38,11 +38,15 @@ public class Board {
                     this.gameBoard[i][j] = new Mushroom(i,j);
                     System.out.println(gameBoard[i][j].toString());
                 }
-                else if(i == 0 && j == 3){
+                else if(i == 0 && j == 3) {
                     gameBoard[i][j] = new Rabbit(i, j);
                     System.out.println(gameBoard[i][j].toString());
                 }
                 else if(i == 2 && j == 4){
+                    gameBoard[i][j] = new Rabbit(i, j);
+                    System.out.println(gameBoard[i][j].toString());
+                }
+                else if(i == 4 && j == 1){
                     gameBoard[i][j] = new Rabbit(i, j);
                     System.out.println(gameBoard[i][j].toString());
                 }
