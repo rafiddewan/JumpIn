@@ -11,8 +11,9 @@ public class FoxTail extends Space implements Fox, MoveableSpace {
      * @param posX
      * @param posY
      */
-    public FoxTail(int posX, int posY){
+    public FoxTail(int posX, int posY, boolean vertical){
         super(posX, posY);
+        this.isVertical = vertical;
     }
 
     /**
@@ -21,9 +22,10 @@ public class FoxTail extends Space implements Fox, MoveableSpace {
      * @param posY
      * @param foxHead
      */
-    public FoxTail(int posX, int posY, FoxHead foxHead){
+    public FoxTail(int posX, int posY, boolean vertical, FoxHead foxHead){
         super(posX, posY);
         this.foxHead = foxHead;
+        this.isVertical = vertical;
     }
 
     /**
@@ -63,5 +65,10 @@ public class FoxTail extends Space implements Fox, MoveableSpace {
     public void move(Space desiredSpace) {
         this.setPosX(desiredSpace.getPosX());
         this.setPosY(desiredSpace.getPosY());
+    }
+
+    @Override
+    public String toString() {
+        return "FT";
     }
 }

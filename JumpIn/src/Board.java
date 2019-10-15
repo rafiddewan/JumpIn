@@ -46,6 +46,22 @@ public class Board {
                     gameBoard[i][j] = new Rabbit(i, j);
                     System.out.println(gameBoard[i][j].toString());
                 }
+                //Vertical
+                else if(i == 1 && j == 1){
+                    FoxTail foxTail = null;
+                    FoxHead foxHead = new FoxHead(i, j,true, foxTail);
+                    foxTail = new FoxTail(i - 1, j, true, foxHead);
+                    gameBoard[i][j] = new FoxHead(i, j, true, foxTail);
+                    gameBoard[i-1][j] = new FoxTail(i-1, j, true, foxHead);
+                }
+                //Horizontal
+                else if(i == 3 && j == 4){
+                    FoxTail foxTail = null;
+                    FoxHead foxHead = new FoxHead(i, j,false, foxTail);
+                    foxTail = new FoxTail(i, j-1 , false, foxHead);
+                    gameBoard[i][j] = new FoxHead(i, j, false, foxTail);
+                    gameBoard[i][j-1] = new FoxTail(i, j-1, false, foxHead);
+                }
                 else if(gameBoard[i][j] == null){
                     gameBoard[i][j] = new EmptySpace(i, j);
                 }

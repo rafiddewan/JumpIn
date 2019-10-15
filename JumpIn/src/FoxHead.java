@@ -68,4 +68,9 @@ public class FoxHead extends Space implements Fox, MoveableSpace {
         this.setPosX(desiredSpace.getPosX());
         this.setPosY(desiredSpace.getPosY());
     }
+
+    @Override
+    public String toString() {
+        return "FH";
+    }
 }
