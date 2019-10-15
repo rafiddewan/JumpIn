@@ -32,39 +32,34 @@ public class Board {
             for(int j = 0; j < boardDimension;  j++) {
                 if(i == 4 && j == 2){
                     gameBoard[i][j] = new Mushroom(i,j);
-                    System.out.println(gameBoard[i][j].toString());
                 }
                 else if(i == 1 && j == 3){
                     this.gameBoard[i][j] = new Mushroom(i,j);
-                    System.out.println(gameBoard[i][j].toString());
                 }
                 else if(i == 0 && j == 3) {
                     gameBoard[i][j] = new Rabbit(i, j);
-                    System.out.println(gameBoard[i][j].toString());
                 }
                 else if(i == 2 && j == 4){
                     gameBoard[i][j] = new Rabbit(i, j);
-                    System.out.println(gameBoard[i][j].toString());
                 }
                 else if(i == 4 && j == 1){
                     gameBoard[i][j] = new Rabbit(i, j);
-                    System.out.println(gameBoard[i][j].toString());
                 }
                 //Vertical
                 else if(i == 1 && j == 1){
-                    FoxTail foxTail = null;
-                    FoxHead foxHead = new FoxHead(i, j,true, foxTail);
-                    foxTail = new FoxTail(i - 1, j, true, foxHead);
-                    gameBoard[i][j] = new FoxHead(i, j, true, foxTail);
-                    gameBoard[i-1][j] = new FoxTail(i-1, j, true, foxHead);
+                    FoxPart foxTail = new FoxPart(i, j, true, false);
+                    FoxPart foxHead = new FoxPart(i, j,true, true, foxTail);
+                    foxTail.setOtherFoxPart(foxHead);
+                    gameBoard[i][j] = foxHead;
+                    gameBoard[i-1][j] = foxTail;
                 }
                 //Horizontal
                 else if(i == 3 && j == 4){
-                    FoxTail foxTail = null;
-                    FoxHead foxHead = new FoxHead(i, j,false, foxTail);
-                    foxTail = new FoxTail(i, j-1 , false, foxHead);
-                    gameBoard[i][j] = new FoxHead(i, j, false, foxTail);
-                    gameBoard[i][j-1] = new FoxTail(i, j-1, false, foxHead);
+                    FoxPart foxTail = null;
+                    FoxPart foxHead = new FoxPart(i, j,false, true, foxTail);
+                    foxTail = new FoxPart(i, j-1 , false, false, foxHead);
+                    gameBoard[i][j] = foxHead;
+                    gameBoard[i][j-1] = foxTail;
                 }
                 else if(gameBoard[i][j] == null){
                     gameBoard[i][j] = new EmptySpace(i, j);
