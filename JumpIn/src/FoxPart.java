@@ -21,13 +21,13 @@ public class FoxPart extends Space implements MoveableSpace {
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      * @param foxPart
      * @param isHead
      */
-    public FoxPart(int posX, int posY, boolean vertical, boolean isHead, FoxPart foxPart){
-        super(posX, posY);
+    public FoxPart(int row, int column, boolean vertical, boolean isHead, FoxPart foxPart){
+        super(row, column);
         this.isVertical = vertical;
         this.isHead = isHead;
         this.otherFoxPart = foxPart;
@@ -39,14 +39,6 @@ public class FoxPart extends Space implements MoveableSpace {
      */
     public boolean getIsVertical() {
         return isVertical;
-    }
-
-    /**
-     *
-     * @param vertical
-     */
-    public void setIsVertical(boolean vertical) {
-        this.isVertical = vertical;
     }
 
     /**
@@ -69,7 +61,7 @@ public class FoxPart extends Space implements MoveableSpace {
      *
      * @return boolean
      */
-    public boolean isHead() {
+    public boolean getIsHead() {
         return isHead;
     }
 
@@ -80,7 +72,7 @@ public class FoxPart extends Space implements MoveableSpace {
      */
     public void moveBoth(Space desiredSpace, Space desiredOtherSpace) {
         this.move(desiredSpace);
-        otherFoxPart.move(desiredSpace);
+        otherFoxPart.move(desiredOtherSpace);
     }
 
     /**
@@ -89,10 +81,14 @@ public class FoxPart extends Space implements MoveableSpace {
      */
     @Override
     public void move(Space desiredSpace) {
-        this.setPosX(desiredSpace.getPosX());
-        this.setPosY(desiredSpace.getPosY());
+        this.setRow(desiredSpace.getRow());
+        this.setColumn(desiredSpace.getColumn());
     }
 
+    /**
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return (isHead) ? "FH" : "FT";
