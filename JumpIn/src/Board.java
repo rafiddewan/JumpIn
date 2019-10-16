@@ -1,5 +1,9 @@
 /**
+ * Represents the JumpIn game board and contains methods
+ * for manipulating game spaces.
+ *
  * @author Rafid
+ * @version x.x
  */
 public class Board {
 
@@ -8,6 +12,9 @@ public class Board {
     private static final int boardDimension = 5;
 
     /**
+     *  Initializes class instance variables for a JumpIn game board.
+     *  boardDimension used instead of int 5 for readability.
+     *
      *
      */
     public Board(){
