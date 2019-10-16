@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * @author Nick
  */
@@ -11,8 +13,8 @@ public class JumpIn {
      * Constructor for a JumpIn game
      */
     public JumpIn(){
-        this.board=new Board();
-        this.gameDone=false;
+        this.board = new Board();
+        this.gameDone = false;
     }
 
     /**
@@ -50,12 +52,12 @@ public class JumpIn {
      * @return INVALID if the move isn't valid, HORIZONTAL if the rabbit is moving horizontally, VERTICAL if the rabbit is moving vertically
      */
     private moveDirection validRabbitDirection(Space rabbitSpace, Space desiredSpace){ // move to JumpIn
-        int currX = rabbitSpace.getPosX();
-        int currY = rabbitSpace.getPosY();
+        int currRow = rabbitSpace.getRow();
+        int currCol = rabbitSpace.getColumn();
 
-        if((currX != desiredSpace.getPosX() && currY != desiredSpace.getPosY()) || (currX == desiredSpace.getPosX() && currY == desiredSpace.getPosY()))//same spot or diagonal is invalid
+        if((currRow != desiredSpace.getRow() && currCol != desiredSpace.getColumn()) || (currRow == desiredSpace.getRow() && currCol == desiredSpace.getColumn()))//same spot or diagonal is invalid
             return moveDirection.INVALID;
-        else if(currX == desiredSpace.getPosX() && currY != desiredSpace.getPosY()){//moving horizontally
+        else if(currRow == desiredSpace.getRow() && currCol != desiredSpace.getColumn()){//moving horizontally
             return moveDirection.HORIZONTAL;
         }
         else{//else vertically
@@ -70,16 +72,16 @@ public class JumpIn {
      * @return true if rabbit can move to that spot horizontally, false if the horizontal move isn't valid
      */
     private boolean rabbitCheckHorizontally(Space rabbitSpace, Space desiredSpace){//move to JumpIn?
-        int rabbitX = rabbitSpace.getPosX();
-        int rabbitY = rabbitSpace.getPosY();
+        int rabbitRow = rabbitSpace.getRow();
+        int rabbitColumn = rabbitSpace.getColumn();
 
-        int difference = rabbitY - desiredSpace.getPosY();
+        int difference = rabbitColumn - desiredSpace.getColumn();
         if(difference == 1 || difference == -1)
             return false;
         if(difference < 0){ //moving right
             difference *= -1;
             for(int i = 1; i < difference; i++){//check blocks between the rabbit and desiredSpace to see if they can be jumped
-               Space currSpace = getBoard().getSpace(rabbitX, rabbitY+i);
+               Space currSpace = getBoard().getSpace(rabbitRow, rabbitColumn + i);
                 if(currSpace instanceof EmptySpace || currSpace instanceof Hole)
                     return false;
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -95,7 +97,7 @@ public class JumpIn {
         }
         else{//moving left
             for(int i = 1; i < difference; i++){//check blocks between the rabbit and desiredSpace to see if they can be jumped
-                Space currSpace = getBoard().getSpace(rabbitX, rabbitY-i);
+                Space currSpace = getBoard().getSpace(rabbitRow, rabbitColumn - i);
                 if(currSpace instanceof EmptySpace || currSpace instanceof Hole)//if the current hole is empty or a hole its not a valid move
                     return false;
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -118,16 +120,16 @@ public class JumpIn {
      * @return true if rabbit can move to that spot vertically, false if the vertical move isn't valid
      */
     private boolean rabbitCheckVertically(Space rabbitSpace, Space desiredSpace){
-        int rabbitX = rabbitSpace.getPosX();
-        int rabbitY = rabbitSpace.getPosY();
+        int rabbitRow = rabbitSpace.getRow();
+        int rabbitColumn = rabbitSpace.getColumn();
 
-        int difference = rabbitX - desiredSpace.getPosX();//difference in
+        int difference = rabbitRow - desiredSpace.getRow();//difference in
         if(difference == 1 || difference == -1)
             return false;
         if(difference < 0){ //moving down
             difference *= -1;
             for(int i = 1; i < difference; i++){//check blocks between the rabbit and desiredSpace to see if they can be jumped
-                Space currSpace = getBoard().getSpace(rabbitX+i, rabbitY);
+                Space currSpace = getBoard().getSpace(rabbitRow + i, rabbitColumn);
                 if(currSpace instanceof EmptySpace || currSpace instanceof Hole)
                     return false;
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -143,7 +145,7 @@ public class JumpIn {
         }
         else{//moving up
             for(int i = 1; i < difference; i++){//check blocks between the rabbit and desiredSpace to see if they can be jumped
-                Space currSpace = getBoard().getSpace(rabbitX-i, rabbitY);
+                Space currSpace = getBoard().getSpace(rabbitRow-i, rabbitColumn);
                 if(currSpace instanceof EmptySpace || currSpace instanceof Hole)//if the current hole is empty or a hole its not a valid move
                     return false;
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -187,18 +189,18 @@ public class JumpIn {
      */
     private moveDirection validFoxDirection(Space foxSpace,Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
-        if(foxSpace.getPosX() == desiredSpace.getPosX() && foxSpace.getPosY() == desiredSpace.getPosY())//cant move to the spot it is at
+        if(foxSpace.getRow() == desiredSpace.getRow() && foxSpace.getColumn() == desiredSpace.getColumn())//cant move to the spot it is at
             return moveDirection.INVALID;
 
         if(fox.getIsVertical()) {//if the fox is vertical it can only change the row(aka x) position
-            if (fox.getPosY() != desiredSpace.getPosY())//cant move horizontally
+            if (fox.getColumn() != desiredSpace.getColumn())//cant move horizontally
                 return moveDirection.INVALID;
             else {
                 return moveDirection.VERTICAL;
             }
         }
         else{//moving horizontally can change column (aka y) position
-            if(fox.getPosX() != desiredSpace.getPosX())
+            if(fox.getRow() != desiredSpace.getRow())
                 return moveDirection.INVALID;
             else{
                 return moveDirection.HORIZONTAL;
@@ -214,15 +216,15 @@ public class JumpIn {
      */
     private boolean foxCheckHorizontally(Space foxSpace, Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
-        int foxX = fox.getPosX();
-        int foxY = fox.getPosY();
+        int foxRow = fox.getRow();
+        int foxColumn = fox.getColumn();
 
-        int difference = foxY - desiredSpace.getPosY();
+        int difference = foxColumn - desiredSpace.getColumn();
         if(difference < 0){ //moving right
             difference *= -1;
                 //always initialize horizontal foxes with the head to the right
             for (int i = (fox.getIsHead() ? 1 : 2); i <= difference; i++) {//check blocks between the fox and desiredSpace to make sure they are empty spaces
-                Space currSpace = getBoard().getSpace(foxX, foxY + i);
+                Space currSpace = getBoard().getSpace(foxRow, foxColumn + i);
                 if (!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
                     return false;
             }
@@ -230,7 +232,7 @@ public class JumpIn {
         }
         else{//moving left
             for(int i = (fox.getIsHead() ? 2 : 1); i <= difference; i++){//check blocks between the fox and desiredSpace to see if they are empty spaces
-                Space currSpace = getBoard().getSpace(foxX, foxY - i);
+                Space currSpace = getBoard().getSpace(foxRow, foxColumn - i);
                 if(!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
                     return false;
             }
@@ -246,15 +248,15 @@ public class JumpIn {
      */
     private boolean foxCheckVertically(Space foxSpace, Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
-        int foxX = fox.getPosX();
-        int foxY = fox.getPosY();
+        int foxRow = fox.getRow();
+        int foxColumn = fox.getColumn();
 
-        int difference = foxX - desiredSpace.getPosX();
+        int difference = foxRow - desiredSpace.getRow();
 
         if(difference > 0){ //moving up
             //always initialize vertical foxes with the head downwards
             for(int i = (fox.getIsHead() ? 2 : 1); i <= difference; i++){//check blocks between the fox and desiredSpace to make sure they are empty spaces
-                Space currSpace = getBoard().getSpace(foxX - i, foxY);
+                Space currSpace = getBoard().getSpace(foxRow - i, foxColumn);
                 if(!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
                     return false;
             }
@@ -263,12 +265,17 @@ public class JumpIn {
         else{//moving down
             difference *= -1;
             for(int i = (fox.getIsHead() ? 1 : 2); i <= difference; i++){//check blocks between the fox and desiredSpace to see if they are empty spaces
-                Space currSpace = getBoard().getSpace(foxX + i, foxY);
+                Space currSpace = getBoard().getSpace(foxRow + i, foxColumn);
                 if(!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
                     return false;
             }
             return true;
         }
+    }
+
+    public void play(){
+        Scanner input = new Scanner(System.in);
+
     }
 
 
@@ -277,10 +284,5 @@ public class JumpIn {
         JumpIn game = new JumpIn();
         Board board = game.getBoard();
         System.out.print(board.toString());
-        System.out.println(game.canFoxMove(board.getSpace(3,4),board.getSpace(3,0)));
-        System.out.println(game.canFoxMove(board.getSpace(3,4),board.getSpace(3,1)));
-        System.out.println(game.canFoxMove(board.getSpace(3,4),board.getSpace(3,2)));
-        System.out.println(game.canFoxMove(board.getSpace(3,4),board.getSpace(3,3)));
-
     }
 }
