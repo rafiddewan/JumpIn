@@ -1,5 +1,3 @@
-import java.util.InvalidPropertiesFormatException;
-
 /**
  * @author Nick, Rafid
  */
