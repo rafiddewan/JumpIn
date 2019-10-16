@@ -43,14 +43,6 @@ public class FoxPart extends Space implements MoveableSpace {
 
     /**
      *
-     * @param vertical
-     */
-    public void setIsVertical(boolean vertical) {
-        this.isVertical = vertical;
-    }
-
-    /**
-     *
      * @return FoxPart
      */
     public FoxPart getOtherFoxPart() {
@@ -80,7 +72,7 @@ public class FoxPart extends Space implements MoveableSpace {
      */
     public void moveBoth(Space desiredSpace, Space desiredOtherSpace) {
         this.move(desiredSpace);
-        otherFoxPart.move(desiredSpace);
+        otherFoxPart.move(desiredOtherSpace);
     }
 
     /**
@@ -93,6 +85,10 @@ public class FoxPart extends Space implements MoveableSpace {
         this.setColumn(desiredSpace.getColumn());
     }
 
+    /**
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         return (isHead) ? "FH" : "FT";
