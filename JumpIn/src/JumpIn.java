@@ -6,15 +6,29 @@ public class JumpIn {
     private boolean gameDone;
 
     private enum moveDirection { INVALID, HORIZONTAL, VERTICAL}
+
+    /**
+     * Constructor for a JumpIn game
+     */
     public JumpIn(){
         this.board=new Board();
         this.gameDone=false;
     }
 
+    /**
+     * Gets the Board
+     * @return the Board to be played on
+     */
     public Board getBoard(){
         return this.board;
     }
 
+    /**
+     * Method takes the current rabbit's space and the space desired to move to
+     * @param rabbitSpace current rabbit's space
+     * @param desiredSpace space desired to move to
+     * @return true if the move is a valid rabbit move, false if an invalid
+     */
     private boolean canRabbitMove(Space rabbitSpace, Space desiredSpace){//move to JumpIn
         moveDirection direction = validRabbitDirection(rabbitSpace, desiredSpace);
         switch(direction){
@@ -29,7 +43,12 @@ public class JumpIn {
     }
 
 
-
+    /**
+     * Helper method to check which direction the rabbit will move in
+     * @param rabbitSpace current rabbit's space
+     * @param desiredSpace space desired to move to
+     * @return INVALID if the move isn't valid, HORIZONTAL if the rabbit is moving horizontally, VERTICAL if the rabbit is moving vertically
+     */
     private moveDirection validRabbitDirection(Space rabbitSpace, Space desiredSpace){ // move to JumpIn
         int currX = rabbitSpace.getPosX();
         int currY = rabbitSpace.getPosY();
@@ -44,6 +63,12 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Helper method to determine if the horizontal move is a valid move
+     *@param rabbitSpace current rabbit's space
+     * @param desiredSpace space desired to move to
+     * @return true if rabbit can move to that spot horizontally, false if the horizontal move isn't valid
+     */
     private boolean rabbitCheckHorizontally(Space rabbitSpace, Space desiredSpace){//move to JumpIn?
         int rabbitX = rabbitSpace.getPosX();
         int rabbitY = rabbitSpace.getPosY();
@@ -85,6 +110,13 @@ public class JumpIn {
             }
         }
     }
+
+    /**
+     * Helper method to determine if the Vertical move is a valid move
+     *@param rabbitSpace current rabbit's space
+     * @param desiredSpace space desired to move to
+     * @return true if rabbit can move to that spot vertically, false if the vertical move isn't valid
+     */
     private boolean rabbitCheckVertically(Space rabbitSpace, Space desiredSpace){
         int rabbitX = rabbitSpace.getPosX();
         int rabbitY = rabbitSpace.getPosY();
@@ -127,6 +159,12 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Method takes the current fox's space and the space desired to move to
+     * @param foxSpace current fox's space
+     * @param desiredSpace space desired to move to
+     * @return true if the move is a valid fox move, false if an invalid
+     */
     private boolean canFoxMove(Space foxSpace, Space desiredSpace){
         moveDirection direction = validFoxDirection(foxSpace, desiredSpace);
         switch(direction){
@@ -141,7 +179,12 @@ public class JumpIn {
     }
 
 
-
+    /**
+     * Helper method to check which direction the fox will move in
+     * @param foxSpace current fox's space
+     * @param desiredSpace space desired to move to
+     * @return INVALID if the move isn't valid, HORIZONTAL if the fox is moving horizontally, VERTICAL if the fox is moving vertically
+     */
     private moveDirection validFoxDirection(Space foxSpace,Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
         if(foxSpace.getPosX() == desiredSpace.getPosX() && foxSpace.getPosY() == desiredSpace.getPosY())//cant move to the spot it is at
@@ -163,6 +206,12 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Helper method to determine if the horizontal move is a valid move
+     *@param foxSpace current fox's space
+     * @param desiredSpace space desired to move to
+     * @return true if fox can move to that spot horizontally, false if the horizontal move isn't valid
+     */
     private boolean foxCheckHorizontally(Space foxSpace, Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
         int foxX = fox.getPosX();
@@ -189,6 +238,12 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Helper method to determine if the vertical move is a valid move
+     * @param foxSpace current fox's space
+     * @param desiredSpace space desired to move to
+     * @return true if fox can move to that spot vertically, false if the vertical move isn't valid
+     */
     private boolean foxCheckVertically(Space foxSpace, Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
         int foxX = fox.getPosX();
