@@ -317,7 +317,7 @@ public class JumpIn {
                     if(desiredSpace instanceof EmptySpace){//if moving to an empty space, swap the positions and change the Space's row and column
                         ((Rabbit) movingSpace).move(desiredSpace);
                         board.setSpace(desiredRow,desiredColumn,movingSpace);//set destination to be rabbit
-                        board.setSpace(movingRow,movingColumn,new EmptySpace(movingRow,movingColumn));
+                        board.setSpace(movingRow,movingColumn,new EmptySpace(movingRow,movingColumn));//set old rabbits space to be a new empty space
 
                     }
                     else{//moving to a hole, remove rabbit, close hole, increment holes filled
