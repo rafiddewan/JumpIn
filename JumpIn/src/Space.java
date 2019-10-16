@@ -1,6 +1,6 @@
 /**
  * Parent  class of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
- * @author Rafid Dewan
+ * @author Rafid
  */
 /**
  * Parent  class of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
