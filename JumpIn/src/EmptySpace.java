@@ -1,5 +1,17 @@
+/**
+ * @author Rafis
+ */
 public class EmptySpace  extends  Space {
-    public EmptySpace(int posX, int posY) {
-        super(posX, posY);
+    public EmptySpace(int row, int column) {
+        super(row, column);
+    }
+
+    /**
+     *
+     * @return String
+     */
+    @Override
+    public String toString() {
+        return "ES";
     }
 }
