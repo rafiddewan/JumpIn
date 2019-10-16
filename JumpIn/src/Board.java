@@ -85,10 +85,9 @@ public class Board {
 
     /**
      *
-     * @param filled
      */
-    public void setHolesFilled(int filled) {
-        holesFilled = filled;
+    public void incrementHolesFilled() {
+        holesFilled += 1;
     }
 
     /**
