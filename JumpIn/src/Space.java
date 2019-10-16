@@ -4,49 +4,49 @@
  */
 public class Space {
 
-    private int posX;
-    private int posY;
+    private int row;
+    private int column;
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      */
-    public Space(int posX, int posY) {
-        this.posX = posX;
-        this.posY = posY;
+    public Space(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
     /**
      *
      * @return int
      */
-    public int getPosY() {
-        return posY;
+    public int getColumn() {
+        return column;
     }
 
     /***
      *
      * @return int
      */
-    public int getPosX() {
-        return posX;
+    public int getRow() {
+        return row;
     }
 
     /**
      *
-     * @param posX
+     * @param row
      */
-    public void setPosX(int posX) {
-        this.posX = posX;
+    public void setRow(int row) {
+        this.row = row;
     }
 
     /**
      *
-     * @param posY
+     * @param column
      */
-    public void setPosY(int posY) {
-        this.posY = posY;
+    public void setColumn(int column) {
+        this.column = column;
     }
 
     /**
@@ -56,8 +56,8 @@ public class Space {
     @Override
     public String toString() {
         return "Space{" +
-                "posX=" + posX +
-                ", posY=" + posY +
+                "posX=" + row +
+                ", posY=" + column +
                 '}';
     }
 }
