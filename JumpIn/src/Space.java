@@ -2,6 +2,10 @@
  * Parent  class of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
  * @author Rafid
  */
+/**
+ * Parent  class of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
+ * @author Rafid
+ */
 public class Space {
 
     private int row;

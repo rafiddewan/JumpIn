@@ -69,7 +69,7 @@ public class FoxPart extends Space implements MoveableSpace {
      *
      * @return boolean
      */
-    public boolean isHead() {
+    public boolean getIsHead() {
         return isHead;
     }
 
