@@ -6,11 +6,11 @@ public class Hole extends Space {
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      */
-    public Hole(int posX, int posY, boolean filled) {
-        super(posX, posY);
+    public Hole(int row, int column, boolean filled) {
+        super(row, column);
         this.isFilled = filled;
     }
 
