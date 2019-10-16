@@ -5,11 +5,11 @@ public class Rabbit extends Space implements MoveableSpace {
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      */
-    public Rabbit(int posX, int posY){
-        super(posX, posY);
+    public Rabbit(int row, int column){
+        super(row, column);
     }
 
     /**
@@ -18,8 +18,8 @@ public class Rabbit extends Space implements MoveableSpace {
      */
     @Override
     public void move(Space desiredSpace) {
-        this.setPosX(desiredSpace.getPosX());
-        this.setPosY(desiredSpace.getPosY());
+        this.setRow(desiredSpace.getRow());
+        this.setColumn(desiredSpace.getColumn());
     }
 
     /**
