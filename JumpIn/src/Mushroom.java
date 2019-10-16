@@ -5,11 +5,11 @@ public class Mushroom extends Space {
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      */
-    public Mushroom(int posX, int posY) {
-        super(posX, posY);
+    public Mushroom(int row, int column) {
+        super(row, column);
     }
 
     /**
