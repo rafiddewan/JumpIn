@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 /**
+ *
  * @author Nick
  */
 public class JumpIn {
