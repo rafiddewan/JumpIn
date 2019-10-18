@@ -288,7 +288,6 @@ public class JumpIn {
             System.out.println("What would you like to move. Enter row then column: ");
             int movingRow = input.nextInt();
             int movingColumn = input.nextInt();
-            System.out.println("Current: "+ movingRow + " " + movingColumn);
             input.nextLine();
             if(movingRow < 0 || movingRow > 4 || movingColumn < 0|| movingColumn > 4) {
                 System.out.println("Row and column must be values from 0 to 4 inclusive (0 1 2 3 4)");
@@ -302,7 +301,6 @@ public class JumpIn {
             System.out.println("Where would you like to move it to. Enter row then column: ");
             int desiredRow = input.nextInt();
             int desiredColumn = input.nextInt();
-            System.out.println("Current: "+ desiredRow + " " + desiredColumn);
             input.nextLine();
 
             if(desiredRow < 0 || desiredRow > 4 || desiredColumn < 0|| desiredColumn > 4) {//out of bounds check
@@ -323,7 +321,7 @@ public class JumpIn {
                     else{//moving to a hole, remove rabbit, close hole, increment holes filled
                         ((Hole) desiredSpace).setIsFilled(true);//set the hole to filled
                         board.setSpace(movingRow,movingColumn,new EmptySpace(movingRow,movingColumn));//removes rabbit
-                        board.setHolesFilled(board.getHolesFilled()+1);
+                        board.incrementHolesFilled();
                         if(board.getHolesFilled() == 3)
                             gameDone = true;
                     }
