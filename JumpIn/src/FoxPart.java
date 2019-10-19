@@ -9,12 +9,12 @@ public class FoxPart extends Space implements MoveableSpace {
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      * @param  isHead
      */
-    public FoxPart(int posX, int posY, boolean vertical, boolean isHead){
-        super(posX, posY);
+    public FoxPart(int row, int column, boolean vertical, boolean isHead){
+        super(row, column);
         this.isVertical = vertical;
         this.isHead = isHead;
     }
