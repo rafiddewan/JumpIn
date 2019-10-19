@@ -282,15 +282,26 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Method that will run the text-based version of the game.
+     * Will continue until a player wins the game by jumping all the rabbits into an empty hole
+     */
     public void play(){
         Scanner input = new Scanner(System.in);
         while(!gameDone){
             System.out.println(board.legendString());
             System.out.print(board.toString());
             System.out.println("What would you like to move. Enter row then column: ");
-            int movingRow = input.nextInt();
-            int movingColumn = input.nextInt();
-            input.nextLine();
+            String inputRow = input.next();
+            String inputColumn = input.next();
+            boolean digitInput = digitInputs(inputRow) && digitInputs(inputColumn);//checks to see if the input values have non-digits
+            if(!digitInput){//contains non digits
+                System.out.println("Only enter digits between 0 and 4 inclusive");
+                continue;
+            }//otherwise its safe to convert them to int's
+            int movingRow = Integer.parseInt(inputRow);
+            int movingColumn = Integer.parseInt(inputColumn);
+
             if(movingRow < 0 || movingRow > 4 || movingColumn < 0|| movingColumn > 4) {
                 System.out.println("Row and column must be values from 0 to 4 inclusive (0 1 2 3 4)");
                 continue;
@@ -301,9 +312,15 @@ public class JumpIn {
             }
 
             System.out.println("Where would you like to move it to. Enter row then column: ");
-            int desiredRow = input.nextInt();
-            int desiredColumn = input.nextInt();
-            input.nextLine();
+            String inputDesiredRow = input.next();
+            String inputDesiredColumn = input.next();
+            digitInput = digitInputs(inputDesiredRow) && digitInputs(inputDesiredColumn);//checks if inputs have non-digits
+            if(!digitInput){//has non-digits
+                System.out.println("Only enter digits between 0 and 4 inclusive");
+                continue;
+            }//otherwise safe to convert to int's
+            int desiredRow = Integer.parseInt(inputDesiredRow);
+            int desiredColumn = Integer.parseInt(inputDesiredColumn);
 
             if(desiredRow < 0 || desiredRow > 4 || desiredColumn < 0|| desiredColumn > 4) {//out of bounds check
                 System.out.println("Row and column must be values from 0 to 4 inclusive (0 1 2 3 4)");
@@ -337,36 +354,18 @@ public class JumpIn {
                 if(canFoxMove(movingSpace,desiredSpace)){//if the fox is moving to a valid space
                     if(((FoxPart) movingSpace).getIsHead()){//if the selected space was a fox head move both the head and tail
                         if(((FoxPart) movingSpace).getIsVertical()){//if its a vertical fox head
-                            ((FoxPart) movingSpace).moveBoth(desiredSpace,board.getSpace(desiredRow-1,desiredColumn));//move the head to the desired spot and the tail 1 above
-                            board.setSpace(desiredRow, desiredColumn, movingSpace);//set the board at desiredSpace to be the fox head
-                            board.setSpace(desiredRow - 1, desiredColumn, ((FoxPart)movingSpace).getOtherFoxPart());//set the board at (desiredRow-1,desiredColumn) to be the fox tail
-                            board.setSpace(movingRow, movingColumn, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
-                            board.setSpace(movingRow - 1, movingColumn, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
+                            moveFoxParts((FoxPart)movingSpace,desiredSpace,board.getSpace(desiredRow-1,desiredColumn));
                         }
                         else{//if its a horizontal fox head
-                            ((FoxPart) movingSpace).moveBoth(desiredSpace,board.getSpace(desiredRow,desiredColumn - 1));//move the head to the desired spot and the tail 1 above
-                            board.setSpace(desiredRow, desiredColumn, movingSpace);//set the board at desiredSpace to be the fox head
-                            board.setSpace(desiredRow, desiredColumn - 1, ((FoxPart)movingSpace).getOtherFoxPart());//set the board at (desiredRow,desiredColumn-1) to be the fox tail
-                            board.setSpace(movingRow, movingColumn, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
-                            board.setSpace(movingRow, movingColumn - 1, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
+                            moveFoxParts((FoxPart)movingSpace, desiredSpace, board.getSpace(desiredRow, desiredColumn - 1));
                         }
-
-
                     }
                     else{//if the selected space was a fox tail
                         if(((FoxPart) movingSpace).getIsVertical()) {//if its a vertical fox tail
-                            ((FoxPart) movingSpace).moveBoth(desiredSpace, board.getSpace(desiredRow + 1, desiredColumn));//move the tail to the desired spot and the head 1 below
-                            board.setSpace(desiredRow, desiredColumn, movingSpace);//set the board at desiredSpace to be the fox tail
-                            board.setSpace(desiredRow + 1, desiredColumn, ((FoxPart) movingSpace).getOtherFoxPart());//set the board at (desiredRow+1, desiredColumn) to be the fox tail
-                            board.setSpace(movingRow, movingColumn, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
-                            board.setSpace(movingRow + 1, movingColumn, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
+                            moveFoxParts((FoxPart)movingSpace,desiredSpace,board.getSpace(desiredRow + 1,desiredColumn));
                         }
                         else{//if its a horizontal Fox Tail
-                            ((FoxPart) movingSpace).moveBoth(desiredSpace,board.getSpace(desiredRow,desiredColumn + 1));//move the tail to the desired spot and the head 1 to the right
-                            board.setSpace(desiredRow, desiredColumn, movingSpace);//set the board at desiredSpace to be the fox tail
-                            board.setSpace(desiredRow, desiredColumn + 1, ((FoxPart)movingSpace).getOtherFoxPart());//set the board at (desiredRow, desiredColumn+1) to be the fox tail
-                            board.setSpace(movingRow, movingColumn, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
-                            board.setSpace(movingRow, movingColumn + 1, new EmptySpace(movingRow, movingColumn));//set the fox's old spots to be empty spaces
+                            moveFoxParts((FoxPart)movingSpace,desiredSpace,board.getSpace(desiredRow,desiredColumn + 1));
                         }
                     }
 
@@ -376,11 +375,44 @@ public class JumpIn {
                 }
             }
         }
-        if(board.getHolesFilled()==3){
+        if(board.getHolesFilled() == 3){
             System.out.println("You win!");
         }
     }
 
+    /**
+     * Helper method to determine if the user has entered only digits
+     * @param input the string that will be checked for non-digits
+     * @return true if the input string is all digits, false if the input string has non-digits
+     */
+    private boolean digitInputs(String input){
+        for(int i = 0; i < input.length(); i++){
+            if(!Character.isDigit(input.charAt(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Helper method that will move the FoxPart and the associated other FoxPart to the desired spaces
+     * Sets the spaces they move from to new Empty Spaces
+     * @param fox the FoxPart that will be moved to desiredSpace
+     * @param desiredSpace the Space that fox will move to
+     * @param otherDesiredSpace the Space that fox's associated other FoxPart will move to
+     */
+    private void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace){
+        int foxColumn = fox.getColumn();
+        int foxRow = fox.getRow();
+        int otherFoxColumn = fox.getOtherFoxPart().getColumn();
+        int otherFoxRow = fox.getOtherFoxPart().getRow();
+
+        fox.moveBoth(desiredSpace,otherDesiredSpace);//move the foxPart and the otherFoxPart to the desired spots
+        board.setSpace(desiredSpace.getRow(),desiredSpace.getColumn(), fox);//set the board at desiredSpace to be the foxPart
+        board.setSpace(otherDesiredSpace.getRow(),otherDesiredSpace.getColumn(),fox.getOtherFoxPart());//set the board at otherDesiredSpace to be the otherFoxPart
+        board.setSpace(foxRow,foxColumn,new EmptySpace(foxRow,foxColumn));//set the fox's old spot to be an EmptySpace
+        board.setSpace(otherFoxRow,otherFoxColumn, new EmptySpace(otherFoxRow,otherFoxColumn));//set the otherFoxPart's old spot to be an EmptySpace
+    }
 
 
     public static void main(String[] args){
