@@ -137,6 +137,6 @@ public class Board {
                 "ES - Empty Space\n" +
                 "RA - Rabbit\n" +
                 "FH - Fox Head\n" +
-                "FT - Fox Tail\n";
+                "FT - Fox Tail";
     }
 }

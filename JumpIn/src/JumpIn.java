@@ -282,18 +282,25 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Method that will run the text-based version of the game.
+     * Will continue until a player wins the game by jumping all the rabbits into an empty hole
+     */
     public void play(){
         Scanner input = new Scanner(System.in);
         while(!gameDone){
-
-            int movingRow =-1;
-            int movingColumn =-1;
+            System.out.println(board.legendString());
             System.out.print(board.toString());
             System.out.println("What would you like to move. Enter row then column: ");
-                    //String inputRow = input.next();
-                    //String inputColumn = input.next();
-            movingRow = input.nextInt();
-            movingColumn = input.nextInt();
+            String inputRow = input.next();
+            String inputColumn = input.next();
+            boolean digitInput = digitInputs(inputRow) && digitInputs(inputColumn);//checks to see if the input values have non-digits
+            if(!digitInput){//contains non digits
+                System.out.println("Only enter digits between 0 and 4 inclusive");
+                continue;
+            }//otherwise its safe to convert them to int's
+            int movingRow = Integer.parseInt(inputRow);
+            int movingColumn = Integer.parseInt(inputColumn);
 
             if(movingRow < 0 || movingRow > 4 || movingColumn < 0|| movingColumn > 4) {
                 System.out.println("Row and column must be values from 0 to 4 inclusive (0 1 2 3 4)");
@@ -305,16 +312,15 @@ public class JumpIn {
             }
 
             System.out.println("Where would you like to move it to. Enter row then column: ");
-            int desiredRow;
-            int desiredColumn;
-            try{
-                desiredRow = input.nextInt();
-                desiredColumn = input.nextInt();
-            }
-            catch(Exception e){
-                System.out.println("Please enter a number 0-4 inclusive");
+            String inputDesiredRow = input.next();
+            String inputDesiredColumn = input.next();
+            digitInput = digitInputs(inputDesiredRow) && digitInputs(inputDesiredColumn);//checks if inputs have non-digits
+            if(!digitInput){//has non-digits
+                System.out.println("Only enter digits between 0 and 4 inclusive");
                 continue;
-            }
+            }//otherwise safe to convert to int's
+            int desiredRow = Integer.parseInt(inputDesiredRow);
+            int desiredColumn = Integer.parseInt(inputDesiredColumn);
 
             if(desiredRow < 0 || desiredRow > 4 || desiredColumn < 0|| desiredColumn > 4) {//out of bounds check
                 System.out.println("Row and column must be values from 0 to 4 inclusive (0 1 2 3 4)");
@@ -374,6 +380,27 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Helper method to determine if the user has entered only digits
+     * @param input the string that will be checked for non-digits
+     * @return true if the input string is all digits, false if the input string has non-digits
+     */
+    private boolean digitInputs(String input){
+        for(int i = 0; i < input.length(); i++){
+            if(!Character.isDigit(input.charAt(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Helper method that will move the FoxPart and the associated other FoxPart to the desired spaces
+     * Sets the spaces they move from to new Empty Spaces
+     * @param fox the FoxPart that will be moved to desiredSpace
+     * @param desiredSpace the Space that fox will move to
+     * @param otherDesiredSpace the Space that fox's associated other FoxPart will move to
+     */
     private void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace){
         int foxColumn = fox.getColumn();
         int foxRow = fox.getRow();
