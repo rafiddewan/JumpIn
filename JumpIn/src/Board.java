@@ -128,4 +128,15 @@ public class Board {
         }
         return boardString;
     }
+
+    public String legendString() {
+        return
+                "CH - Filled Hole\n" +
+                "OH - Open Hole\n" +
+                "MU - Mushroom\n" +
+                "ES - Empty Space\n" +
+                "RA - Rabbit\n" +
+                "FH - Fox Head\n" +
+                "FT - Fox Tail\n";
+    }
 }
