@@ -9,16 +9,16 @@ public class Board {
 
     private Space[][] gameBoard;
     private int holesFilled;
-    private static final int boardDimension = 5;
+    private static final int BOARD_DIMENSION = 5;
 
     /**
      *  Initializes class instance variables for a JumpIn game board.
-     *  boardDimension used instead of int 5 for readability.
+     *  BOARD_DIMENSION used instead of int 5 for readability.
      *
      *
      */
     public Board(){
-        this.gameBoard = new Space[boardDimension][boardDimension];
+        this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
         this.holesFilled = 0;
         initializeBoard();
     }
@@ -35,8 +35,8 @@ public class Board {
         gameBoard[4][4] = new Hole(4, 4, false);
 
         //Initialize mushrooms, rabbits, foxes, and empty spaces
-        for(int i = 0; i < boardDimension ; i++) {
-            for(int j = 0; j < boardDimension;  j++) {
+        for(int i = 0; i < BOARD_DIMENSION ; i++) {
+            for(int j = 0; j < BOARD_DIMENSION;  j++) {
                 if(i == 4 && j == 2){
                     gameBoard[i][j] = new Mushroom(i,j);
                 }
@@ -118,11 +118,11 @@ public class Board {
     public String toString() {
         String boardString = "    0  1  2  3  4\n";
         boardString += "    --------------\n";
-        for(int i = 0; i < boardDimension ; i++ ){
+        for(int i = 0; i < BOARD_DIMENSION ; i++ ){
             boardString += i + " | ";
-            for(int j = 0 ; j < boardDimension; j++){
+            for(int j = 0 ; j < BOARD_DIMENSION; j++){
                 boardString += gameBoard[i][j].toString();
-                if(j != boardDimension - 1) boardString += " ";
+                if(j != BOARD_DIMENSION - 1) boardString += " ";
             }
             boardString += "\n";
         }
