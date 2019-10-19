@@ -116,10 +116,10 @@ public class Board {
      */
     @Override
     public String toString() {
-        String boardString = "    1  2  3  4  5\n";
+        String boardString = "    0  1  2  3  4\n";
         boardString += "    --------------\n";
         for(int i = 0; i < boardDimension ; i++ ){
-            boardString += (i+1) + " | ";
+            boardString += i + " | ";
             for(int j = 0 ; j < boardDimension; j++){
                 boardString += gameBoard[i][j].toString();
                 if(j != boardDimension - 1) boardString += " ";
