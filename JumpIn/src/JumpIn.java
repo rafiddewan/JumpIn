@@ -285,6 +285,7 @@ public class JumpIn {
     public void play(){
         Scanner input = new Scanner(System.in);
         while(!gameDone){
+            System.out.println(board.legendString());
             System.out.print(board.toString());
             System.out.println("What would you like to move. Enter row then column: ");
             int movingRow = input.nextInt();
