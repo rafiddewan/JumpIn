@@ -1,5 +1,9 @@
 /**
+ * Represents the JumpIn game board and contains methods
+ * for manipulating game spaces.
+ *
  * @author Rafid
+ * @version x.x
  */
 public class Board {
 
@@ -8,6 +12,9 @@ public class Board {
     private static final int boardDimension = 5;
 
     /**
+     *  Initializes class instance variables for a JumpIn game board.
+     *  boardDimension used instead of int 5 for readability.
+     *
      *
      */
     public Board(){
@@ -47,7 +54,7 @@ public class Board {
                 }
                 //Vertical
                 else if(i == 1 && j == 1){
-                    FoxPart foxTail = new FoxPart(i, j, true, false);
+                    FoxPart foxTail = new FoxPart(i-1, j, true, false);
                     FoxPart foxHead = new FoxPart(i, j,true, true, foxTail);
                     foxTail.setOtherFoxPart(foxHead);
                     gameBoard[i][j] = foxHead;
@@ -78,10 +85,9 @@ public class Board {
 
     /**
      *
-     * @param filled
      */
-    public void setHolesFilled(int filled) {
-        holesFilled = filled;
+    public void incrementHolesFilled() {
+        holesFilled += 1;
     }
 
     /**
@@ -110,8 +116,10 @@ public class Board {
      */
     @Override
     public String toString() {
-        String boardString = "";
+        String boardString = "    0  1  2  3  4\n";
+        boardString += "    --------------\n";
         for(int i = 0; i < boardDimension ; i++ ){
+            boardString += i + " | ";
             for(int j = 0 ; j < boardDimension; j++){
                 boardString += gameBoard[i][j].toString();
                 if(j != boardDimension - 1) boardString += " ";
@@ -119,5 +127,16 @@ public class Board {
             boardString += "\n";
         }
         return boardString;
+    }
+
+    public String legendString() {
+        return
+                "CH - Filled Hole\n" +
+                "OH - Open Hole\n" +
+                "MU - Mushroom\n" +
+                "ES - Empty Space\n" +
+                "RA - Rabbit\n" +
+                "FH - Fox Head\n" +
+                "FT - Fox Tail";
     }
 }

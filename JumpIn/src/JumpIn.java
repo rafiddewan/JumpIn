@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 /**
+ *
  * @author Nick
  */
 public class JumpIn {
@@ -10,7 +11,7 @@ public class JumpIn {
     private enum moveDirection { INVALID, HORIZONTAL, VERTICAL}
 
     /**
-     * Constructor for a JumpIn game
+     * Constructor for a JumpIn game.
      */
     public JumpIn(){
         this.board = new Board();
@@ -26,7 +27,7 @@ public class JumpIn {
     }
 
     /**
-     * Method takes the current rabbit's space and the space desired to move to
+     * Method takes the current rabbit's space and the space desired to move to and determines if the rabbit can move there
      * @param rabbitSpace current rabbit's space
      * @param desiredSpace space desired to move to
      * @return true if the move is a valid rabbit move, false if an invalid
@@ -162,7 +163,7 @@ public class JumpIn {
     }
 
     /**
-     * Method takes the current fox's space and the space desired to move to
+     * Method takes the current fox's space and the space desired to move to and determines if the move is valid or not
      * @param foxSpace current fox's space
      * @param desiredSpace space desired to move to
      * @return true if the move is a valid fox move, false if an invalid
@@ -223,6 +224,8 @@ public class JumpIn {
         if(difference < 0){ //moving right
             difference *= -1;
                 //always initialize horizontal foxes with the head to the right
+            if(!fox.getIsHead() && desiredSpace.getColumn() == 4)//since fox tails are always initialized towards the left, cant move it to the right
+                return false;
             for (int i = (fox.getIsHead() ? 1 : 2); i <= difference; i++) {//check blocks between the fox and desiredSpace to make sure they are empty spaces
                 Space currSpace = getBoard().getSpace(foxRow, foxColumn + i);
                 if (!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
@@ -231,6 +234,8 @@ public class JumpIn {
             return true;//it checked if all spaces between the fox tail and desired space are empty
         }
         else{//moving left
+            if(fox.getIsHead() && desiredSpace.getColumn() == 0)//since fox heads are always initialized towards the right, cant move it to the left
+                return false;
             for(int i = (fox.getIsHead() ? 2 : 1); i <= difference; i++){//check blocks between the fox and desiredSpace to see if they are empty spaces
                 Space currSpace = getBoard().getSpace(foxRow, foxColumn - i);
                 if(!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
@@ -254,6 +259,8 @@ public class JumpIn {
         int difference = foxRow - desiredSpace.getRow();
 
         if(difference > 0){ //moving up
+            if(fox.getIsHead() && desiredSpace.getRow() == 0)//since fox heads are always initialized towards the bottom, cant move to the top
+                return false;
             //always initialize vertical foxes with the head downwards
             for(int i = (fox.getIsHead() ? 2 : 1); i <= difference; i++){//check blocks between the fox and desiredSpace to make sure they are empty spaces
                 Space currSpace = getBoard().getSpace(foxRow - i, foxColumn);
@@ -264,6 +271,8 @@ public class JumpIn {
         }
         else{//moving down
             difference *= -1;
+            if(!fox.getIsHead() && desiredSpace.getRow() == 4)//since fox tails are always initialized towards the top, cant move it to the bottom
+                return false;
             for(int i = (fox.getIsHead() ? 1 : 2); i <= difference; i++){//check blocks between the fox and desiredSpace to see if they are empty spaces
                 Space currSpace = getBoard().getSpace(foxRow + i, foxColumn);
                 if(!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
@@ -273,16 +282,141 @@ public class JumpIn {
         }
     }
 
+    /**
+     * Method that will run the text-based version of the game.
+     * Will continue until a player wins the game by jumping all the rabbits into an empty hole
+     */
     public void play(){
         Scanner input = new Scanner(System.in);
+        while(!gameDone){
+            System.out.println(board.legendString());
+            System.out.print(board.toString());
+            System.out.println("What would you like to move. Enter row then column: ");
+            String inputRow = input.next();
+            String inputColumn = input.next();
+            boolean digitInput = digitInputs(inputRow) && digitInputs(inputColumn);//checks to see if the input values have non-digits
+            if(!digitInput){//contains non digits
+                System.out.println("Only enter digits between 0 and 4 inclusive");
+                continue;
+            }//otherwise its safe to convert them to int's
+            int movingRow = Integer.parseInt(inputRow);
+            int movingColumn = Integer.parseInt(inputColumn);
 
+            if(movingRow < 0 || movingRow > 4 || movingColumn < 0|| movingColumn > 4) {
+                System.out.println("Row and column must be values from 0 to 4 inclusive (0 1 2 3 4)");
+                continue;
+            }
+            if(!(board.getSpace(movingRow,movingColumn) instanceof MoveableSpace)){
+                System.out.println("That piece cannot be moved");
+                continue;
+            }
+
+            System.out.println("Where would you like to move it to. Enter row then column: ");
+            String inputDesiredRow = input.next();
+            String inputDesiredColumn = input.next();
+            digitInput = digitInputs(inputDesiredRow) && digitInputs(inputDesiredColumn);//checks if inputs have non-digits
+            if(!digitInput){//has non-digits
+                System.out.println("Only enter digits between 0 and 4 inclusive");
+                continue;
+            }//otherwise safe to convert to int's
+            int desiredRow = Integer.parseInt(inputDesiredRow);
+            int desiredColumn = Integer.parseInt(inputDesiredColumn);
+
+            if(desiredRow < 0 || desiredRow > 4 || desiredColumn < 0|| desiredColumn > 4) {//out of bounds check
+                System.out.println("Row and column must be values from 0 to 4 inclusive (0 1 2 3 4)");
+                continue;
+            }
+            //need to check the space and if its a good move.
+            Space movingSpace = board.getSpace(movingRow,movingColumn);
+            Space desiredSpace = board.getSpace(desiredRow,desiredColumn);
+            if(movingSpace instanceof Rabbit){//if trying to move a rabbit
+                if(canRabbitMove(movingSpace,desiredSpace)){//if its a valid move
+                    if(desiredSpace instanceof EmptySpace){//if moving to an empty space, swap the positions and change the Space's row and column
+                        ((Rabbit) movingSpace).move(desiredSpace);
+                        board.setSpace(desiredRow,desiredColumn,movingSpace);//set destination to be rabbit
+                        board.setSpace(movingRow,movingColumn,new EmptySpace(movingRow,movingColumn));//set old rabbits space to be a new empty space
+
+                    }
+                    else{//moving to a hole, remove rabbit, close hole, increment holes filled
+                        ((Hole) desiredSpace).setIsFilled(true);//set the hole to filled
+                        board.setSpace(movingRow,movingColumn,new EmptySpace(movingRow,movingColumn));//removes rabbit
+                        board.incrementHolesFilled();
+                        if(board.getHolesFilled() == 3)
+                            gameDone = true;
+                    }
+                }
+                else{
+                    System.out.println("Can't move rabbit to desired location");
+                }
+
+            }
+            else if(movingSpace instanceof FoxPart){
+                if(canFoxMove(movingSpace,desiredSpace)){//if the fox is moving to a valid space
+                    if(((FoxPart) movingSpace).getIsHead()){//if the selected space was a fox head move both the head and tail
+                        if(((FoxPart) movingSpace).getIsVertical()){//if its a vertical fox head
+                            moveFoxParts((FoxPart)movingSpace,desiredSpace,board.getSpace(desiredRow-1,desiredColumn));
+                        }
+                        else{//if its a horizontal fox head
+                            moveFoxParts((FoxPart)movingSpace, desiredSpace, board.getSpace(desiredRow, desiredColumn - 1));
+                        }
+                    }
+                    else{//if the selected space was a fox tail
+                        if(((FoxPart) movingSpace).getIsVertical()) {//if its a vertical fox tail
+                            moveFoxParts((FoxPart)movingSpace,desiredSpace,board.getSpace(desiredRow + 1,desiredColumn));
+                        }
+                        else{//if its a horizontal Fox Tail
+                            moveFoxParts((FoxPart)movingSpace,desiredSpace,board.getSpace(desiredRow,desiredColumn + 1));
+                        }
+                    }
+
+                }
+                else{
+                    System.out.println("Can't move fox to desired location");
+                }
+            }
+        }
+        if(board.getHolesFilled() == 3){
+            System.out.println("You win!");
+        }
     }
 
+    /**
+     * Helper method to determine if the user has entered only digits
+     * @param input the string that will be checked for non-digits
+     * @return true if the input string is all digits, false if the input string has non-digits
+     */
+    private boolean digitInputs(String input){
+        for(int i = 0; i < input.length(); i++){
+            if(!Character.isDigit(input.charAt(i))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Helper method that will move the FoxPart and the associated other FoxPart to the desired spaces
+     * Sets the spaces they move from to new Empty Spaces
+     * @param fox the FoxPart that will be moved to desiredSpace
+     * @param desiredSpace the Space that fox will move to
+     * @param otherDesiredSpace the Space that fox's associated other FoxPart will move to
+     */
+    private void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace){
+        int foxColumn = fox.getColumn();
+        int foxRow = fox.getRow();
+        int otherFoxColumn = fox.getOtherFoxPart().getColumn();
+        int otherFoxRow = fox.getOtherFoxPart().getRow();
+
+        fox.moveBoth(desiredSpace,otherDesiredSpace);//move the foxPart and the otherFoxPart to the desired spots
+        board.setSpace(desiredSpace.getRow(),desiredSpace.getColumn(), fox);//set the board at desiredSpace to be the foxPart
+        board.setSpace(otherDesiredSpace.getRow(),otherDesiredSpace.getColumn(),fox.getOtherFoxPart());//set the board at otherDesiredSpace to be the otherFoxPart
+        board.setSpace(foxRow,foxColumn,new EmptySpace(foxRow,foxColumn));//set the fox's old spot to be an EmptySpace
+        board.setSpace(otherFoxRow,otherFoxColumn, new EmptySpace(otherFoxRow,otherFoxColumn));//set the otherFoxPart's old spot to be an EmptySpace
+    }
 
 
     public static void main(String[] args){
         JumpIn game = new JumpIn();
-        Board board = game.getBoard();
-        System.out.print(board.toString());
+        game.play();
     }
 }
