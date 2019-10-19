@@ -54,7 +54,7 @@ public class Board {
                 }
                 //Vertical
                 else if(i == 1 && j == 1){
-                    FoxPart foxTail = new FoxPart(i, j, true, false);
+                    FoxPart foxTail = new FoxPart(i-1, j, true, false);
                     FoxPart foxHead = new FoxPart(i, j,true, true, foxTail);
                     foxTail.setOtherFoxPart(foxHead);
                     gameBoard[i][j] = foxHead;
