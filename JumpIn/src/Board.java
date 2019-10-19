@@ -92,22 +92,22 @@ public class Board {
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      * @return Space
      */
-    public Space getSpace(int posX, int posY) {
-        return gameBoard[posX][posY];
+    public Space getSpace(int row, int column) {
+        return gameBoard[row][column];
     }
 
     /**
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      * @param space
      */
-    public void setSpace(int posX, int posY, Space space) {
-        gameBoard[posX][posY] = space;
+    public void setSpace(int row, int column, Space space) {
+        gameBoard[row][column] = space;
     }
 
     /**
