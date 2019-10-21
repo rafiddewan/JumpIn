@@ -2,5 +2,5 @@
  * @author Nick
  */
 public interface MoveableSpace {
-    public void move(Space desiredSpace);
+    public void move(int desiredRow, int desiredColumn);
 }
