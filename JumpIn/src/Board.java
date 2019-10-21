@@ -62,9 +62,9 @@ public class Board {
                 }
                 //Horizontal
                 else if(i == 3 && j == 4){
-                    FoxPart foxTail = null;
+                    FoxPart foxTail = new FoxPart(i, j-1 , false, false, null);
                     FoxPart foxHead = new FoxPart(i, j,false, true, foxTail);
-                    foxTail = new FoxPart(i, j-1 , false, false, foxHead);
+                    foxTail.setOtherFoxPart(foxHead);
                     gameBoard[i][j] = foxHead;
                     gameBoard[i][j-1] = foxTail;
                 }
