@@ -12,10 +12,8 @@ public class Board {
     private static final int BOARD_DIMENSION = 5;
 
     /**
-     *  Initializes class instance variables for a JumpIn game board.
-     *  BOARD_DIMENSION used instead of int 5 for readability.
-     *
-     *
+     *  Initializes class instance variables for an empty JumpIn game board.
+     *  boardDimension used instead of int 5 for readability.
      */
     public Board(){
         this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
@@ -24,7 +22,7 @@ public class Board {
     }
 
     /**
-     *
+     *  Fills empty JumpIn game board from constructor with pieces in predetermined locations.
      */
     private void initializeBoard(){
         //Holes  will always be the same
