@@ -4,7 +4,7 @@ import java.util.Scanner;
  *
  * @author Nick
  */
-public class JumpIn {
+public class JumpInModel {
     private Board board;
     private boolean gameDone;
 
@@ -13,7 +13,7 @@ public class JumpIn {
     /**
      * Constructor for a JumpIn game.
      */
-    public JumpIn(){
+    public JumpInModel(){
         this.board = new Board();
         this.gameDone = false;
     }
@@ -433,7 +433,7 @@ public class JumpIn {
     }
 
     public static void main(String[] args){
-        JumpIn game = new JumpIn();
+        JumpInModel game = new JumpInModel();
         game.play();
     }
 }
