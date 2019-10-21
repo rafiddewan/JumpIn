@@ -1,4 +1,6 @@
 /**
+ * Represents a fox on the game board.
+ *
  * @author Rafid
  */
 public class FoxPart extends Space implements MoveableSpace {
@@ -8,10 +10,11 @@ public class FoxPart extends Space implements MoveableSpace {
     private boolean isHead;
 
     /**
+     * Constructor for a piece of a fox.
      *
-     * @param row
-     * @param column
-     * @param  isHead
+     * @param row Row position
+     * @param column Column position
+     * @param isHead Whether this FoxPart is the head of the fox or not
      */
     public FoxPart(int row, int column, boolean vertical, boolean isHead){
         super(row, column);
@@ -20,11 +23,12 @@ public class FoxPart extends Space implements MoveableSpace {
     }
 
     /**
+     *  Constructor for the second piece of the fox.
      *
-     * @param row
-     * @param column
-     * @param foxPart
-     * @param isHead
+     * @param row Row position
+     * @param column Column position
+     * @param foxPart The other FoxPart
+     * @param isHead Whether this FoxPart is the head of the fox or not
      */
     public FoxPart(int row, int column, boolean vertical, boolean isHead, FoxPart foxPart){
         super(row, column);
@@ -34,7 +38,7 @@ public class FoxPart extends Space implements MoveableSpace {
     }
 
     /**
-     *
+     * Getter for the orientation of the FoxPart. True if vertical, false if horizontal
      * @return boolean
      */
     public boolean getIsVertical() {
@@ -42,7 +46,7 @@ public class FoxPart extends Space implements MoveableSpace {
     }
 
     /**
-     *
+     * Getter for the FoxPart that isn't this one
      * @return FoxPart
      */
     public FoxPart getOtherFoxPart() {
@@ -50,15 +54,15 @@ public class FoxPart extends Space implements MoveableSpace {
     }
 
     /**
-     *
-     * @param otherFoxPart
+     * Set second FoxPart to another FoxPart
+     * @param otherFoxPart Another FoxPart
      */
     public void setOtherFoxPart(FoxPart otherFoxPart) {
         this.otherFoxPart = otherFoxPart;
     }
 
     /**
-     *
+     * Getter for whether this FoxPart is a head or not. True if head, false if not
      * @return boolean
      */
     public boolean getIsHead() {
@@ -66,11 +70,12 @@ public class FoxPart extends Space implements MoveableSpace {
     }
 
     /**
+     * Moves both FoxParts to desired spaces
      *
-     * @param desiredRow
-     * @param desiredColumn
-     * @param desiredOtherRow
-     * @param desiredOtherColumn
+     * @param desiredRow Desired vertical location of first FoxPart
+     * @param desiredColumn Desired horizontal location of first FoxPart
+     * @param desiredOtherRow Desired vertical location of second FoxPart
+     * @param desiredOtherColumn Desired horizontal location of second FoxPart
      */
     public void moveBoth(int desiredRow, int desiredColumn, int desiredOtherRow, int desiredOtherColumn) {
         this.move(desiredRow,desiredColumn);
@@ -78,9 +83,10 @@ public class FoxPart extends Space implements MoveableSpace {
     }
 
     /**
+     * Moves FoxPart to a desired space
      *
-     * @param desiredRow
-     * @param desiredColumn
+     * @param desiredRow Desired vertical location of this FoxPart
+     * @param desiredColumn Desired horizontal location of this FoxPart
      */
     @Override
     public void move(int desiredRow, int desiredColumn) {
@@ -89,7 +95,7 @@ public class FoxPart extends Space implements MoveableSpace {
     }
 
     /**
-     *
+     * The board code for this FoxPart. "FT" is Fox Tail and "FH" is Fox Head
      * @return String
      */
     @Override

@@ -84,35 +84,39 @@ public class Board {
     }
 
     /**
-     *
+     *  Increments number of holes filled by 1.
      */
     public void incrementHolesFilled() {
         holesFilled += 1;
     }
 
     /**
+     *  Getter for space occupying indicated board position
      *
      * @param row
      * @param column
-     * @return Space
+     * @return Space Type of space occupying coordinate indicated
      */
     public Space getSpace(int row, int column) {
         return gameBoard[row][column];
     }
 
     /**
+     *  Sets board space indicated by parameters posX and posY to given Space type
      *
-     * @param row
-     * @param column
-     * @param space
+     * @param row Vertical position of wanted space (row)
+     * @param column Horizontal position of wanted space (column)
+     * @param space Type of Space to fill coordinate by other parameters
      */
     public void setSpace(int row, int column, Space space) {
         gameBoard[row][column] = space;
     }
 
     /**
+     *  Print current game board; codes for spaces are in the toString methods
+     *  of each subclass of Space.java
      *
-     * @return String
+     *  @return String
      */
     @Override
     public String toString() {
