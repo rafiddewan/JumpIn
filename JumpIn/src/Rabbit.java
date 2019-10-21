@@ -16,11 +16,14 @@ public class Rabbit extends Space implements MoveableSpace {
     /**
      * Moves the rabbit to a desired space on the board
      * @param desiredSpace Where the rabbit is called to move.
+     *
+     * @param desiredRow
+     * @param desiredColumn
      */
     @Override
-    public void move(Space desiredSpace) {
-        this.setRow(desiredSpace.getRow());
-        this.setColumn(desiredSpace.getColumn());
+    public void move(int desiredRow, int desiredColumn) {
+        this.setRow(desiredRow);
+        this.setColumn(desiredColumn);
     }
 
     /**

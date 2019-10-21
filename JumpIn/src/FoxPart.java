@@ -12,12 +12,12 @@ public class FoxPart extends Space implements MoveableSpace {
     /**
      * Constructor for a piece of a fox.
      *
-     * @param posX Row position
-     * @param posY Column position
+     * @param row Row position
+     * @param column Column position
      * @param isHead Whether this FoxPart is the head of the fox or not
      */
-    public FoxPart(int posX, int posY, boolean vertical, boolean isHead){
-        super(posX, posY);
+    public FoxPart(int row, int column, boolean vertical, boolean isHead){
+        super(row, column);
         this.isVertical = vertical;
         this.isHead = isHead;
     }
@@ -73,20 +73,28 @@ public class FoxPart extends Space implements MoveableSpace {
      * Moves both FoxParts to desired spaces
      * @param desiredSpace Where one FoxPart needs to go
      * @param desiredOtherSpace Where one FoxPart needs to go
+     *
+     * @param desiredRow
+     * @param desiredColumn
+     * @param desiredOtherRow
+     * @param desiredOtherColumn
      */
-    public void moveBoth(Space desiredSpace, Space desiredOtherSpace) {
-        this.move(desiredSpace);
-        otherFoxPart.move(desiredOtherSpace);
+    public void moveBoth(int desiredRow, int desiredColumn, int desiredOtherRow, int desiredOtherColumn) {
+        this.move(desiredRow,desiredColumn);
+        otherFoxPart.move(desiredOtherRow,desiredOtherColumn);
     }
 
     /**
      * Moves FoxPart to a desired space
      * @param desiredSpace The space where this FoxPart needs to go.
+     *
+     * @param desiredRow
+     * @param desiredColumn
      */
     @Override
-    public void move(Space desiredSpace) {
-        this.setRow(desiredSpace.getRow());
-        this.setColumn(desiredSpace.getColumn());
+    public void move(int desiredRow, int desiredColumn) {
+        this.setRow(desiredRow);
+        this.setColumn(desiredColumn);
     }
 
     /**

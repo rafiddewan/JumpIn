@@ -9,20 +9,22 @@ public class Board {
 
     private Space[][] gameBoard;
     private int holesFilled;
-    private static final int boardDimension = 5;
+    private static final int BOARD_DIMENSION = 5;
 
     /**
-     *  Initializes class instance variables for an empty JumpIn game board.
-     *  boardDimension used instead of int 5 for readability.
+     *  Initializes class instance variables for a JumpIn game board.
+     *  BOARD_DIMENSION used instead of int 5 for readability.
+     *
+     *
      */
     public Board(){
-        this.gameBoard = new Space[boardDimension][boardDimension];
+        this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
         this.holesFilled = 0;
         initializeBoard();
     }
 
     /**
-     *  Fills empty JumpIn game board from constructor with pieces in predetermined locations.
+     *
      */
     private void initializeBoard(){
         //Holes  will always be the same
@@ -33,8 +35,8 @@ public class Board {
         gameBoard[4][4] = new Hole(4, 4, false);
 
         //Initialize mushrooms, rabbits, foxes, and empty spaces
-        for(int i = 0; i < boardDimension ; i++) {
-            for(int j = 0; j < boardDimension;  j++) {
+        for(int i = 0; i < BOARD_DIMENSION ; i++) {
+            for(int j = 0; j < BOARD_DIMENSION;  j++) {
                 if(i == 4 && j == 2){
                     gameBoard[i][j] = new Mushroom(i,j);
                 }
@@ -52,7 +54,7 @@ public class Board {
                 }
                 //Vertical
                 else if(i == 1 && j == 1){
-                    FoxPart foxTail = new FoxPart(i, j, true, false);
+                    FoxPart foxTail = new FoxPart(i-1, j, true, false);
                     FoxPart foxHead = new FoxPart(i, j,true, true, foxTail);
                     foxTail.setOtherFoxPart(foxHead);
                     gameBoard[i][j] = foxHead;
@@ -60,9 +62,9 @@ public class Board {
                 }
                 //Horizontal
                 else if(i == 3 && j == 4){
-                    FoxPart foxTail = null;
+                    FoxPart foxTail = new FoxPart(i, j-1 , false, false, null);
                     FoxPart foxHead = new FoxPart(i, j,false, true, foxTail);
-                    foxTail = new FoxPart(i, j-1 , false, false, foxHead);
+                    foxTail.setOtherFoxPart(foxHead);
                     gameBoard[i][j] = foxHead;
                     gameBoard[i][j-1] = foxTail;
                 }
@@ -91,23 +93,23 @@ public class Board {
     /**
      *  Getter for space occupying indicated board position
      *
-     * @param posX
-     * @param posY
+     * @param row
+     * @param column
      * @return Space Type of space occupying coordinate indicated
      */
-    public Space getSpace(int posX, int posY) {
-        return gameBoard[posX][posY];
+    public Space getSpace(int row, int column) {
+        return gameBoard[row][column];
     }
 
     /**
      *  Sets board space indicated by parameters posX and posY to given Space type
      *
-     * @param posX Vertical position of wanted space (row)
-     * @param posY Horizontal position of wanted space (column)
+     * @param row Vertical position of wanted space (row)
+     * @param column Horizontal position of wanted space (column)
      * @param space Type of Space to fill coordinate by other parameters
      */
-    public void setSpace(int posX, int posY, Space space) {
-        gameBoard[posX][posY] = space;
+    public void setSpace(int row, int column, Space space) {
+        gameBoard[row][column] = space;
     }
 
     /**
@@ -118,14 +120,27 @@ public class Board {
      */
     @Override
     public String toString() {
-        String boardString = "";
-        for(int i = 0; i < boardDimension ; i++ ){
-            for(int j = 0 ; j < boardDimension; j++){
+        String boardString = "    0  1  2  3  4\n";
+        boardString += "    --------------\n";
+        for(int i = 0; i < BOARD_DIMENSION ; i++ ){
+            boardString += i + " | ";
+            for(int j = 0 ; j < BOARD_DIMENSION; j++){
                 boardString += gameBoard[i][j].toString();
-                if(j != boardDimension - 1) boardString += " ";
+                if(j != BOARD_DIMENSION - 1) boardString += " ";
             }
             boardString += "\n";
         }
         return boardString;
+    }
+
+    public String legendString() {
+        return
+                "CH - Filled Hole\n" +
+                "OH - Open Hole\n" +
+                "MU - Mushroom\n" +
+                "ES - Empty Space\n" +
+                "RA - Rabbit\n" +
+                "FH - Fox Head\n" +
+                "FT - Fox Tail";
     }
 }
