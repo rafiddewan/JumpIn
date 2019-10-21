@@ -14,7 +14,7 @@ Incuded in this .zip file are the following
 would interact
 - DesignDecisions.txt:A text file explaining the reasoning behind certain decisions made when creating the game 
 such as why certain data structures and data types were used  
-- UserManual.txt: A text file which goes deeper into the premise of the game as well 
+- UserManual.pdf: A text file which goes deeper into the premise of the game as well 
 as explaining how to play the game and includes a legend explaining the meaning of the symbols on the board
 
 ## Known Issues
