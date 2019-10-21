@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- *
+ * JumpIn playable game mechanics
  * @author Nick
  */
 public class JumpIn {
@@ -19,8 +19,8 @@ public class JumpIn {
     }
 
     /**
-     * Gets the Board
-     * @return the Board to be played on
+     * Getter for the current state of the board
+     * @return The current state of the board
      */
     public Board getBoard(){
         return this.board;
@@ -68,7 +68,7 @@ public class JumpIn {
 
     /**
      * Helper method to determine if the horizontal move is a valid move
-     *@param rabbitSpace current rabbit's space
+     * @param rabbitSpace current rabbit's space
      * @param desiredSpace space desired to move to
      * @return true if rabbit can move to that spot horizontally, false if the horizontal move isn't valid
      */
@@ -116,7 +116,7 @@ public class JumpIn {
 
     /**
      * Helper method to determine if the Vertical move is a valid move
-     *@param rabbitSpace current rabbit's space
+     * @param rabbitSpace current rabbit's space
      * @param desiredSpace space desired to move to
      * @return true if rabbit can move to that spot vertically, false if the vertical move isn't valid
      */
@@ -211,7 +211,7 @@ public class JumpIn {
 
     /**
      * Helper method to determine if the horizontal move is a valid move
-     *@param foxSpace current fox's space
+     * @param foxSpace current fox's space
      * @param desiredSpace space desired to move to
      * @return true if fox can move to that spot horizontally, false if the horizontal move isn't valid
      */
@@ -274,9 +274,12 @@ public class JumpIn {
         }
     }
 
+    /**
+     *
+     *
+     */
     public void play(){
         Scanner input = new Scanner(System.in);
-
     }
 
 

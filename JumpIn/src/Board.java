@@ -12,10 +12,8 @@ public class Board {
     private static final int boardDimension = 5;
 
     /**
-     *  Initializes class instance variables for a JumpIn game board.
+     *  Initializes class instance variables for an empty JumpIn game board.
      *  boardDimension used instead of int 5 for readability.
-     *
-     *
      */
     public Board(){
         this.gameBoard = new Space[boardDimension][boardDimension];
@@ -24,7 +22,7 @@ public class Board {
     }
 
     /**
-     *
+     *  Fills empty JumpIn game board from constructor with pieces in predetermined locations.
      */
     private void initializeBoard(){
         //Holes  will always be the same
@@ -84,35 +82,39 @@ public class Board {
     }
 
     /**
-     *
+     *  Increments number of holes filled by 1.
      */
     public void incrementHolesFilled() {
         holesFilled += 1;
     }
 
     /**
+     *  Getter for space occupying indicated board position
      *
      * @param posX
      * @param posY
-     * @return Space
+     * @return Space Type of space occupying coordinate indicated
      */
     public Space getSpace(int posX, int posY) {
         return gameBoard[posX][posY];
     }
 
     /**
+     *  Sets board space indicated by parameters posX and posY to given Space type
      *
-     * @param posX
-     * @param posY
-     * @param space
+     * @param posX Vertical position of wanted space (row)
+     * @param posY Horizontal position of wanted space (column)
+     * @param space Type of Space to fill coordinate by other parameters
      */
     public void setSpace(int posX, int posY, Space space) {
         gameBoard[posX][posY] = space;
     }
 
     /**
+     *  Print current game board; codes for spaces are in the toString methods
+     *  of each subclass of Space.java
      *
-     * @return String
+     *  @return String
      */
     @Override
     public String toString() {
