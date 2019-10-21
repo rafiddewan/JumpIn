@@ -15,10 +15,9 @@ public class Rabbit extends Space implements MoveableSpace {
 
     /**
      * Moves the rabbit to a desired space on the board
-     * @param desiredSpace Where the rabbit is called to move.
      *
-     * @param desiredRow
-     * @param desiredColumn
+     * @param desiredRow Desired vertical position
+     * @param desiredColumn Desired horizontal position
      */
     @Override
     public void move(int desiredRow, int desiredColumn) {

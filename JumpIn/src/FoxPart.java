@@ -71,13 +71,11 @@ public class FoxPart extends Space implements MoveableSpace {
 
     /**
      * Moves both FoxParts to desired spaces
-     * @param desiredSpace Where one FoxPart needs to go
-     * @param desiredOtherSpace Where one FoxPart needs to go
      *
-     * @param desiredRow
-     * @param desiredColumn
-     * @param desiredOtherRow
-     * @param desiredOtherColumn
+     * @param desiredRow Desired vertical location of first FoxPart
+     * @param desiredColumn Desired horizontal location of first FoxPart
+     * @param desiredOtherRow Desired vertical location of second FoxPart
+     * @param desiredOtherColumn Desired horizontal location of second FoxPart
      */
     public void moveBoth(int desiredRow, int desiredColumn, int desiredOtherRow, int desiredOtherColumn) {
         this.move(desiredRow,desiredColumn);
@@ -86,10 +84,9 @@ public class FoxPart extends Space implements MoveableSpace {
 
     /**
      * Moves FoxPart to a desired space
-     * @param desiredSpace The space where this FoxPart needs to go.
      *
-     * @param desiredRow
-     * @param desiredColumn
+     * @param desiredRow Desired vertical location of this FoxPart
+     * @param desiredColumn Desired horizontal location of this FoxPart
      */
     @Override
     public void move(int desiredRow, int desiredColumn) {
