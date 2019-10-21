@@ -1,9 +1,5 @@
 /**
- * Parent  class of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
- * @author Rafid
- */
-/**
- * Parent  class of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
+ * Superclass of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
  * @author Rafid
  */
 public class Space {
@@ -12,9 +8,9 @@ public class Space {
     private int column;
 
     /**
-     *
-     * @param row
-     * @param column
+     * Constructs a space on the board.
+     * @param row Vertical position
+     * @param column Horizontal position
      */
     public Space(int row, int column) {
         this.row = row;
@@ -22,15 +18,15 @@ public class Space {
     }
 
     /**
-     *
+     * Getter for the horizontal position of this space
      * @return int
      */
     public int getColumn() {
         return column;
     }
 
-    /***
-     *
+    /**
+     * Getter for the vertical position of this space
      * @return int
      */
     public int getRow() {
@@ -38,23 +34,23 @@ public class Space {
     }
 
     /**
-     *
-     * @param row
+     * Sets vertical position of this space
+     * @param row New vertical position
      */
     public void setRow(int row) {
         this.row = row;
     }
 
     /**
-     *
-     * @param column
+     * Sets horizontal position of this space
+     * @param column New horizontal position
      */
     public void setColumn(int column) {
         this.column = column;
     }
 
     /**
-     *
+     * Prints vertical and horizontal location of this space.
      * @return String
      */
     @Override
