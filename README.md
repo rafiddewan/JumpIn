@@ -7,7 +7,7 @@ Jumpin is a single player puzzle game in which the goal is to get all the rabbit
 - navigate to the local path where the JumpIn.jar file is stored
 - type the following line into the terminal
 ```
-java -jar helloworld.jar
+java -jar JumpIn.jar
 ```
 
 ## Deliverables
