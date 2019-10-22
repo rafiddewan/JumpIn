@@ -8,6 +8,15 @@ Incuded in this .zip file are the following
 #### Code:
  - JumpIn.exe: The executable file of the game JumpIn, allowing the user to play one preconfigured puzzle.
  - Source Code: The code behind JumpIn.exe consisting of eight(8) Java Object classes and One(1) Java Interface Class written in Java Version 1.8
+ 
+#### Playing the Game on Windows
+- open the terminal
+- navigate to the local path where the JumpIn.jar file is stored
+- type the following line into the terminal
+```
+java -jar helloworld.jar
+```
+
 #### Documentation:
 - JavaDoc: Included within each .java file is JavaDoc explaining the functionality of each class and method
 - JumpIn.png: The UML diagram used during creation of the game, allowing for planning and visualizaion of how the objects
