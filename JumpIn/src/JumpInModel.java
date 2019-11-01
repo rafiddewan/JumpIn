@@ -434,6 +434,7 @@ public class JumpInModel {
 
     public static void main(String[] args){
         JumpInModel game = new JumpInModel();
+        JIMView jim = new JIMView(game);
         game.play();
     }
 }
