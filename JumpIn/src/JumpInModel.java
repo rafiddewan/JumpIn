@@ -5,11 +5,11 @@
  */
 public class JumpInModel {
     private Board board;
-    private boolean gameDone, badMove, destination;
-
+    private boolean gameDone, badMove;
+    private boolean destination; //Destination is false when the player is chosing a piece to move and true when chosing that pieces destination
     private int moveRow, moveCol;
 
-    private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
+ //Legacy   private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
     /**
      * Constructor for a JumpIn game.
@@ -19,7 +19,6 @@ public class JumpInModel {
         this.gameDone = false;
         this.destination = false;
         this.badMove = false;
-
     }
 
     /**
