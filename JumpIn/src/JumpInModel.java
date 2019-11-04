@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 /**
  * JumpIn playable game mechanics
@@ -8,6 +9,7 @@ public class JumpInModel {
     private boolean gameDone, badMove;
     private boolean destination; //Destination is false when the player is chosing a piece to move and true when chosing that pieces destination
     private int moveRow, moveCol;
+    private ArrayList<View> views;
 
  //Legacy   private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
@@ -19,6 +21,7 @@ public class JumpInModel {
         this.gameDone = false;
         this.destination = false;
         this.badMove = false;
+        this.views = new ArrayList<>();
     }
 
     /**
@@ -36,10 +39,12 @@ public class JumpInModel {
 
     public void setDestination(boolean destination) {
         this.destination = destination;
+        notifyViews();
     }
 
     public void setGameDone(boolean gameDone) {
         this.gameDone = gameDone;
+        notifyViews();
     }
 
     public int getMoveCol() {
@@ -48,6 +53,7 @@ public class JumpInModel {
 
     public void setBadMove(boolean badMove) {
         this.badMove = badMove;
+        notifyViews();
     }
 
     public boolean isBadMove() {
@@ -60,16 +66,33 @@ public class JumpInModel {
 
     public void setMoveCol(int moveCol) {
         this.moveCol = moveCol;
+        //notifyViews();
     }
 
     public void setMoveRow(int moveRow) {
         this.moveRow = moveRow;
+        //notifyViews();
     }
 
     public boolean isDestination() {
         return destination;
     }
+
+    public void notifyViews(){
+        for(View view : views){
+            view.update(this);
+        }
+    }
+    public void addView(View newView){
+        views.add(newView);
+    }
+
 }
+
+
+
+
+
 //Legacy Code
 /*
     */

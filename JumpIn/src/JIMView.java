@@ -5,23 +5,22 @@ import java.awt.*;
  *
  * @author Lazar
  */
-public class JIMView {
+public class JIMView implements View{
     private JumpInModel model;
+    private JFrame frame;
     private  JButton[][] buttons;
-    private JLabel validmove;
     private JLabel instruction;
-
+    private JOptionPane occurance;
 
     public JIMView(JumpInModel m){
         Board b = m.getBoard();
+        m.addView(this);
         this.buttons = new JButton[5][5];
         this.model = m;
+        this.occurance = new JOptionPane();
         this.instruction = new JLabel("Instruction");
         instruction.setHorizontalAlignment(SwingConstants.LEFT);
         instruction.setVisible(true);
-
-        this.validmove = new JLabel("Error"); //Technically don't need error if disabling invalid buttons
-        validmove.setVisible(true);
 
         for(int posY = 0 ; posY < 5 ; posY++){
             for(int posX = 0 ; posX < 5 ; posX++){
@@ -30,7 +29,7 @@ public class JIMView {
             }
         }
 
-        JFrame frame = new JFrame("JumpIn");
+        this.frame = new JFrame("JumpIn");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.setSize(500,500);
@@ -38,7 +37,6 @@ public class JIMView {
 
         JPanel textContainer = new JPanel();
         textContainer.setLayout(new BoxLayout(textContainer, BoxLayout.LINE_AXIS));
-        textContainer.add(validmove);
         textContainer.add(instruction);
 
         frame.add(textContainer);
@@ -63,15 +61,58 @@ public class JIMView {
         return buttons;
     }
 
+
+
+    @Override
     public void update(JumpInModel j){
         Board board = j.getBoard();
+
         for(int posY = 0 ; posY < 5 ; posY++){
             for(int posX = 0 ; posX < 5 ; posX++){
                 buttons[posX][posY].setText(board.getSpace(posX,posY).toString());
+                buttons[posX][posY].setEnabled(true);
+
+                if(j.isDestination()){
+                    if(!(buttons[posX][posY].getText().equals("FT")
+                       || buttons[posX][posY].getText().equals("ES")
+                       || buttons[posX][posY].getText().equals("OH")))
+                    {
+                        buttons[posX][posY].setEnabled(false);
+                    }
+                }
+                else{
+                    if(buttons[posX][posY].getText().equals("FT")
+                       || buttons[posX][posY].getText().equals("MU")
+                       || buttons[posX][posY].getText().equals("ES")
+                       || buttons[posX][posY].getText().equals("OH")
+                       || buttons[posX][posY].getText().equals("CH")){
+                        buttons[posX][posY].setEnabled(false);
+                    }
+                }
             }
         }
+
+        if(j.isBadMove()){
+            occurance.showMessageDialog(frame,
+                    "This move cannot be made.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        if(j.isGameDone()){
+            occurance.showMessageDialog(frame,
+                    "You've won",
+                    "Chicken Dinner",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        if(j.isDestination()){
+            instruction.setText("Choose a space to move to");
+        }
+        else{
+            instruction.setText("Choose a piece to move");
+        }
+
+
     }
-
-
 
 }
