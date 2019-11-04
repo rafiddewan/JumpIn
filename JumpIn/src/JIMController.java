@@ -24,7 +24,6 @@ public class JIMController {
                 int finalRow = row;
                 int finalColumn = column;
                 view.getButtons()[row][column].addActionListener(e -> selectSpace(finalRow, finalColumn));
-
             }
         }
     }
@@ -86,13 +85,14 @@ public class JIMController {
 
             }
 
-
+            view.update(model);
             model.setDestination(false);
         }
         if (model.getBoard().getHolesFilled() == 3) {
             model.setGameDone(true);
         }
     }
+
 
 
 /** RABBIT METHODS
