@@ -7,7 +7,7 @@ import java.awt.*;
  */
 public class JIMView {
     private JumpInModel model;
-    private JButton[][] buttons;
+    private  JButton[][] buttons;
     private JLabel validmove;
     private JLabel instruction;
 
@@ -59,6 +59,10 @@ public class JIMView {
         this.update(m);
     }
 
+    public JButton[][] getButtons() {
+        return buttons;
+    }
+
     public void update(JumpInModel j){
         Board board = j.getBoard();
         for(int posY = 0 ; posY < 5 ; posY++){
@@ -67,5 +71,7 @@ public class JIMView {
             }
         }
     }
+
+
 
 }
