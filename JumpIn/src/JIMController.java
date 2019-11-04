@@ -84,8 +84,6 @@ public class JIMController {
                 }
 
             }
-
-            view.update(model);
             model.setDestination(false);
         }
         if (model.getBoard().getHolesFilled() == 3) {
