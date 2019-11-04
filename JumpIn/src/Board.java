@@ -3,7 +3,6 @@
  * for manipulating game spaces.
  *
  * @author Rafid
- * @version x.x
  */
 public class Board {
 
@@ -13,7 +12,7 @@ public class Board {
 
     /**
      *  Initializes class instance variables for an empty JumpIn game board.
-     *  boardDimension used instead of int 5 for readability.
+     *  BOARD_DIMENSION used instead of int 5 for readability.
      */
     public Board(){
         this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
@@ -22,7 +21,7 @@ public class Board {
     }
 
     /**
-     *  Fills empty JumpIn game board from constructor with pieces in predetermined locations.
+     * Fills empty board with Spaces in predetermined locations
      */
     private void initializeBoard(){
         //Holes  will always be the same
@@ -74,7 +73,7 @@ public class Board {
     }
 
     /**
-     *
+     * Getter for number of holes currently containing a Rabbit
      * @return int
      */
     public int getHolesFilled() {
@@ -131,6 +130,10 @@ public class Board {
         return boardString;
     }
 
+    /**
+     * The game legend
+     * @return String
+     */
     public String legendString() {
         return
                 "CH - Filled Hole\n" +
