@@ -5,19 +5,31 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Handles the events that occur between the user and the view
+ * Communicates between model and view
+ * Updates the model when an event has occured
+ * @author Benjamin
+ */
 public class JumpInController {
     private JumpInModel model;
     private JumpInView view;
 
     private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
+    /**
+     * The constructor which takes a model and view to control the logic of the game
+     * @param model
+     * @param view
+     */
     public JumpInController(JumpInModel model, JumpInView view) {
         this.model = model;
         this.view = view;
     }
 
-
-
+    /**
+     * Initializes the button event listeners so when pressed it will handle the events
+     */
     private void initController() {
         for (int row = 0; row < 5; row++) {
             for (int column = 0; column < 5; column++) {
@@ -28,64 +40,88 @@ public class JumpInController {
         }
     }
 
-    private void handlePopup(){
-        if(model.isGameDone()){
-            System.exit(0);
-        }else if(model.isBadMove()){
-            model.setBadMove(false);
-            model.setDestination(false);
-        }
-    }
-
+    /**
+     * Two states for this method
+     * The first state saves the row and column for the fox/rabbit to be moved
+     * In state 2 it moves the pieces to the destination.
+     * In state 2 if the move happens to be invalid an error will pop up and you are forced back into state 1
+     * @param row
+     * @param column
+     */
     private void selectSpace(int row, int column) {
-        model.setBadMove(false);
+        model.setBadMove(false); //Clears bad move just to be safe
 
+        //Moves the fox/rabbit to row and column to selected space
         if (!model.isDestination()) {
             model.setMoveRow(row);
             model.setMoveCol(column);
             model.setDestination(true);
 
-        } else {
-            Space moveSpace = model.getBoard().getSpace(model.getMoveRow(), model.getMoveCol());
-            Space destSpace = model.getBoard().getSpace(row, column);
+        }
+        //Checks to see if either the fox head or rabbit is moved and moves the space to an invalid space, otherwise shows an error
+        else {
+            Space moveSpace = model.getBoard().getSpace(model.getMoveRow(), model.getMoveCol()); //Piece to move
+            Space destSpace = model.getBoard().getSpace(row, column); //Space to move to
+            //Move Rabbit Piece
             if (moveSpace instanceof Rabbit) {
+                //Move rabbit if its a valid space
                 if (canRabbitMove(moveSpace, destSpace)) {
+                    //Move the rabbit to an empty space
                     if (destSpace instanceof EmptySpace) {
                         ((Rabbit) moveSpace).move(row, column);
                         model.getBoard().setSpace(row, column, moveSpace);
                         model.getBoard().setSpace(model.getMoveRow(), model.getMoveCol(), new EmptySpace(model.getMoveRow(), model.getMoveCol()));
-                    } else {
+                    }
+                    //move the rabbit to fill a hole
+                    else {
                         ((Hole) destSpace).setIsFilled(true);
                         model.getBoard().setSpace(model.getMoveRow(), model.getMoveCol(), new EmptySpace(model.getMoveRow(), model.getMoveCol()));
                         model.getBoard().incrementHolesFilled();
                     }
-                } else {
+                }
+                //Invalid space to move Rabbit otherwise
+                else {
                     model.setBadMove(true);
                 }
-            } else if (moveSpace instanceof FoxPart) {
+            }
+            //Move Fox Piece
+            else if (moveSpace instanceof FoxPart) {
+                //Check to see if the Fox's space for it to move is valid or not
                 if (canFoxMove(moveSpace, destSpace)) {
+                    //Can move only the head of the fox at this time
                     if (((FoxPart) moveSpace).getIsHead()) {
+                        //Move the vertical moving fox
                         if (((FoxPart) moveSpace).getIsVertical()) {
                             moveFoxParts((FoxPart) moveSpace, destSpace, model.getBoard().getSpace(row - 1, column));
-                        } else {
+                        }
+                        //Move the fox head horizontally
+                        else {
                             moveFoxParts((FoxPart) moveSpace, destSpace, model.getBoard().getSpace(row, column - 1));
                         }
-                    } else {
+                    }
+                    //Move tail otherwise (NOT WORKING)
+                    else {
+                        //Move tail for moving fox vertically
                         if (((FoxPart) moveSpace).getIsVertical()) {
                             moveFoxParts(((FoxPart) moveSpace).getOtherFoxPart(), destSpace, model.getBoard().getSpace(row + 1, column));
-                        } else {
+                        }
+                        //Moe tail for moving fox horizontally
+                        else {
                             moveFoxParts(((FoxPart) moveSpace).getOtherFoxPart(), destSpace, model.getBoard().getSpace(row, column + 1));
                         }
                     }
 
 
-                } else {
+                }
+                //Invalid space to move fox otherwise
+                else {
                     model.setBadMove(true);
                 }
 
             }
             model.setDestination(false);
         }
+        //Sets the game to completion when the game is done
         if (model.getBoard().getHolesFilled() == 3) {
             model.setGameDone(true);
         }
@@ -93,11 +129,9 @@ public class JumpInController {
 
 
 
-/** RABBIT METHODS
+/* RABBIT METHODS
  * @author Nick
  */
-
-
     /**
      * Method takes the current rabbit's space and the space desired to move to and determines if the rabbit can move there
      *
@@ -232,7 +266,7 @@ public class JumpInController {
     }
 
 
-/**FOX METHODS
+/*FOX METHODS
  * @author Nick
  */
 
@@ -286,7 +320,6 @@ public class JumpInController {
 
     /**
      * Helper method to determine if the horizontal move is a valid move
-     *
      * @param foxSpace     current fox's space
      * @param desiredSpace space desired to move to
      * @return true if fox can move to that spot horizontally, false if the horizontal move isn't valid
@@ -394,10 +427,14 @@ public class JumpInController {
     }
 
 
+    /**
+     * Initializes the game
+     * @param args
+     */
     public static void main(String[] args) {
         JumpInModel game = new JumpInModel();
         JumpInView view = new JumpInView(game);
         JumpInController control = new JumpInController(game, view);
-        control.initController();
+        control.initController(); //initialize the event handling for the controller
     }
 }
