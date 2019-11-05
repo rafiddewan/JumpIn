@@ -1,3 +1,3 @@
 public interface View {
-    public void update(JumpInModel j);
+    public void update(JumpInModel model);
 }

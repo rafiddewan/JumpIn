@@ -5,15 +5,15 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class JIMController {
+public class JumpInController {
     private JumpInModel model;
-    private JIMView view;
+    private JumpInView view;
 
     private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
-    public JIMController(JumpInModel m, JIMView v) {
-        this.model = m;
-        this.view = v;
+    public JumpInController(JumpInModel model, JumpInView view) {
+        this.model = model;
+        this.view = view;
     }
 
 
@@ -396,8 +396,8 @@ public class JIMController {
 
     public static void main(String[] args) {
         JumpInModel game = new JumpInModel();
-        JIMView view = new JIMView(game);
-        JIMController control = new JIMController(game, view);
+        JumpInView view = new JumpInView(game);
+        JumpInController control = new JumpInController(game, view);
         control.initController();
     }
 }

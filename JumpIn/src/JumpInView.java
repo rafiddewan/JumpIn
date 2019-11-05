@@ -5,27 +5,27 @@ import java.awt.*;
  *
  * @author Lazar
  */
-public class JIMView implements View{
+public class JumpInView implements View{
     private JumpInModel model;
     private JFrame frame;
     private  JButton[][] buttons;
     private JLabel instruction;
     private JOptionPane occurance;
 
-    public JIMView(JumpInModel m){
-        Board b = m.getBoard();
-        m.addView(this);
+    public JumpInView(JumpInModel model){
+        Board b = model.getBoard();
+        model.addView(this);
         this.buttons = new JButton[5][5];
-        this.model = m;
+        this.model = model;
         this.occurance = new JOptionPane();
         this.instruction = new JLabel("Instruction");
         instruction.setHorizontalAlignment(SwingConstants.LEFT);
         instruction.setVisible(true);
 
-        for(int posY = 0 ; posY < 5 ; posY++){
-            for(int posX = 0 ; posX < 5 ; posX++){
-                buttons[posX][posY] = new JButton();
-                buttons[posX][posY].setVisible(true);
+        for(int column = 0 ; column < 5 ; column++){
+            for(int row = 0 ; row < 5 ; row++){
+                buttons[row][column] = new JButton();
+                buttons[row][column].setVisible(true);
             }
         }
 
@@ -54,7 +54,7 @@ public class JIMView implements View{
         frame.add(grid);
 
         frame.setVisible(true);
-        this.update(m);
+        this.update(model);
     }
 
     public JButton[][] getButtons() {
@@ -64,48 +64,48 @@ public class JIMView implements View{
 
 
     @Override
-    public void update(JumpInModel j){
-        Board board = j.getBoard();
+    public void update(JumpInModel model){
+        Board board = model.getBoard();
 
-        for(int posY = 0 ; posY < 5 ; posY++){
-            for(int posX = 0 ; posX < 5 ; posX++){
-                buttons[posX][posY].setText(board.getSpace(posX,posY).toString());
-                buttons[posX][posY].setEnabled(true);
+        for(int column = 0 ; column < 5 ; column++){
+            for(int row = 0 ; row < 5 ; row++){
+                buttons[row][column].setText(board.getSpace(row,column).toString());
+                buttons[row][column].setEnabled(true);
 
-                if(j.isDestination()){
-                    if(!(buttons[posX][posY].getText().equals("FT")
-                       || buttons[posX][posY].getText().equals("ES")
-                       || buttons[posX][posY].getText().equals("OH")))
+                if(model.isDestination()){
+                    if(!(buttons[row][column].getText().equals("FT")
+                       || buttons[row][column].getText().equals("ES")
+                       || buttons[row][column].getText().equals("OH")))
                     {
-                        buttons[posX][posY].setEnabled(false);
+                        buttons[row][column].setEnabled(false);
                     }
                 }
                 else{
-                    if(buttons[posX][posY].getText().equals("FT")
-                       || buttons[posX][posY].getText().equals("MU")
-                       || buttons[posX][posY].getText().equals("ES")
-                       || buttons[posX][posY].getText().equals("OH")
-                       || buttons[posX][posY].getText().equals("CH")){
-                        buttons[posX][posY].setEnabled(false);
+                    if(buttons[row][column].getText().equals("FT")
+                       || buttons[row][column].getText().equals("MU")
+                       || buttons[row][column].getText().equals("ES")
+                       || buttons[row][column].getText().equals("OH")
+                       || buttons[row][column].getText().equals("CH")){
+                        buttons[row][column].setEnabled(false);
                     }
                 }
             }
         }
 
-        if(j.isBadMove()){
+        if(model.isBadMove()){
             occurance.showMessageDialog(frame,
                     "This move cannot be made.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
-        if(j.isGameDone()){
+        if(model.isGameDone()){
             occurance.showMessageDialog(frame,
                     "You've won",
                     "Chicken Dinner",
                     JOptionPane.INFORMATION_MESSAGE);
         }
 
-        if(j.isDestination()){
+        if(model.isDestination()){
             instruction.setText("Choose a space to move to");
         }
         else{
