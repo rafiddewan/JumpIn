@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.ArrayList;
 
 /**
  * JumpIn playable game mechanics
@@ -6,32 +6,103 @@ import java.util.Scanner;
  */
 public class JumpInModel {
     private Board board;
-    private boolean gameDone;
+    private boolean gameDone, badMove;
+    private boolean destination; //Destination is false when the player is chosing a piece to move and true when chosing that pieces destination
+    private int moveRow, moveCol;
+    private ArrayList<View> views;
 
-    private enum moveDirection { INVALID, HORIZONTAL, VERTICAL}
+ //Legacy   private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
     /**
      * Constructor for a JumpIn game.
      */
-    public JumpInModel(){
+    public JumpInModel() {
         this.board = new Board();
         this.gameDone = false;
+        this.destination = false;
+        this.badMove = false;
+        this.views = new ArrayList<>();
     }
 
     /**
      * Getter for the current state of the board
+     *
      * @return The current state of the board
      */
-    public Board getBoard(){
+    public Board getBoard() {
         return this.board;
     }
 
-    /**
+    public boolean isGameDone() {
+        return gameDone;
+    }
+
+    public void setDestination(boolean destination) {
+        this.destination = destination;
+        notifyViews();
+    }
+
+    public void setGameDone(boolean gameDone) {
+        this.gameDone = gameDone;
+        notifyViews();
+    }
+
+    public int getMoveCol() {
+        return moveCol;
+    }
+
+    public void setBadMove(boolean badMove) {
+        this.badMove = badMove;
+        notifyViews();
+    }
+
+    public boolean isBadMove() {
+        return badMove;
+    }
+
+    public int getMoveRow() {
+        return moveRow;
+    }
+
+    public void setMoveCol(int moveCol) {
+        this.moveCol = moveCol;
+        //notifyViews();
+    }
+
+    public void setMoveRow(int moveRow) {
+        this.moveRow = moveRow;
+        //notifyViews();
+    }
+
+    public boolean isDestination() {
+        return destination;
+    }
+
+    public void notifyViews(){
+        for(View view : views){
+            view.update(this);
+        }
+    }
+    public void addView(View newView){
+        views.add(newView);
+    }
+
+}
+
+
+
+
+
+//Legacy Code
+/*
+    */
+/**
      * Method takes the current rabbit's space and the space desired to move to and determines if the rabbit can move there
      * @param rabbitSpace current rabbit's space
      * @param desiredSpace space desired to move to
      * @return true if the move is a valid rabbit move, false if an invalid
-     */
+     *//*
+
     private boolean canRabbitMove(Space rabbitSpace, Space desiredSpace){//move to JumpIn
         moveDirection direction = validRabbitDirection(rabbitSpace, desiredSpace);
         switch(direction){
@@ -46,12 +117,14 @@ public class JumpInModel {
     }
 
 
-    /**
+    */
+/**
      * Helper method to check which direction the rabbit will move in
      * @param rabbitSpace current rabbit's space
      * @param desiredSpace space desired to move to
      * @return INVALID if the move isn't valid, HORIZONTAL if the rabbit is moving horizontally, VERTICAL if the rabbit is moving vertically
-     */
+     *//*
+
     private moveDirection validRabbitDirection(Space rabbitSpace, Space desiredSpace){ // move to JumpIn
         int currRow = rabbitSpace.getRow();
         int currCol = rabbitSpace.getColumn();
@@ -66,12 +139,14 @@ public class JumpInModel {
         }
     }
 
-    /**
+    */
+/**
      * Helper method to determine if the horizontal move is a valid move
      * @param rabbitSpace current rabbit's space
      * @param desiredSpace space desired to move to
      * @return true if rabbit can move to that spot horizontally, false if the horizontal move isn't valid
-     */
+     *//*
+
     private boolean rabbitCheckHorizontally(Space rabbitSpace, Space desiredSpace){//move to JumpIn?
         int rabbitRow = rabbitSpace.getRow();
         int rabbitColumn = rabbitSpace.getColumn();
@@ -114,12 +189,14 @@ public class JumpInModel {
         }
     }
 
-    /**
+    */
+/**
      * Helper method to determine if the Vertical move is a valid move
      * @param rabbitSpace current rabbit's space
      * @param desiredSpace space desired to move to
      * @return true if rabbit can move to that spot vertically, false if the vertical move isn't valid
-     */
+     *//*
+
     private boolean rabbitCheckVertically(Space rabbitSpace, Space desiredSpace){
         int rabbitRow = rabbitSpace.getRow();
         int rabbitColumn = rabbitSpace.getColumn();
@@ -161,13 +238,17 @@ public class JumpInModel {
             }
         }
     }
+*/
+/*
 
-    /**
+    */
+/**
      * Method takes the current fox's space and the space desired to move to and determines if the move is valid or not
      * @param foxSpace current fox's space
      * @param desiredSpace space desired to move to
      * @return true if the move is a valid fox move, false if an invalid
-     */
+     *//*
+
     private boolean canFoxMove(Space foxSpace, Space desiredSpace){
         moveDirection direction = validFoxDirection(foxSpace, desiredSpace);
         switch(direction){
@@ -182,12 +263,14 @@ public class JumpInModel {
     }
 
 
-    /**
+    */
+/**
      * Helper method to check which direction the fox will move in
      * @param foxSpace current fox's space
      * @param desiredSpace space desired to move to
      * @return INVALID if the move isn't valid, HORIZONTAL if the fox is moving horizontally, VERTICAL if the fox is moving vertically
-     */
+     *//*
+
     private moveDirection validFoxDirection(Space foxSpace,Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
         if(foxSpace.getRow() == desiredSpace.getRow() && foxSpace.getColumn() == desiredSpace.getColumn())//cant move to the spot it is at
@@ -209,12 +292,14 @@ public class JumpInModel {
         }
     }
 
-    /**
+    */
+/**
      * Helper method to determine if the horizontal move is a valid move
      * @param foxSpace current fox's space
      * @param desiredSpace space desired to move to
      * @return true if fox can move to that spot horizontally, false if the horizontal move isn't valid
-     */
+     *//*
+
     private boolean foxCheckHorizontally(Space foxSpace, Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
         int foxRow = fox.getRow();
@@ -245,12 +330,14 @@ public class JumpInModel {
         }
     }
 
-    /**
+    */
+/**
      * Helper method to determine if the vertical move is a valid move
      * @param foxSpace current fox's space
      * @param desiredSpace space desired to move to
      * @return true if fox can move to that spot vertically, false if the vertical move isn't valid
-     */
+     *//*
+
     private boolean foxCheckVertically(Space foxSpace, Space desiredSpace){
         FoxPart fox = (FoxPart) foxSpace;
         int foxRow = fox.getRow();
@@ -282,10 +369,12 @@ public class JumpInModel {
         }
     }
 
-    /**
+    */
+/**
      * Method that will run the text-based version of the game.
      * Will continue until a player wins the game by jumping all the rabbits into an empty hole
-     */
+     *//*
+
     public void play(){
         Scanner input = new Scanner(System.in);
         while(!gameDone){
@@ -382,11 +471,13 @@ public class JumpInModel {
         }
     }
 
-    /**
+    */
+/**
      * Helper method to determine if the user has entered only digits
      * @param input the string that will be checked for non-digits
      * @return true if the input string is all digits, false if the input string has non-digits
-     */
+     *//*
+
     private boolean digitInputs(String input){
         for(int i = 0; i < input.length(); i++){
             if(!Character.isDigit(input.charAt(i))){
@@ -396,13 +487,15 @@ public class JumpInModel {
         return true;
     }
 
-    /**
+    */
+/**
      * Helper method that will move the FoxPart and the associated other FoxPart to the desired spaces
      * Sets the spaces they move from to new Empty Spaces
      * @param fox the FoxPart that will be moved to desiredSpace, always pass a fox head
      * @param desiredSpace the Space that fox head will move to
      * @param otherDesiredSpace the Space that the fox's associated tail will move to
-     */
+     *//*
+
     private void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace){
         int headColumn = fox.getColumn();//original fox column
         int headRow = fox.getRow();//original fox clear
@@ -431,9 +524,12 @@ public class JumpInModel {
         }
         fox.moveBoth(desiredRow,desiredColumn,otherDesiredRow,otherDesiredColumn);//set the x and y variables of the fox's parts to be correct
     }
+*/
+/*
 
     public static void main(String[] args){
         JumpInModel game = new JumpInModel();
+        JIMView jim = new JIMView(game);
         game.play();
     }
-}
+}*/
