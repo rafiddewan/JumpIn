@@ -92,6 +92,9 @@ public class JumpInView implements View{
 
                 //Moveable space
                 if(model.isDestination()){
+                    if(buttons[model.getMoveRow()][model.getMoveCol()].getText().equals("RA") && buttons[row][column].getText().equals("FT")){
+                        buttons[row][column].setEnabled(false);
+                    }
                     if(!(buttons[row][column].getText().equals("FT")
                        || buttons[row][column].getText().equals("ES")
                        || buttons[row][column].getText().equals("OH")))

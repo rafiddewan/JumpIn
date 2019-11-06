@@ -342,9 +342,9 @@ public class JumpInController {
             }
             return true;//it checked if all spaces between the fox tail and desired space are empty
         } else {//moving left
-            if (fox.getIsHead() && desiredSpace.getColumn() == 0)//since fox heads are always initialized towards the right, cant move it to the left
+            if (fox.getIsHead() && desiredSpace.getColumn() == 0)//since fox heads are always initialized towards the right,
                 return false;
-            for (int i = (fox.getIsHead() ? 2 : 1); i <= difference; i++) {//check blocks between the fox and desiredSpace to see if they are empty spaces
+            for (int i = (fox.getIsHead() ? 2 : 1); i <= difference+1; i++) {//check blocks between the fox and desiredSpace to see if they are empty spaces
                 Space currSpace = model.getBoard().getSpace(foxRow, foxColumn - i);
                 if (!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
                     return false;
@@ -368,10 +368,10 @@ public class JumpInController {
         int difference = foxRow - desiredSpace.getRow();
 
         if (difference > 0) { //moving up
-            if (fox.getIsHead() && desiredSpace.getRow() == 0)//since fox heads are always initialized towards the bottom, cant move to the top
+            if (fox.getIsHead() && desiredSpace.getRow() == 0)//since fox heads are always initialized towards the bottom, cant move a head to the top
                 return false;
             //always initialize vertical foxes with the head downwards
-            for (int i = (fox.getIsHead() ? 2 : 1); i <= difference; i++) {//check blocks between the fox and desiredSpace to make sure they are empty spaces
+            for (int i = (fox.getIsHead() ? 2 : 1); i <= difference + 1; i++) {//check blocks between the fox and desiredSpace to make sure they are empty spaces
                 Space currSpace = model.getBoard().getSpace(foxRow - i, foxColumn);
                 if (!(currSpace instanceof EmptySpace))//if a space between isn't an empty space return false
                     return false;
