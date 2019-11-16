@@ -8,7 +8,7 @@ import java.awt.*;
 public class JumpInView implements View{
     private JumpInModel model;
     private JFrame frame;
-    private  JButton[][] buttons;
+    private JButton[][] buttons;
     private JLabel instruction;
     private JOptionPane occurrence;
 
