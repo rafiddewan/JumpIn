@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * JumpIn playable game mechanics
@@ -6,11 +7,14 @@ import java.util.ArrayList;
  */
 public class JumpInModel {
     private Board board;
-    private boolean gameDone; //Game done is true when the game is completed and false when the game is not done
+    private boolean gameDone; //Game done is  true when the game is completed and false when the game is not done
     private boolean badMove; // Bad move is true then an error is triggered and when bad move is false an error does not occur and it is a valid move
     private boolean isPieceSelected; //Destination is false when the player is choosing a piece to move and true when choosing that pieces destination
     private int moveRow, moveCol;
     private ArrayList<View> views; //An array list of all the views that are subscribed to the model
+
+    private Stack<Board> previousMoves;
+    private Stack<Board> undoneMoves;
 
     private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
@@ -18,11 +22,14 @@ public class JumpInModel {
      * Constructor for a JumpIn game.
      */
     public JumpInModel() {
-        this.board = new Board();
-        this.gameDone = false;
-        this.isPieceSelected = false;
-        this.badMove = false;
-        this.views = new ArrayList<>();
+        board = new Board();
+        gameDone = false;
+        isPieceSelected = false;
+        badMove = false;
+        views = new ArrayList<>();
+        previousMoves = new Stack<>();
+        undoneMoves = new Stack<>();
+        previousMoves.push(board);
     }
 
     /**
@@ -426,6 +433,7 @@ public class JumpInModel {
                     getBoard().incrementHolesFilled();
                 }
                 getBoard().setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
+                undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move Rabbit otherwise
             else {
@@ -458,6 +466,7 @@ public class JumpInModel {
                         moveFoxParts(((FoxPart) moveSpace).getOtherFoxPart(), destSpace, getBoard().getSpace(row, column + 1));
                     }
                 }
+                undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move fox otherwise
             else {
@@ -467,7 +476,51 @@ public class JumpInModel {
         setPieceSelected(false);
     }
 
+    /**
+     * Method that changes the board to the previous board (undoing the last move made) if not on the original board
+     * @return true if the board was changed to the previous board, false if cannot change the board since the stack only contains it
+     */
+    public boolean undoMove(){
+        if(previousMoves.size() == 1){//stack only contains the original board
+            return false;
+        }
+        else {
+            undoneMoves.push(previousMoves.pop());//add board to be undone to the undone stack
+            this.board = previousMoves.peek();
+            return true;
+        }
+    }
 
+    /**
+     *  Method that changes the board to the last undone board (redoing the last undo) if undo's have been made
+     * @return true if the board has changed to the last undone board, false if no moves have been undone or a move has been made since undoing the board
+     */
+    public boolean redoMove(){
+        if(undoneMoves.empty()){
+            return false;
+        }
+        else{
+            previousMoves.push(undoneMoves.peek());
+            board = undoneMoves.pop();
+            return true;
+        }
+    }
+
+    /**
+     * Gets the previousMoves Stack which contains boards after each move
+     * @return previousMoves Stack of Boards
+     */
+    public Stack<Board> getPreviousMoves(){
+        return previousMoves;
+    }
+
+    /**
+     * Gets the undoneMoves Stack (used for the redo operations) which contains each board that was undone
+     * @return the undoneMoves Stack of Boards
+     */
+    public Stack<Board> getUndoneMoves(){
+        return undoneMoves;
+    }
 
     /**
      * Returns the state if the game is prompting a player to select a piece or a space to move to
