@@ -10,7 +10,7 @@ public class JumpInView implements View{
     private JFrame frame;
     private  JButton[][] buttons;
     private JLabel instruction;
-    private JOptionPane occurance;
+    private JOptionPane occurrence;
 
     /**
      * Creates the JFrame for JumpIn and adds the necessary content (such as pieces, and instructions) when you boot up the game
@@ -22,7 +22,7 @@ public class JumpInView implements View{
         //Initialize  contents for the game
         this.buttons = new JButton[5][5];
         this.model = model;
-        this.occurance = new JOptionPane();
+        this.occurrence = new JOptionPane();
         this.instruction = new JLabel("Instruction");
         instruction.setHorizontalAlignment(SwingConstants.LEFT);
         instruction.setVisible(true);
@@ -78,7 +78,7 @@ public class JumpInView implements View{
 
     /**
      * Updates the view of when a change occurs in the model
-     * @param model which is the object that the view's change is based upon
+     * @param model the object that the view's change is based upon
      */
     @Override
     public void update(JumpInModel model){
@@ -91,13 +91,13 @@ public class JumpInView implements View{
                 buttons[row][column].setEnabled(true);
 
                 //Moveable space
-                if(model.isDestination()){
+                if(model.isPieceSelected()){
                     if(buttons[model.getMoveRow()][model.getMoveCol()].getText().equals("RA") && buttons[row][column].getText().equals("FT")){
                         buttons[row][column].setEnabled(false);
                     }
                     if(!(buttons[row][column].getText().equals("FT")
-                       || buttons[row][column].getText().equals("ES")
-                       || buttons[row][column].getText().equals("OH")))
+                        || buttons[row][column].getText().equals("ES")
+                        || buttons[row][column].getText().equals("OH")))
                     {
                         buttons[row][column].setEnabled(false);
                     }
@@ -116,7 +116,7 @@ public class JumpInView implements View{
 
         //Notifies user of the bad move in the option of a JOptionPane Error Message
         if(model.isBadMove()){
-            occurance.showMessageDialog(frame,
+            occurrence.showMessageDialog(frame,
                     "This move cannot be made.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -124,14 +124,14 @@ public class JumpInView implements View{
 
         //Notifies the user of the game's completion in the option of a  JOptionPane confirmation message
         if(model.isGameDone()){
-            occurance.showMessageDialog(frame,
+            occurrence.showMessageDialog(frame,
                     "You've won",
                     "Chicken Dinner",
                     JOptionPane.INFORMATION_MESSAGE);
         }
 
         //When the destination is false, it allows you to select a piece to move too and when the instruction is true it allows you to choose a space to move to
-        if(model.isDestination()){
+        if(model.isPieceSelected()){
             instruction.setText("Choose a space to move to");
         }
         else{

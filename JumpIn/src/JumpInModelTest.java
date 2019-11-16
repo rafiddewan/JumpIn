@@ -44,11 +44,11 @@ public class JumpInModelTest {
     }
     @Test
     public void isDestinationTest(){
-        assertEquals(false,model.isDestination());
+        assertEquals(false,model.isPieceSelected());
     }
     @Test
     public void setDestinationTest(){
-        model.setDestination(true);
-        assertEquals(true,model.isDestination());
+        model.setPieceSelected(true);
+        assertEquals(true,model.isPieceSelected());
     }
 }
