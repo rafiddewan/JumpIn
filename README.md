@@ -32,7 +32,7 @@ as explaining how to play the game and includes a legend explaining the meaning 
 ## Known Issues
 ### Milestone 2
 - Code smells with the `update(JumpInModel model)` method in JumpInView
-- Could not satisfy the requirements for test cases in this iteration
+
 ## Changelog
 ### Milestone 1
 - First version of this project
@@ -46,10 +46,11 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Implemented Observer Pattern with the View interface so that the model can update multiple views (which will be used for the final milestone)
 - Updated UML with JumpInView and JumpInController which are classes used for the MVC architecture
 - Refactored JumpInModel so that the input logic is handled with JumpInController and the game (infrastructure) logic is handled in JumpInModel
+- Added some test cases for the JumpInModel class to test all the getters and setters
 ## Roadmap
 - Refactor JumpInView and other classes from code smells (as it is starting to build up)
 - Add more graphics for the GUI 
-- Add more test cases for the JumpInController and JumpInModel
+- Add more test cases for the JumpInController
 - The third milestone to be reached is the implementation of an undo/redo feature as well as a solver feature to provide hints to
  the player if needed.
 - The last milestone in place is the implementation of a save/load feature as well as a level editor function to create new puzzles.
