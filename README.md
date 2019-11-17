@@ -46,6 +46,9 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Implemented Observer Pattern with the View interface so that the model can update multiple views (which will be used for the final milestone)
 - Updated UML with JumpInView and JumpInController which are classes used for the MVC architecture
 - Refactored JumpInModel so that the input logic is handled with JumpInController and the game (infrastructure) logic is handled in JumpInModel
+## Milestone 3
+- Moved the logic from the controller to the model by having a takeTurn method which handles the turn in the model instead of the controller
+- We made the canRabbitMove and canFoxMove and moveFoxParts  to be public since the solver will need to access those variables
 ## Roadmap
 - Refactor JumpInView and other classes from code smells (as it is starting to build up)
 - Add more graphics for the GUI 

@@ -43,7 +43,7 @@ public class JumpInController {
     /**
      * Two states for this method
      * The first state saves the row and column for the fox/rabbit to be moved
-     * In state 2 it moves the pieces to the destination.
+     * In state 1 it moves the pieces to the destination.
      * In state 2 if the move happens to be invalid an error will pop up and you are forced back into state 1
      * @param row
      * @param column
