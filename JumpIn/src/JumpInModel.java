@@ -540,6 +540,15 @@ public class JumpInModel {
     }
 
     /**
+     * Provides the hints of what to move when solving the game
+     * @return String which is the hints to solve the puzzle
+     */
+    public String solutionString(){
+        JumpInSolver solver = new JumpInSolver();
+        return solver.toString();
+    }
+
+    /**
      * Adding a view to the ArrayList of views
      * @param newView is the view to be added in views
      */
