@@ -433,6 +433,7 @@ public class JumpInModel {
                     getBoard().incrementHolesFilled();
                 }
                 getBoard().setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
+                previousMoves.push(board);
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move Rabbit otherwise
@@ -466,6 +467,7 @@ public class JumpInModel {
                         moveFoxParts(((FoxPart) moveSpace).getOtherFoxPart(), destSpace, getBoard().getSpace(row, column + 1));
                     }
                 }
+                previousMoves.push(board);
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move fox otherwise
