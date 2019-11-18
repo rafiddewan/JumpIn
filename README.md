@@ -53,11 +53,10 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Created a class  called  JumpInSolver which solves the game for JumpIn using DFS
 - Can click the "hint" button and gives hints how to solve the game
 ## Roadmap
-- Refactor JumpInView and other classes from code smells (as it is starting to build up)
 - Add more graphics for the GUI 
 - Add more test cases for the JumpInController and JumpInModel
-- The third milestone to be reached is the implementation of an undo/redo feature as well as a solver feature to provide hints to
- the player if needed.
+- Add more test cases for different levels and not just one level
+- Refactor board constructor so that it can be easier to create different levels
 - The last milestone in place is the implementation of a save/load feature as well as a level editor function to create new puzzles.
 
 ### Contributors
