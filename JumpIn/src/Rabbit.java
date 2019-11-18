@@ -9,7 +9,7 @@ public class Rabbit extends Space implements MoveableSpace {
      * @param row Vertical position
      * @param column Horizontal position
      */
-    public Rabbit(int row, int column){
+    public Rabbit(int row, int column) {
         super(row, column);
     }
 
