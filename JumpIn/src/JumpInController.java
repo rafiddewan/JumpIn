@@ -34,6 +34,8 @@ public class JumpInController {
                 view.getButtons()[row][column].addActionListener(e -> selectSpace(finalRow, finalColumn));
             }
         }
+        view.getUndo().addActionListener(e -> model.undoMove());
+        view.getRedo().addActionListener(e -> model.redoMove());
     }
 
     /**
