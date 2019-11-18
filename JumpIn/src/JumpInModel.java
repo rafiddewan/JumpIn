@@ -415,6 +415,11 @@ public class JumpInModel {
         fox.moveBoth(desiredRow, desiredColumn, otherDesiredRow, otherDesiredColumn);//set the x and y variables of the fox's parts to be correct
     }
 
+    /**
+     *
+     * @param row
+     * @param column
+     */
     public void takeTurn(int row, int column){
         Space moveSpace = getBoard().getSpace(getMoveRow(), getMoveCol()); //Piece to move
         Space destSpace = getBoard().getSpace(row, column); //Space to move to

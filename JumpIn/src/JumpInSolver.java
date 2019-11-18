@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 import java.util.Stack;
@@ -9,6 +10,7 @@ import java.util.Stack;
 public class JumpInSolver {
 
     private Board board; //passes in the board of the game
+    private ArrayList<Board> previousBoards; //previous boards that were used for each turn the solver makes
     private JumpInModel model; //used to verify if a move is legal or not
     private Stack<String> hints; //stack of hints throughout the game
     private String[] spaceTypes; //types of spaces that you should look at to move
@@ -39,25 +41,37 @@ public class JumpInSolver {
     }
 
     public boolean DFS(Space movablePiece){
-        if(movablePiece instanceof  Rabbit) {
+        if(movablePiece instanceof Rabbit) {
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
                     if (model.canRabbitMove(movablePiece, board.getSpace(i, j))) {
-
+                        model.setMoveCol(movablePiece.getColumn());
+                        model.setMoveRow(movablePiece.getRow());
+                        model.takeTurn(i, j);
+                        previousBoards.add(board);
+                        addHints("Rabbit");
+                        DFS(board.getSpace(i, j));
                     }
                 }
             }
+        }
+        else{
+            return false;
         }
         return false;
     }
 
     public boolean solver(){
-        for(int row = 0; row < 5; row++) {
-            for(int col = 0; col < 5; col++) {
-                if (board.getSpace(row, col) instanceof Rabbit) DFS(board.getSpace(row, col));
+        model.setPieceSelected(true);
+        while(!model.isGameDone()){
+            for(int row = 0; row < 5; row++) {
+                for(int col = 0; col < 5; col++) {
+                    if(board.getSpace(row, col) instanceof Rabbit){
+                        DFS(board.getSpace(row, col));
+                    }
+                }
             }
         }
-
         return true;
     }
 
