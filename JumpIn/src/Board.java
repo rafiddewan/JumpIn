@@ -20,6 +20,35 @@ public class Board {
         initializeBoard();
     }
 
+    public Board(Board board){
+        this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
+        this.holesFilled = 0;
+        for(int i = 0; i < BOARD_DIMENSION; i++){
+            for(int j = 0; j < BOARD_DIMENSION; j++){
+                Space space = board.getSpace(i,j);
+                if(space instanceof Rabbit)
+                    gameBoard[i][j] = new Rabbit((Rabbit) board.getSpace(i,j));
+                else if(space instanceof FoxPart){
+                    FoxPart fox = new FoxPart((FoxPart) board.getSpace(i,j));
+                    FoxPart other = fox.getOtherFoxPart();
+                    FoxPart second = new FoxPart(other.getRow(), other.getColumn(), other.getIsVertical(), other.getIsHead(), fox);
+                    fox.setOtherFoxPart(second);
+                    gameBoard[i][j] = fox;
+                    gameBoard[second.getRow()][second.getColumn()] = second;
+                }
+                else if(space instanceof Hole){
+                    gameBoard[i][j] = new Hole((Hole) space);
+                }
+                else if(space instanceof EmptySpace){
+                    gameBoard[i][j]= new EmptySpace(i,j);
+                }
+                else if(space instanceof Mushroom){
+                    gameBoard[i][j] = new Mushroom((Mushroom)space);
+                }
+            }
+        }
+    }
+
     /**
      * Fills empty board with Spaces in predetermined locations
      */

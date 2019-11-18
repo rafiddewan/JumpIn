@@ -178,7 +178,7 @@ public class JumpInView implements View{
             redo.setEnabled(true);
         }
 
-        if(model.getPreviousMoves().isEmpty()){
+        if(model.getPreviousMoves().size() ==1){
             undo.setEnabled(false);
         }
         else{
