@@ -416,9 +416,9 @@ public class JumpInModel {
     }
 
     /**
-     *
-     * @param row
-     * @param column
+     * Selects or Moves the piece depending if the piece is selected
+     * @param row is the row you would like to move
+     * @param column is the column you would like to move
      */
     public void takeTurn(int row, int column){
         Space moveSpace = getBoard().getSpace(getMoveRow(), getMoveCol()); //Piece to move
