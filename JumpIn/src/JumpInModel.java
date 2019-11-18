@@ -29,7 +29,7 @@ public class JumpInModel {
         views = new ArrayList<>();
         previousMoves = new Stack<>();
         undoneMoves = new Stack<>();
-        previousMoves.push(board);
+        previousMoves.push(new Board(board));
     }
 
     /**
@@ -438,7 +438,7 @@ public class JumpInModel {
                     getBoard().incrementHolesFilled();
                 }
                 getBoard().setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
-                previousMoves.push(board);
+                previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move Rabbit otherwise
@@ -494,6 +494,7 @@ public class JumpInModel {
         else {
             undoneMoves.push(previousMoves.pop());//add board to be undone to the undone stack
             this.board = previousMoves.peek();
+            notifyViews();
             return true;
         }
     }
@@ -503,12 +504,13 @@ public class JumpInModel {
      * @return true if the board has changed to the last undone board, false if no moves have been undone or a move has been made since undoing the board
      */
     public boolean redoMove(){
-        if(undoneMoves.empty()){
+        if(undoneMoves.isEmpty()){
             return false;
         }
         else{
             previousMoves.push(undoneMoves.peek());
             board = undoneMoves.pop();
+            notifyViews();
             return true;
         }
     }

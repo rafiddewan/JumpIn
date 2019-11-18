@@ -12,6 +12,9 @@ public class Mushroom extends Space {
     public Mushroom(int row, int column) {
         super(row, column);
     }
+    public Mushroom(Mushroom mushroom) {
+        super(mushroom.getRow(), mushroom.getColumn());
+    }
 
     /**
      * Board code for mushroom.

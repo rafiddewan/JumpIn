@@ -8,9 +8,12 @@ import java.awt.*;
 public class JumpInView implements View{
     private JumpInModel model;
     private JFrame frame;
-    private JButton[][] buttons;
     private JLabel instruction;
-    private JOptionPane occurrence;
+    private JButton undo;
+    private JButton redo;
+    private JButton hint;
+    private JButton[][] buttons;
+    private JOptionPane popUp;
 
     /**
      * Creates the JFrame for JumpIn and adds the necessary content (such as pieces, and instructions) when you boot up the game
@@ -22,7 +25,7 @@ public class JumpInView implements View{
         //Initialize  contents for the game
         this.buttons = new JButton[5][5];
         this.model = model;
-        this.occurrence = new JOptionPane();
+        this.popUp = new JOptionPane();
         this.instruction = new JLabel("Instruction");
         instruction.setHorizontalAlignment(SwingConstants.LEFT);
         instruction.setVisible(true);
@@ -40,7 +43,7 @@ public class JumpInView implements View{
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.setSize(500,500);
-       // frame.add(validmove);
+
 
         //Instructions at the top
         JPanel textContainer = new JPanel();
@@ -48,9 +51,17 @@ public class JumpInView implements View{
         textContainer.add(instruction);
         frame.add(textContainer);
 
-        //Creates a grid
-        JPanel gridContainer = new JPanel();
-        gridContainer.setSize(new Dimension(30,30));
+        //control buttons
+        JPanel ctrlPanel = new JPanel();
+        ctrlPanel.setLayout(new BoxLayout(ctrlPanel,BoxLayout.X_AXIS));
+        this.hint = new JButton("Hint");
+        hint.addActionListener(e -> showHint());
+        this.undo = new JButton("Undo");
+        this.redo = new JButton("Redo");
+        ctrlPanel.add(hint);
+        ctrlPanel.add(undo);
+        ctrlPanel.add(redo);
+        frame.add(ctrlPanel);
 
         //Adds the JButtons to a grid layout
         JPanel grid = new JPanel();
@@ -67,6 +78,26 @@ public class JumpInView implements View{
         //Notifies the model to the contents for the buttons
         this.update(model);
     }
+
+    /**
+     *
+     */
+    public JButton getUndo(){
+        return this.undo;
+    }
+    /**
+     *
+     */
+    public JButton getRedo(){
+        return this.redo;
+    }
+    /**
+     *
+     */
+    private void showHint(){
+        popUp.showMessageDialog(frame, model.solutionString(), "Hint", JOptionPane.INFORMATION_MESSAGE);
+    }
+
 
     /**
      * Get the spaces on the board in form of JButtons
@@ -96,18 +127,18 @@ public class JumpInView implements View{
                         buttons[row][column].setEnabled(false);
                     }
                     if(!(buttons[row][column].getText().equals("FT")
-                        || buttons[row][column].getText().equals("ES")
-                        || buttons[row][column].getText().equals("OH")))
+                            || buttons[row][column].getText().equals("ES")
+                            || buttons[row][column].getText().equals("OH")))
                     {
                         buttons[row][column].setEnabled(false);
                     }
                 }
                 else{ //disable buttons that can't be used to move around
                     if(buttons[row][column].getText().equals("FT")
-                       || buttons[row][column].getText().equals("MU")
-                       || buttons[row][column].getText().equals("ES")
-                       || buttons[row][column].getText().equals("OH")
-                       || buttons[row][column].getText().equals("CH")){
+                            || buttons[row][column].getText().equals("MU")
+                            || buttons[row][column].getText().equals("ES")
+                            || buttons[row][column].getText().equals("OH")
+                            || buttons[row][column].getText().equals("CH")){
                         buttons[row][column].setEnabled(false);
                     }
                 }
@@ -116,18 +147,20 @@ public class JumpInView implements View{
 
         //Notifies user of the bad move in the option of a JOptionPane Error Message
         if(model.isBadMove()){
-            occurrence.showMessageDialog(frame,
-                    "This move canno be made.",
+            popUp.showMessageDialog(frame,
+                    "This move cannot be made.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
 
         //Notifies the user of the game's completion in the option of a  JOptionPane confirmation message
         if(model.isGameDone()){
-            occurrence.showMessageDialog(frame,
+            popUp.showMessageDialog(frame,
                     "You've won",
                     "Chicken Dinner",
                     JOptionPane.INFORMATION_MESSAGE);
+            frame.dispose();
+            System.exit(0);
         }
 
         //When the destination is false, it allows you to select a piece to move too and when the instruction is true it allows you to choose a space to move to
@@ -136,6 +169,20 @@ public class JumpInView implements View{
         }
         else{
             instruction.setText("Choose a piece to move");
+        }
+
+        if(model.getUndoneMoves().isEmpty()){
+            redo.setEnabled(false);
+        }
+        else{
+            redo.setEnabled(true);
+        }
+
+        if(model.getPreviousMoves().size() ==1){
+            undo.setEnabled(false);
+        }
+        else{
+            undo.setEnabled(true);
         }
 
 

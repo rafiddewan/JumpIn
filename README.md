@@ -33,6 +33,8 @@ as explaining how to play the game and includes a legend explaining the meaning 
 ### Milestone 2
 - Code smells with the `update(JumpInModel model)` method in JumpInView
 - Could not satisfy the requirements for test cases in this iteration
+### Milestone 3
+- if moving a fox in a certain way after undoing, the fox head gets duplicated. works if only moving a fox one space.
 ## Changelog
 ### Milestone 1
 - First version of this project
