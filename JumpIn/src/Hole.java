@@ -15,6 +15,10 @@ public class Hole extends Space {
         super(row, column);
         this.isFilled = filled;
     }
+    public Hole(Hole hole){
+        super(hole.getRow(),hole.getColumn());
+        this.isFilled=hole.getIsFilled();
+    }
 
     /**
      * Getter for whether this hole has a rabbit in it

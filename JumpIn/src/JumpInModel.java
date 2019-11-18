@@ -29,7 +29,7 @@ public class JumpInModel {
         views = new ArrayList<>();
         previousMoves = new Stack<>();
         undoneMoves = new Stack<>();
-        previousMoves.push(board);
+        previousMoves.push(new Board(board));
     }
 
     /**
@@ -433,7 +433,7 @@ public class JumpInModel {
                     getBoard().incrementHolesFilled();
                 }
                 getBoard().setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
-                previousMoves.push(board);
+                previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move Rabbit otherwise
