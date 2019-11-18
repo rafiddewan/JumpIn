@@ -489,6 +489,7 @@ public class JumpInModel {
         else {
             undoneMoves.push(previousMoves.pop());//add board to be undone to the undone stack
             this.board = previousMoves.peek();
+            notifyViews();
             return true;
         }
     }
@@ -504,6 +505,7 @@ public class JumpInModel {
         else{
             previousMoves.push(undoneMoves.peek());
             board = undoneMoves.pop();
+            notifyViews();
             return true;
         }
     }
