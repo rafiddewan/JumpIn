@@ -3,7 +3,7 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
- * This class is used to solve teh issues that may occur when
+ * This class is used to provide a solution for the game provided BFS
  * @author Rafid Dewan
  */
 public class JumpInSolver {
@@ -11,23 +11,39 @@ public class JumpInSolver {
     private Board board; //passes in the board of the game
     private JumpInModel model; //used to verify if a move is legal or not
     private Stack<String> hints; //stack of hints throughout the game
+    private String[] spaceTypes; //types of spaces that you should look at to move
 
     /**
      * Constructor for JumpInSolver
      * Takes in a board and creates a new model to use to check valid moves for the solver
      */
     public JumpInSolver(){
-        this.board = new Board();
         this.model = new JumpInModel();
-        hints = new Stack<String>();
+        this.board = this.model.getBoard();
+        this.hints = new Stack<String>();
+        this.spaceTypes = new String[4];
+        for(int i = 0; i < spaceTypes.length; i++){
+            switch(i)
+            {
+                case 0: spaceTypes[i] = "RA";
+                        break;
+                case 1: spaceTypes[i] = "RA";
+                        break;
+                case 2: spaceTypes[i] = "RA";
+                        break;
+                case 3: spaceTypes[i] = "FH";
+                        break;
+                case 4: spaceTypes[i] = "FH";
+            }
+        }
     }
 
-    public boolean BFS(Space movablePiece){
-        if(movablePiece.getClass() == Rabbit.class) {
+    public boolean DFS(Space movablePiece){
+        if(movablePiece instanceof  Rabbit) {
             for (int i = 0; i < 5; i++) {
                 for (int j = 0; j < 5; j++) {
-                    Space space = new Space(i, j);
-                    if (model.canRabbitMove(movablePiece, space)) {
+                    if (model.canRabbitMove(movablePiece, board.getSpace(i, j))) {
+
                     }
                 }
             }
@@ -36,9 +52,9 @@ public class JumpInSolver {
     }
 
     public boolean solver(){
-        for(int row = 0; row < 5; row++){
+        for(int row = 0; row < 5; row++) {
             for(int col = 0; col < 5; col++) {
-                if (board.getSpace(row, col).toString().equals("RA")) BFS(board.getSpace(row, col));
+                if (board.getSpace(row, col) instanceof Rabbit) DFS(board.getSpace(row, col));
             }
         }
 

@@ -117,7 +117,7 @@ public class JumpInView implements View{
         //Notifies user of the bad move in the option of a JOptionPane Error Message
         if(model.isBadMove()){
             occurrence.showMessageDialog(frame,
-                    "This move cannot be made.",
+                    "This move canno be made.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
         }
