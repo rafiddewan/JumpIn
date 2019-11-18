@@ -26,6 +26,7 @@ public class JIMController {
                 view.getButtons()[row][column].addActionListener(e -> selectSpace(finalRow, finalColumn));
             }
         }
+
     }
 
     private void handlePopup(){
@@ -61,6 +62,7 @@ public class JIMController {
                     }
                 } else {
                     model.setBadMove(true);
+                    model.setDestination(false);
                 }
             } else if (moveSpace instanceof FoxPart) {
                 if (canFoxMove(moveSpace, destSpace)) {
@@ -81,6 +83,7 @@ public class JIMController {
 
                 } else {
                     model.setBadMove(true);
+                    model.setDestination(false);
                 }
 
             }
