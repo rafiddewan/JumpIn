@@ -499,7 +499,7 @@ public class JumpInModel {
      * @return true if the board has changed to the last undone board, false if no moves have been undone or a move has been made since undoing the board
      */
     public boolean redoMove(){
-        if(undoneMoves.empty()){
+        if(undoneMoves.isEmpty()){
             return false;
         }
         else{
