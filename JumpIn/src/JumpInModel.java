@@ -387,7 +387,7 @@ public class JumpInModel {
      * @param desiredSpace      the Space that fox head will move to
      * @param otherDesiredSpace the Space that the fox's associated tail will move to
      */
-    public void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace) {
+    private void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace) {
         int headColumn = fox.getColumn();//original fox column
         int headRow = fox.getRow();//original fox clear
         int tailColumn = fox.getOtherFoxPart().getColumn();//other fox's original column
@@ -415,6 +415,11 @@ public class JumpInModel {
         fox.moveBoth(desiredRow, desiredColumn, otherDesiredRow, otherDesiredColumn);//set the x and y variables of the fox's parts to be correct
     }
 
+    /**
+     * Selects or Moves the piece depending if the piece is selected
+     * @param row is the row you would like to move
+     * @param column is the column you would like to move
+     */
     public void takeTurn(int row, int column){
         Space moveSpace = getBoard().getSpace(getMoveRow(), getMoveCol()); //Piece to move
         Space destSpace = getBoard().getSpace(row, column); //Space to move to
@@ -549,7 +554,7 @@ public class JumpInModel {
      */
     public String solutionString(){
         JumpInSolver solver = new JumpInSolver();
-        return solver.toString();
+        return solver.toStringDefault();
     }
 
     /**

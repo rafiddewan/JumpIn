@@ -35,6 +35,7 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Could not satisfy the requirements for test cases in this iteration
 ### Milestone 3
 - if moving a fox in a certain way after undoing, the fox head gets duplicated. works if only moving a fox one space.
+- the solver() method inside JumpInSolver could not pass the test
 ## Changelog
 ### Milestone 1
 - First version of this project
@@ -52,14 +53,13 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Moved the logic from the controller to the model by having a takeTurn method which handles the turn in the model instead of the controller
 - We made the canRabbitMove and canFoxMove and moveFoxParts  to be public since the solver will need to access those variables
 - Can redo and undo moves that were made earlier during the game by clicking the "undo" and "redo" button
-- Created a class  called  JumpInSolver which solves the game for JumpIn
+- Created a class  called  JumpInSolver which solves the game for JumpIn using DFS
 - Can click the "hint" button and gives hints how to solve the game
 ## Roadmap
-- Refactor JumpInView and other classes from code smells (as it is starting to build up)
 - Add more graphics for the GUI 
 - Add more test cases for the JumpInController and JumpInModel
-- The third milestone to be reached is the implementation of an undo/redo feature as well as a solver feature to provide hints to
- the player if needed.
+- Add more test cases for different levels and not just one level
+- Refactor board constructor so that it can be easier to create different levels
 - The last milestone in place is the implementation of a save/load feature as well as a level editor function to create new puzzles.
 
 ### Contributors

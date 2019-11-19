@@ -91,6 +91,7 @@ public class JumpInView implements View{
     public JButton getRedo(){
         return this.redo;
     }
+
     /**
      *
      */
@@ -127,18 +128,18 @@ public class JumpInView implements View{
                         buttons[row][column].setEnabled(false);
                     }
                     if(!(buttons[row][column].getText().equals("FT")
-                        || buttons[row][column].getText().equals("ES")
-                        || buttons[row][column].getText().equals("OH")))
+                            || buttons[row][column].getText().equals("ES")
+                            || buttons[row][column].getText().equals("OH")))
                     {
                         buttons[row][column].setEnabled(false);
                     }
                 }
                 else{ //disable buttons that can't be used to move around
                     if(buttons[row][column].getText().equals("FT")
-                       || buttons[row][column].getText().equals("MU")
-                       || buttons[row][column].getText().equals("ES")
-                       || buttons[row][column].getText().equals("OH")
-                       || buttons[row][column].getText().equals("CH")){
+                            || buttons[row][column].getText().equals("MU")
+                            || buttons[row][column].getText().equals("ES")
+                            || buttons[row][column].getText().equals("OH")
+                            || buttons[row][column].getText().equals("CH")){
                         buttons[row][column].setEnabled(false);
                     }
                 }
