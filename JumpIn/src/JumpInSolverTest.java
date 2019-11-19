@@ -15,6 +15,7 @@ public class JumpInSolverTest {
         solver.addHints("Rabbit");
         solver.addHints("Rabbit");
         solver.addHints("Fox");
+
     }
 
     @After
