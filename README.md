@@ -35,6 +35,7 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Could not satisfy the requirements for test cases in this iteration
 ### Milestone 3
 - if moving a fox in a certain way after undoing, the fox head gets duplicated. works if only moving a fox one space.
+- the solver() method inside JumpInSolver could not pass the test
 ## Changelog
 ### Milestone 1
 - First version of this project

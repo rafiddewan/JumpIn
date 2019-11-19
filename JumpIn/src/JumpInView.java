@@ -91,6 +91,7 @@ public class JumpInView implements View{
     public JButton getRedo(){
         return this.redo;
     }
+
     /**
      *
      */
