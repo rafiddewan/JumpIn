@@ -554,7 +554,7 @@ public class JumpInModel {
      */
     public String solutionString(){
         JumpInSolver solver = new JumpInSolver();
-        return solver.toString();
+        return solver.toStringDefault();
     }
 
     /**
