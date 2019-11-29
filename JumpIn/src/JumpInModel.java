@@ -193,7 +193,7 @@ public class JumpInModel {
             }
         } else {//moving left
             for (int i = 1; i < difference; i++) {//check blocks between the rabbit and desiredSpace to see if they can be jumped
-                Space currSpace = getBoard().getSpace(rabbitRow, rabbitColumn - i);
+                Space currSpace = board.getSpace(rabbitRow, rabbitColumn - i);
                 if (currSpace instanceof EmptySpace || currSpace instanceof Hole)//if the current hole is empty or a hole its not a valid move
                     return false;
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -437,7 +437,7 @@ public class JumpInModel {
                     ((Hole) destSpace).setIsFilled(true);
                     getBoard().incrementHolesFilled();
                 }
-                getBoard().setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
+                board.setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
                 previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
@@ -472,7 +472,7 @@ public class JumpInModel {
                         moveFoxParts(((FoxPart) moveSpace).getOtherFoxPart(), destSpace, getBoard().getSpace(row, column + 1));
                     }
                 }
-                previousMoves.push(board);
+                previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move fox otherwise
@@ -493,7 +493,7 @@ public class JumpInModel {
         }
         else {
             undoneMoves.push(previousMoves.pop());//add board to be undone to the undone stack
-            this.board = previousMoves.peek();
+            this.board = new Board(previousMoves.peek());
             notifyViews();
             return true;
         }
@@ -508,8 +508,9 @@ public class JumpInModel {
             return false;
         }
         else{
-            previousMoves.push(undoneMoves.peek());
-            board = undoneMoves.pop();
+            Board redone = undoneMoves.pop();
+            board = redone;
+            previousMoves.push(new Board(redone));
             notifyViews();
             return true;
         }

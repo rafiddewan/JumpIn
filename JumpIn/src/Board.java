@@ -22,7 +22,7 @@ public class Board {
 
     public Board(Board board){
         this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
-        this.holesFilled = 0;
+        this.holesFilled = board.getHolesFilled();
         for(int i = 0; i < BOARD_DIMENSION; i++){
             for(int j = 0; j < BOARD_DIMENSION; j++){
                 Space space = board.getSpace(i,j);
