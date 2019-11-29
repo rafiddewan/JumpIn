@@ -29,7 +29,7 @@ public class JumpInModel {
         views = new ArrayList<>();
         previousMoves = new Stack<>();
         undoneMoves = new Stack<>();
-        previousMoves.push(board);
+        previousMoves.push(new Board(board));
     }
 
     /**
@@ -193,7 +193,7 @@ public class JumpInModel {
             }
         } else {//moving left
             for (int i = 1; i < difference; i++) {//check blocks between the rabbit and desiredSpace to see if they can be jumped
-                Space currSpace = getBoard().getSpace(rabbitRow, rabbitColumn - i);
+                Space currSpace = board.getSpace(rabbitRow, rabbitColumn - i);
                 if (currSpace instanceof EmptySpace || currSpace instanceof Hole)//if the current hole is empty or a hole its not a valid move
                     return false;
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -387,7 +387,7 @@ public class JumpInModel {
      * @param desiredSpace      the Space that fox head will move to
      * @param otherDesiredSpace the Space that the fox's associated tail will move to
      */
-    public void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace) {
+    private void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace) {
         int headColumn = fox.getColumn();//original fox column
         int headRow = fox.getRow();//original fox clear
         int tailColumn = fox.getOtherFoxPart().getColumn();//other fox's original column
@@ -415,6 +415,11 @@ public class JumpInModel {
         fox.moveBoth(desiredRow, desiredColumn, otherDesiredRow, otherDesiredColumn);//set the x and y variables of the fox's parts to be correct
     }
 
+    /**
+     * Selects or Moves the piece depending if the piece is selected
+     * @param row is the row you would like to move
+     * @param column is the column you would like to move
+     */
     public void takeTurn(int row, int column){
         Space moveSpace = getBoard().getSpace(getMoveRow(), getMoveCol()); //Piece to move
         Space destSpace = getBoard().getSpace(row, column); //Space to move to
@@ -432,7 +437,8 @@ public class JumpInModel {
                     ((Hole) destSpace).setIsFilled(true);
                     getBoard().incrementHolesFilled();
                 }
-                getBoard().setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
+                board.setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
+                previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move Rabbit otherwise
@@ -466,6 +472,7 @@ public class JumpInModel {
                         moveFoxParts(((FoxPart) moveSpace).getOtherFoxPart(), destSpace, getBoard().getSpace(row, column + 1));
                     }
                 }
+                previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move fox otherwise
@@ -486,7 +493,8 @@ public class JumpInModel {
         }
         else {
             undoneMoves.push(previousMoves.pop());//add board to be undone to the undone stack
-            this.board = previousMoves.peek();
+            this.board = new Board(previousMoves.peek());
+            notifyViews();
             return true;
         }
     }
@@ -496,12 +504,14 @@ public class JumpInModel {
      * @return true if the board has changed to the last undone board, false if no moves have been undone or a move has been made since undoing the board
      */
     public boolean redoMove(){
-        if(undoneMoves.empty()){
+        if(undoneMoves.isEmpty()){
             return false;
         }
         else{
-            previousMoves.push(undoneMoves.peek());
-            board = undoneMoves.pop();
+            Board redone = undoneMoves.pop();
+            board = redone;
+            previousMoves.push(new Board(redone));
+            notifyViews();
             return true;
         }
     }
@@ -545,7 +555,7 @@ public class JumpInModel {
      */
     public String solutionString(){
         JumpInSolver solver = new JumpInSolver();
-        return solver.toString();
+        return solver.toStringDefault();
     }
 
     /**

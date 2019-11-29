@@ -36,6 +36,12 @@ public class FoxPart extends Space implements MoveableSpace {
         this.isHead = isHead;
         this.otherFoxPart = foxPart;
     }
+    public FoxPart(FoxPart fox){
+        super(fox.getRow(),fox.getColumn());
+        this.isVertical = fox.getIsVertical();
+        this.isHead = fox.getIsHead();
+        this.otherFoxPart = fox.getOtherFoxPart();
+    }
 
     /**
      * Getter for the orientation of the FoxPart. True if vertical, false if horizontal
