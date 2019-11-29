@@ -504,7 +504,7 @@ public class JumpInModel {
         }
         else{
             previousMoves.push(undoneMoves.peek());
-            board = undoneMoves.pop();
+            this.board = undoneMoves.pop();
             notifyViews();
             return true;
         }
