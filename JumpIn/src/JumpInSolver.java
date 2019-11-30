@@ -34,7 +34,7 @@ public class JumpInSolver {
      * @param pass is the amount of times DFS is called by a piece
      * @return boolean to determine if the DFS has traversed atleast one time
      */
-    public boolean DFS(Space movablePiece, int pass, boolean complete)
+    /*public boolean DFS(Space movablePiece, int pass, boolean complete)
     {
         if(movablePiece instanceof Rabbit || movablePiece instanceof FoxPart)
         {
@@ -79,7 +79,7 @@ public class JumpInSolver {
                 }
             }
         return complete;
-    }
+    }*/
 
     /**
      * Checks to see if a certain piece has visited  a certain space or not
@@ -136,7 +136,7 @@ public class JumpInSolver {
      * If all the rabbits go into the 3 holes then the solver will return true
      * @return boolean, true indicating the puzzle is solved, false indicating the puzzle is unsolvable
      */
-    public boolean solver()
+   /* public boolean solver()
     {
         while(!model.isGameDone()) //keep doing this until game is done
         {
@@ -165,7 +165,7 @@ public class JumpInSolver {
         }
         return true;
     }
-
+*/
     /**
      * Adding a hint to the hintStack
      * @param hint
