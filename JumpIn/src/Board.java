@@ -7,7 +7,7 @@
 public class Board {
 
     private Space[][] gameBoard;
-    private int holesFilled;
+    private int holesEmpty;
     private static final int BOARD_DIMENSION = 5;
 
     /**
@@ -16,13 +16,17 @@ public class Board {
      */
     public Board(){
         this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
-        this.holesFilled = 0;
+        this.holesEmpty = 3;
         initializeBoard();
     }
 
+    /**
+     * Copy constructor for Board
+     * @param board passed in to make an instance and exact replica of that board
+     */
     public Board(Board board){
         this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
-        this.holesFilled = board.getHolesFilled();
+        this.holesEmpty = board.getHolesEmpty();
         for(int i = 0; i < BOARD_DIMENSION; i++){
             for(int j = 0; j < BOARD_DIMENSION; j++){
                 Space space = board.getSpace(i,j);
@@ -105,15 +109,25 @@ public class Board {
      * Getter for number of holes currently containing a Rabbit
      * @return int
      */
-    public int getHolesFilled() {
-        return holesFilled;
+    public int getHolesEmpty() {
+        return holesEmpty;
     }
 
     /**
-     *  Increments number of holes filled by 1.
+     *  Decrements number of empty holes by 1.
      */
-    public void incrementHolesFilled() {
-        holesFilled += 1;
+    public void decrementHolesEmpty() {
+        holesEmpty -= 1;
+    }
+    /**
+     *  Increments number of empty holes by 1.
+     */
+    public void incrementHolesEmpty() {
+        holesEmpty += 1;
+    }
+
+    public void setHolesEmpty(int holesEmpty) {
+        this.holesEmpty = holesEmpty;
     }
 
     /**

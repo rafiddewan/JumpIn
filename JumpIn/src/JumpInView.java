@@ -12,6 +12,7 @@ public class JumpInView implements View{
     private JButton undo;
     private JButton redo;
     private JButton hint;
+    private JButton build;
     private JButton[][] buttons;
     private JOptionPane popUp;
 
@@ -58,9 +59,11 @@ public class JumpInView implements View{
         hint.addActionListener(e -> showHint());
         this.undo = new JButton("Undo");
         this.redo = new JButton("Redo");
+        this.build = new JButton("Build");
         ctrlPanel.add(hint);
         ctrlPanel.add(undo);
         ctrlPanel.add(redo);
+        ctrlPanel.add(build);
         frame.add(ctrlPanel);
 
         //Adds the JButtons to a grid layout
@@ -74,7 +77,7 @@ public class JumpInView implements View{
         frame.add(grid);
 
         //Set the visibility of the frame
-        frame.setVisible(true);
+        setFrameVisibility(false);
         //Notifies the model to the contents for the buttons
         this.update(model);
     }
@@ -85,6 +88,17 @@ public class JumpInView implements View{
     public JButton getUndo(){
         return this.undo;
     }
+
+
+    public JButton getBuild() {
+        return build;
+    }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public JOptionPane getPopUp() {return this.popUp;}
     /**
      *
      */
@@ -97,6 +111,10 @@ public class JumpInView implements View{
      */
     private void showHint(){
         popUp.showMessageDialog(frame, model.solutionString(), "Hint", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void setFrameVisibility(boolean isVisible){
+        frame.setVisible(isVisible);
     }
 
 
@@ -114,79 +132,68 @@ public class JumpInView implements View{
      */
     @Override
     public void update(JumpInModel model){
-        Board board = model.getBoard(); //gets the board for the view
+        if(!model.isBuild()) {
+            Board board = model.getBoard(); //gets the board for the view
 
-        //Creates the contents for the buttons
-        for(int column = 0 ; column < 5 ; column++){
-            for(int row = 0 ; row < 5 ; row++){
-                buttons[row][column].setText(board.getSpace(row,column).toString());
-                buttons[row][column].setEnabled(true);
+            //Creates the contents for the buttons
+            for (int column = 0; column < 5; column++) {
+                for (int row = 0; row < 5; row++) {
+                    buttons[row][column].setText(board.getSpace(row, column).toString());
+                    buttons[row][column].setEnabled(true);
 
-                //Moveable space
-                if(model.isPieceSelected()){
-                    if(buttons[model.getMoveRow()][model.getMoveCol()].getText().equals("RA") && buttons[row][column].getText().equals("FT")){
-                        buttons[row][column].setEnabled(false);
-                    }
-                    if(!(buttons[row][column].getText().equals("FT")
-                            || buttons[row][column].getText().equals("ES")
-                            || buttons[row][column].getText().equals("OH")))
-                    {
-                        buttons[row][column].setEnabled(false);
-                    }
-                }
-                else{ //disable buttons that can't be used to move around
-                    if(buttons[row][column].getText().equals("FT")
-                            || buttons[row][column].getText().equals("MU")
-                            || buttons[row][column].getText().equals("ES")
-                            || buttons[row][column].getText().equals("OH")
-                            || buttons[row][column].getText().equals("CH")){
-                        buttons[row][column].setEnabled(false);
+                    //Moveable space
+                    if (model.isPieceSelected()) {
+                        if (buttons[model.getMoveRow()][model.getMoveCol()].getText().equals("RA") && buttons[row][column].getText().equals("FT")) {
+                            buttons[row][column].setEnabled(false);
+                        }
+                        if (!(buttons[row][column].getText().equals("FT")
+                                || buttons[row][column].getText().equals("ES")
+                                || buttons[row][column].getText().equals("OH"))) {
+                            buttons[row][column].setEnabled(false);
+                        }
+                    } else { //disable buttons that can't be used to move around
+                        if (buttons[row][column].getText().equals("FT")
+                                || buttons[row][column].getText().equals("MU")
+                                || buttons[row][column].getText().equals("ES")
+                                || buttons[row][column].getText().equals("OH")
+                                || buttons[row][column].getText().equals("CH")) {
+                            buttons[row][column].setEnabled(false);
+                        }
                     }
                 }
             }
-        }
 
-        //Notifies user of the bad move in the option of a JOptionPane Error Message
-        if(model.isBadMove()){
-            popUp.showMessageDialog(frame,
-                    "This move cannot be made.",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+            //Notifies user of the bad move in the option of a JOptionPane Error Message
+            if (model.isBadMove()) {
+                popUp.showMessageDialog(frame,
+                        "This move cannot be made.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
 
-        //Notifies the user of the game's completion in the option of a  JOptionPane confirmation message
-        if(model.isGameDone()){
-            popUp.showMessageDialog(frame,
-                    "You've won",
-                    "Chicken Dinner",
-                    JOptionPane.INFORMATION_MESSAGE);
-            frame.dispose();
-            System.exit(0);
-        }
-
-        //When the destination is false, it allows you to select a piece to move too and when the instruction is true it allows you to choose a space to move to
-        if(model.isPieceSelected()){
-            instruction.setText("Choose a space to move to");
-        }
-        else{
-            instruction.setText("Choose a piece to move");
-        }
-
-        if(model.getUndoneMoves().isEmpty()){
-            redo.setEnabled(false);
-        }
-        else{
-            redo.setEnabled(true);
-        }
-
-        if(model.getPreviousMoves().size() ==1){
-            undo.setEnabled(false);
-        }
-        else{
-            undo.setEnabled(true);
-        }
+            //Notifies the user of the game's completion in the option of a  JOptionPane confirmation message
 
 
+            //When the destination is false, it allows you to select a piece to move too and when the instruction is true it allows you to choose a space to move to
+            if (model.isPieceSelected()) {
+                instruction.setText("Choose a space to move to");
+            } else {
+                instruction.setText("Choose a piece to move");
+            }
+
+            if (model.getUndoneMoves().isEmpty()) {
+                redo.setEnabled(false);
+            } else {
+                redo.setEnabled(true);
+            }
+
+            if (model.getPreviousMoves().size() == 1) {
+                undo.setEnabled(false);
+            } else {
+                undo.setEnabled(true);
+            }
+
+        }
     }
 
 }
