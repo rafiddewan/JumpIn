@@ -10,11 +10,16 @@ public class JumpInModel {
     private boolean gameDone; //Game done is  true when the game is completed and false when the game is not done
     private boolean badMove; // Bad move is true then an error is triggered and when bad move is false an error does not occur and it is a valid move
     private boolean isPieceSelected; //Destination is false when the player is choosing a piece to move and true when choosing that pieces destination
+    private boolean build; //build is true when in the builder view and false when in the play view
+    private String buildPiece;
     private int moveRow, moveCol;
+    private int buildFoxLeft,buildRabbitLeft,buildMushroomLeft;
     private ArrayList<View> views; //An array list of all the views that are subscribed to the model
 
     private Stack<Board> previousMoves;
     private Stack<Board> undoneMoves;
+
+
 
     private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
@@ -25,11 +30,17 @@ public class JumpInModel {
         board = new Board();
         gameDone = false;
         isPieceSelected = false;
+        buildPiece = "";
         badMove = false;
         views = new ArrayList<>();
+        build = true;
+        buildFoxLeft = 2;
+        buildMushroomLeft = 3;
+        buildRabbitLeft = 3;
         previousMoves = new Stack<>();
         undoneMoves = new Stack<>();
-        previousMoves.push(board);
+        previousMoves.push(new Board(board));
+
     }
 
     /**
@@ -38,6 +49,53 @@ public class JumpInModel {
      */
     public Board getBoard() {
         return this.board;
+    }
+
+
+
+    public String getBuildPiece(){
+        return buildPiece;
+    }
+    public void setBuildPiece(String buildPiece){
+        this.buildPiece = buildPiece;
+        notifyViews();
+    }
+
+
+    public int getBuildMushroomLeft() {
+        return buildMushroomLeft;
+    }
+
+    public void setBuildMushroomLeft(int buildMushroomLeft) {
+        this.buildMushroomLeft = buildMushroomLeft;
+        notifyViews();
+    }
+
+    public int getBuildRabbitLeft() {
+        return buildRabbitLeft;
+    }
+
+    public void setBuildRabbitLeft(int buildRabbitLeft) {
+        this.buildRabbitLeft = buildRabbitLeft;
+        notifyViews();
+    }
+
+    public int getBuildFoxLeft() {
+        return buildFoxLeft;
+    }
+
+    public void setBuildFoxLeft(int buildFoxLeft) {
+        this.buildFoxLeft = buildFoxLeft;
+        notifyViews();
+    }
+
+    public boolean isBuild(){return build;}
+
+
+
+    public void setBuild(boolean build) {
+        this.build = build;
+        notifyViews();
     }
 
     /**
@@ -80,7 +138,7 @@ public class JumpInModel {
      */
     public void setBadMove(boolean badMove) {
         this.badMove = badMove;
-        notifyViews();
+        //notifyViews();
     }
 
     /**
@@ -193,7 +251,7 @@ public class JumpInModel {
             }
         } else {//moving left
             for (int i = 1; i < difference; i++) {//check blocks between the rabbit and desiredSpace to see if they can be jumped
-                Space currSpace = getBoard().getSpace(rabbitRow, rabbitColumn - i);
+                Space currSpace = board.getSpace(rabbitRow, rabbitColumn - i);
                 if (currSpace instanceof EmptySpace || currSpace instanceof Hole)//if the current hole is empty or a hole its not a valid move
                     return false;
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -387,7 +445,7 @@ public class JumpInModel {
      * @param desiredSpace      the Space that fox head will move to
      * @param otherDesiredSpace the Space that the fox's associated tail will move to
      */
-    public void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace) {
+    private void moveFoxParts(FoxPart fox, Space desiredSpace, Space otherDesiredSpace) {
         int headColumn = fox.getColumn();//original fox column
         int headRow = fox.getRow();//original fox clear
         int tailColumn = fox.getOtherFoxPart().getColumn();//other fox's original column
@@ -415,6 +473,11 @@ public class JumpInModel {
         fox.moveBoth(desiredRow, desiredColumn, otherDesiredRow, otherDesiredColumn);//set the x and y variables of the fox's parts to be correct
     }
 
+    /**
+     * Selects or Moves the piece depending if the piece is selected
+     * @param row is the row you would like to move
+     * @param column is the column you would like to move
+     */
     public void takeTurn(int row, int column){
         Space moveSpace = getBoard().getSpace(getMoveRow(), getMoveCol()); //Piece to move
         Space destSpace = getBoard().getSpace(row, column); //Space to move to
@@ -430,10 +493,10 @@ public class JumpInModel {
                 //move the rabbit to fill a hole
                 else {
                     ((Hole) destSpace).setIsFilled(true);
-                    getBoard().incrementHolesFilled();
+                    getBoard().decrementHolesEmpty();
                 }
-                getBoard().setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
-                previousMoves.push(board);
+                board.setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
+                previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move Rabbit otherwise
@@ -467,7 +530,7 @@ public class JumpInModel {
                         moveFoxParts(((FoxPart) moveSpace).getOtherFoxPart(), destSpace, getBoard().getSpace(row, column + 1));
                     }
                 }
-                previousMoves.push(board);
+                previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made
             }
             //Invalid space to move fox otherwise
@@ -488,7 +551,7 @@ public class JumpInModel {
         }
         else {
             undoneMoves.push(previousMoves.pop());//add board to be undone to the undone stack
-            this.board = previousMoves.peek();
+            this.board = new Board(previousMoves.peek());
             notifyViews();
             return true;
         }
@@ -503,8 +566,9 @@ public class JumpInModel {
             return false;
         }
         else{
-            previousMoves.push(undoneMoves.peek());
-            this.board = undoneMoves.pop();
+            Board redone = undoneMoves.pop();
+            board = redone;
+            previousMoves.push(new Board(redone));
             notifyViews();
             return true;
         }
@@ -549,7 +613,7 @@ public class JumpInModel {
      */
     public String solutionString(){
         JumpInSolver solver = new JumpInSolver();
-        return solver.toString();
+        return solver.toStringDefault();
     }
 
     /**
@@ -559,5 +623,12 @@ public class JumpInModel {
     public void addView(View newView){
         views.add(newView);
     }
+
+    public void clearPlay(){
+        this.setGameDone(false);
+        this.setBadMove(false);
+        this.setBuild(true);
+        this.getPreviousMoves().clear();
+        this.getUndoneMoves().clear();    }
 
 }

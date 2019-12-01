@@ -12,6 +12,10 @@ public class Rabbit extends Space implements MoveableSpace {
     public Rabbit(int row, int column) {
         super(row, column);
     }
+    public Rabbit(Rabbit rabbit) {
+        super(rabbit.getRow(), rabbit.getColumn());
+    }
+
 
     /**
      * Moves the rabbit to a desired space on the board
