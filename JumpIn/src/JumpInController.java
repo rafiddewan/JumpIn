@@ -142,6 +142,13 @@ public class JumpInController {
         if (model.getBoard().getHolesEmpty() == 0) {
             model.setGameDone(true);
         }
+        if (model.isGameDone()) {
+            view.getPopUp().showMessageDialog(view.getFrame(),
+                    "You've won",
+                    "Chicken Dinner",
+                    JOptionPane.INFORMATION_MESSAGE);
+            viewPlayToEditor();
+        }
     }
 
 
@@ -150,6 +157,7 @@ public class JumpInController {
         }else{
             return;
         }
+
         model.setBuild(false);
         view.setFrameVisibility(true);
         levelEditor.setFrameVisiblity(false);
