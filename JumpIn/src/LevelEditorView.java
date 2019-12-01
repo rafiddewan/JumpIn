@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author Benjamin Ramson
+ */
 public class LevelEditorView implements View {
     private JLabel instructions;
     private JFrame frame;
@@ -92,13 +95,16 @@ public class LevelEditorView implements View {
         builder.add(grid);
         builder.add(piecesPanel);
         frame.add(builder);
-        frame.setVisible(true);
+        setFrameVisiblity(true);
 
         update(model);
 
 
     }
 
+    public void setFrameVisiblity(boolean isVisible) {
+        frame.setVisible(isVisible);
+    }
     public JOptionPane getPopup() {
         return popup;
     }

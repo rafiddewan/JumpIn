@@ -151,14 +151,14 @@ public class JumpInController {
             return;
         }
         model.setBuild(false);
-        view.getFrame().setVisible(true);
-        levelEditor.getFrame().setVisible(false);
+        view.setFrameVisibility(true);
+        levelEditor.setFrameVisiblity(false);
     }
     private void viewPlayToEditor(){
         levelEditor.resetBuilder();
         model.clearPlay();
-        levelEditor.getFrame().setVisible(true);
-        view.getFrame().setVisible(false);
+        levelEditor.setFrameVisiblity(true);
+        view.setFrameVisibility(false);
     }
 
     /**
@@ -170,7 +170,6 @@ public class JumpInController {
 
         LevelEditorView editor = new LevelEditorView(game);
         JumpInView view = new JumpInView(game);
-        view.getFrame().setVisible(false);
         JumpInController control = new JumpInController(game, view, editor);
 
         control.initController(); //initialize the event handling for the controller
