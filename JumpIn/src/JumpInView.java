@@ -77,7 +77,7 @@ public class JumpInView implements View{
         frame.add(grid);
 
         //Set the visibility of the frame
-        frame.setVisible(true);
+        setFrameVisibility(false);
         //Notifies the model to the contents for the buttons
         this.update(model);
     }
@@ -107,6 +107,10 @@ public class JumpInView implements View{
      */
     private void showHint(){
         popUp.showMessageDialog(frame, model.solutionString(), "Hint", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void setFrameVisibility(boolean isVisible){
+        frame.setVisible(isVisible);
     }
 
 
