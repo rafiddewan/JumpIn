@@ -99,6 +99,10 @@ public class LevelEditorView implements View {
 
     }
 
+    public JOptionPane getPopup() {
+        return popup;
+    }
+
     public JButton[][] getButtons() {
         return buttons;
     }
@@ -237,6 +241,12 @@ public class LevelEditorView implements View {
     }
 
     public void resetBuilder() {
+        if(model.isBuild()){
+            if(popup.showConfirmDialog(null,"Are you sure you want to reset the board?","WARNING",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            }else{
+                return;
+            }
+        }
         Board board = model.getBoard();
         emptyBoard(board);
         model.setBuildRabbitLeft(3);

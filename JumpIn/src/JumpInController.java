@@ -2,6 +2,8 @@
  * @author Benjamin Ransom
  */
 
+import javax.swing.*;
+
 /**
  * Handles the events that occur between the user and the view
  * Communicates between model and view
@@ -126,7 +128,7 @@ public class JumpInController {
     private void selectSpace(int row, int column) {
         model.setBadMove(false); //Clears bad move just to be safe
 
-        //Moves the fox/rabbit to row and column to selected space
+        //Moves the fox/rabbit to row and column to selected s  pace
         if (!model.isPieceSelected()) {
             model.setMoveRow(row);
             model.setMoveCol(column);
@@ -144,13 +146,17 @@ public class JumpInController {
 
 
     private void viewEditorToPlay(){
+        if(levelEditor.getPopup().showConfirmDialog(null,"You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?","WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+        }else{
+            return;
+        }
         model.setBuild(false);
         view.getFrame().setVisible(true);
         levelEditor.getFrame().setVisible(false);
     }
     private void viewPlayToEditor(){
-         model.clearPlay();
         levelEditor.resetBuilder();
+        model.clearPlay();
         levelEditor.getFrame().setVisible(true);
         view.getFrame().setVisible(false);
     }
