@@ -5,13 +5,13 @@ import java.awt.*;
  * @author Benjamin Ramson
  */
 public class LevelEditorView implements View {
-    private JLabel instructions;
-    private JFrame frame;
-    private JButton[][] buttons;
-    private JButton[] pieces;
-    private JButton save, load, play,reset;
-    private JumpInModel model;
-    private JOptionPane popup;
+    private JLabel instructions; //Instruction menu for JLabel
+    private JFrame frame; //JFrame for the level editor
+    private JButton[][] boardSpaces; //Spaces on the board
+    private JButton[] piecesToPlace; //Pieces that are needed to be placed
+    private JButton save, load, play,reset; //buttons that are on the menu bar
+    private JumpInModel model; //Model that the game is associated with
+    private JOptionPane popup; //popup option when the game is going to be reset
 
 
     public LevelEditorView(JumpInModel model){
@@ -22,8 +22,8 @@ public class LevelEditorView implements View {
         Board board = this.model.getBoard();
         emptyBoard(board);
 
-        this.buttons = new JButton[5][5];
-        this.pieces = new JButton[5];
+        this.boardSpaces = new JButton[5][5];
+        this.piecesToPlace = new JButton[5];
         this.popup = new JOptionPane();
         this.instructions = new JLabel("Instruction");
         instructions.setHorizontalAlignment(SwingConstants.LEFT);
@@ -31,20 +31,20 @@ public class LevelEditorView implements View {
 
         for(int column = 0 ; column < 5 ; column++){
             for(int row = 0 ; row < 5 ; row++){
-                buttons[row][column] = new JButton();
-                buttons[row][column].setVisible(true);
+                boardSpaces[row][column] = new JButton();
+                boardSpaces[row][column].setVisible(true);
             }
         }
 
         for(int i=0; i<5;i++){
-            pieces[i] = new JButton();
-            pieces[i].setVisible(true);
+            piecesToPlace[i] = new JButton();
+            piecesToPlace[i].setVisible(true);
         }
-        pieces[0].setText("Rabbits : 3");
-        pieces[1].setText("Mushrooms : 2");
-        pieces[2].setText("Foxes(Vertical) : 2");
-        pieces[3].setText("Foxes(Horizontal) : 2");
-        pieces[4].setText("Cancel");
+        piecesToPlace[0].setText("Rabbits : 3");
+        piecesToPlace[1].setText("Mushrooms : 2");
+        piecesToPlace[2].setText("Foxes(Vertical) : 2");
+        piecesToPlace[3].setText("Foxes(Horizontal) : 2");
+        piecesToPlace[4].setText("Cancel");
         this.frame = new JFrame("LevelEditor");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
@@ -80,7 +80,7 @@ public class LevelEditorView implements View {
         grid.setLayout(new GridLayout(5,5));
         for(int i = 0 ; i < 5 ; i++){
             for(int j = 0 ; j < 5 ; j++){
-                grid.add(buttons[i][j]);
+                grid.add(boardSpaces[i][j]);
             }
         }
         grid.setMaximumSize(new Dimension(450,400));
@@ -88,7 +88,7 @@ public class LevelEditorView implements View {
         JPanel piecesPanel = new JPanel();
         piecesPanel.setLayout(new GridLayout(5,1));
         for( int i=0; i<5;i++){
-            piecesPanel.add(pieces[i]);
+            piecesPanel.add(piecesToPlace[i]);
         }
         piecesPanel.setMaximumSize(new Dimension(150,400));
 
@@ -109,12 +109,12 @@ public class LevelEditorView implements View {
         return popup;
     }
 
-    public JButton[][] getButtons() {
-        return buttons;
+    public JButton[][] getBoardSpaces() {
+        return boardSpaces;
     }
 
-    public JButton[] getPieces() {
-        return pieces;
+    public JButton[] getPiecesToPlace() {
+        return piecesToPlace;
     }
 
     public JFrame getFrame(){
@@ -132,81 +132,81 @@ public class LevelEditorView implements View {
             if (!model.isPieceSelected()) {
                 for(int column = 0 ; column < 5 ; column++) {
                     for (int row = 0; row < 5; row++) {
-                        buttons[row][column].setText(board.getSpace(row, column).toString());
-                        if (buttons[row][column].getText().equals("ES")|| buttons[row][column].getText().equals("OH")||buttons[row][column].getText().equals("FT")){
-                            buttons[row][column].setEnabled(false);
+                        boardSpaces[row][column].setText(board.getSpace(row, column).toString());
+                        if (boardSpaces[row][column].getText().equals("ES")|| boardSpaces[row][column].getText().equals("OH")|| boardSpaces[row][column].getText().equals("FT")){
+                            boardSpaces[row][column].setEnabled(false);
                         }else{
-                            buttons[row][column].setEnabled(true);
+                            boardSpaces[row][column].setEnabled(true);
                         }
                     }
 
                 }
 
                 if(model.getBuildRabbitLeft()>0){
-                    pieces[0].setEnabled(true);
+                    piecesToPlace[0].setEnabled(true);
 
                 }else{
-                    pieces[0].setEnabled(false);
+                    piecesToPlace[0].setEnabled(false);
                 }
                 if(model.getBuildMushroomLeft()>0){
-                    pieces[1].setEnabled(true);
+                    piecesToPlace[1].setEnabled(true);
 
                 }else{
-                    pieces[1].setEnabled(false);
+                    piecesToPlace[1].setEnabled(false);
                 }
 
                 if(model.getBuildFoxLeft()>0){
-                    pieces[2].setEnabled(true);
-                    pieces[3].setEnabled(true);
+                    piecesToPlace[2].setEnabled(true);
+                    piecesToPlace[3].setEnabled(true);
                 }else{
-                    pieces[2].setEnabled(false);
-                    pieces[3].setEnabled(false);
+                    piecesToPlace[2].setEnabled(false);
+                    piecesToPlace[3].setEnabled(false);
                 }
-                pieces[0].setText("Rabbits : "+ model.getBuildRabbitLeft());
-                pieces[1].setText("Mushrooms : "+ model.getBuildMushroomLeft());
-                pieces[2].setText("Foxes(Vertical) : "+ model.getBuildFoxLeft());
-                pieces[3].setText("Foxes(Horizontal) : "+ model.getBuildFoxLeft());
+                piecesToPlace[0].setText("Rabbits : "+ model.getBuildRabbitLeft());
+                piecesToPlace[1].setText("Mushrooms : "+ model.getBuildMushroomLeft());
+                piecesToPlace[2].setText("Foxes(Vertical) : "+ model.getBuildFoxLeft());
+                piecesToPlace[3].setText("Foxes(Horizontal) : "+ model.getBuildFoxLeft());
                 instructions.setText("Select a piece to place, remove a piece from the board or load in an existing level");
 
 
-                pieces[4].setEnabled(false);
+                piecesToPlace[4].setEnabled(false);
 
             } else {
                 for(int column = 0 ; column < 5 ; column++) {
                     for (int row = 0; row < 5; row++) {
-                        buttons[row][column].setText(board.getSpace(row, column).toString());
+                        boardSpaces[row][column].setText(board.getSpace(row, column).toString());
                         if(model.getBuildPiece().equals("RA")||model.getBuildPiece().equals("MU")) {
                             if(model.getBuildPiece().equals("RA")){
                                 instructions.setText("Select a spot for the rabbit");
                             }else{
                                 instructions.setText("Select a spot for the mushroom");
                             }
-                            if (buttons[row][column].getText().equals("ES")) {
-                                buttons[row][column].setEnabled(true);
+                            if (boardSpaces[row][column].getText().equals("ES")) {
+                                boardSpaces[row][column].setEnabled(true);
                             } else {
-                                buttons[row][column].setEnabled(false);
+                                boardSpaces[row][column].setEnabled(false);
                             }
                         }else if(model.getBuildPiece().equals("FH")){
                             instructions.setText("Select a spot for the foxes head, its tail will be to the left of it");
-                            if (buttons[row][column].getText().equals("ES")&& column !=0 ) {
+                            if (boardSpaces[row][column].getText().equals("ES")&& column !=0 ) {
                                 if(board.getSpace(row,column-1).toString().equals("ES")) {
-                                    buttons[row][column].setEnabled(true);
+                                    boardSpaces[row][column].setEnabled(true);
                                 }else{
-                                    buttons[row][column].setEnabled(false);
+                                    boardSpaces[row][column].setEnabled(false);
                                 }
                             } else {
-                                buttons[row][column].setEnabled(false);
+                                boardSpaces[row][column].setEnabled(false);
                             }
                         }else if(model.getBuildPiece().equals("FV")){
                             instructions.setText("Select a spot for the foxes head, its tail will be above it");
-                            if (buttons[row][column].getText().equals("ES") && row !=0 ) {
+                            if (boardSpaces[row][column].getText().equals("ES") && row !=0 ) {
                                 if(board.getSpace(row-1,column).toString().equals("ES")) {
-                                    buttons[row][column].setEnabled(true);
+                                    boardSpaces[row][column].setEnabled(true);
                                 }else{
-                                    buttons[row][column].setEnabled(false);
+                                    boardSpaces[row][column].setEnabled(false);
                                 }
                             } else {
-                                buttons[row][column].setEnabled(false);
+                                boardSpaces[row][column].setEnabled(false);
                             }
                         }
                     }
@@ -214,15 +214,15 @@ public class LevelEditorView implements View {
                 }
 
                 for(int i=0;i<4;i++){
-                    pieces[i].setEnabled(false);
+                    piecesToPlace[i].setEnabled(false);
                 }
-                pieces[0].setText("Rabbits : "+ model.getBuildRabbitLeft());
-                pieces[1].setText("Mushrooms : "+ model.getBuildMushroomLeft());
-                pieces[2].setText("Foxes(Vertical) : "+ model.getBuildFoxLeft());
-                pieces[3].setText("Foxes(Horizontal) : "+ model.getBuildFoxLeft());
+                piecesToPlace[0].setText("Rabbits : "+ model.getBuildRabbitLeft());
+                piecesToPlace[1].setText("Mushrooms : "+ model.getBuildMushroomLeft());
+                piecesToPlace[2].setText("Foxes(Vertical) : "+ model.getBuildFoxLeft());
+                piecesToPlace[3].setText("Foxes(Horizontal) : "+ model.getBuildFoxLeft());
 
 
-                pieces[4].setEnabled(true);
+                piecesToPlace[4].setEnabled(true);
 
             }
 

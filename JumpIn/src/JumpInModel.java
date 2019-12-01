@@ -91,8 +91,6 @@ public class JumpInModel {
 
     public boolean isBuild(){return build;}
 
-
-
     public void setBuild(boolean build) {
         this.build = build;
         notifyViews();
@@ -629,6 +627,7 @@ public class JumpInModel {
         this.setBadMove(false);
         this.setBuild(true);
         this.getPreviousMoves().clear();
-        this.getUndoneMoves().clear();    }
+        this.getUndoneMoves().clear();
+    }
 
 }

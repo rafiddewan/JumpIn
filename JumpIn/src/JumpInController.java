@@ -36,15 +36,15 @@ public class JumpInController {
             for (int column = 0; column < 5; column++) {
                 int finalRow = row;
                 int finalColumn = column;
-                levelEditor.getButtons()[row][column].addActionListener(e -> buildSpace(finalRow,finalColumn));
+                levelEditor.getBoardSpaces()[row][column].addActionListener(e -> buildSpace(finalRow,finalColumn));
                 view.getButtons()[row][column].addActionListener(e -> selectSpace(finalRow, finalColumn));
             }
         }
-        levelEditor.getPieces()[0].addActionListener(e -> selectBuildPiece("RA"));
-        levelEditor.getPieces()[1].addActionListener(e -> selectBuildPiece("MU"));
-        levelEditor.getPieces()[2].addActionListener(e -> selectBuildPiece("FV"));
-        levelEditor.getPieces()[3].addActionListener(e -> selectBuildPiece("FH"));
-        levelEditor.getPieces()[4].addActionListener(e -> cancelPiece());
+        levelEditor.getPiecesToPlace()[0].addActionListener(e -> selectBuildPiece("RA"));
+        levelEditor.getPiecesToPlace()[1].addActionListener(e -> selectBuildPiece("MU"));
+        levelEditor.getPiecesToPlace()[2].addActionListener(e -> selectBuildPiece("FV"));
+        levelEditor.getPiecesToPlace()[3].addActionListener(e -> selectBuildPiece("FH"));
+        levelEditor.getPiecesToPlace()[4].addActionListener(e -> cancelPiece());
         levelEditor.getPlay().addActionListener(e-> viewEditorToPlay());
         view.getBuild().addActionListener(e -> viewPlayToEditor());
         view.getUndo().addActionListener(e -> model.undoMove());
