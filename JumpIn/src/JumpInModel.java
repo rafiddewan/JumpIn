@@ -10,11 +10,16 @@ public class JumpInModel {
     private boolean gameDone; //Game done is  true when the game is completed and false when the game is not done
     private boolean badMove; // Bad move is true then an error is triggered and when bad move is false an error does not occur and it is a valid move
     private boolean isPieceSelected; //Destination is false when the player is choosing a piece to move and true when choosing that pieces destination
+    private boolean build; //build is true when in the builder view and false when in the play view
+    private String buildPiece;
     private int moveRow, moveCol;
+    private int buildFoxLeft,buildRabbitLeft,buildMushroomLeft;
     private ArrayList<View> views; //An array list of all the views that are subscribed to the model
 
     private Stack<Board> previousMoves;
     private Stack<Board> undoneMoves;
+
+
 
     private enum moveDirection {INVALID, HORIZONTAL, VERTICAL}
 
@@ -25,11 +30,17 @@ public class JumpInModel {
         board = new Board();
         gameDone = false;
         isPieceSelected = false;
+        buildPiece = "";
         badMove = false;
         views = new ArrayList<>();
+        build = true;
+        buildFoxLeft = 2;
+        buildMushroomLeft = 3;
+        buildRabbitLeft = 3;
         previousMoves = new Stack<>();
         undoneMoves = new Stack<>();
         previousMoves.push(new Board(board));
+
     }
 
     /**
@@ -38,6 +49,53 @@ public class JumpInModel {
      */
     public Board getBoard() {
         return this.board;
+    }
+
+
+
+    public String getBuildPiece(){
+        return buildPiece;
+    }
+    public void setBuildPiece(String buildPiece){
+        this.buildPiece = buildPiece;
+        notifyViews();
+    }
+
+
+    public int getBuildMushroomLeft() {
+        return buildMushroomLeft;
+    }
+
+    public void setBuildMushroomLeft(int buildMushroomLeft) {
+        this.buildMushroomLeft = buildMushroomLeft;
+        notifyViews();
+    }
+
+    public int getBuildRabbitLeft() {
+        return buildRabbitLeft;
+    }
+
+    public void setBuildRabbitLeft(int buildRabbitLeft) {
+        this.buildRabbitLeft = buildRabbitLeft;
+        notifyViews();
+    }
+
+    public int getBuildFoxLeft() {
+        return buildFoxLeft;
+    }
+
+    public void setBuildFoxLeft(int buildFoxLeft) {
+        this.buildFoxLeft = buildFoxLeft;
+        notifyViews();
+    }
+
+    public boolean isBuild(){return build;}
+
+
+
+    public void setBuild(boolean build) {
+        this.build = build;
+        notifyViews();
     }
 
     /**
@@ -435,7 +493,7 @@ public class JumpInModel {
                 //move the rabbit to fill a hole
                 else {
                     ((Hole) destSpace).setIsFilled(true);
-                    getBoard().incrementHolesFilled();
+                    getBoard().decrementHolesEmpty();
                 }
                 board.setSpace(getMoveRow(), getMoveCol(), new EmptySpace(getMoveRow(), getMoveCol()));
                 previousMoves.push(new Board(board));
@@ -565,5 +623,12 @@ public class JumpInModel {
     public void addView(View newView){
         views.add(newView);
     }
+
+    public void clearPlay(){
+        this.setGameDone(false);
+        this.setBadMove(false);
+        this.setBuild(true);
+        this.getPreviousMoves().clear();
+        this.getUndoneMoves().clear();    }
 
 }

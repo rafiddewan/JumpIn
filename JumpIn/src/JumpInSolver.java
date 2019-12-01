@@ -149,7 +149,7 @@ public class JumpInSolver {
                     {
                         if(!DFS(board.getSpace(row, col), 0, false)) unSolvedPieces++;
                         //check to see if the game is done
-                        if (model.getBoard().getHolesFilled() == 3)
+                        if (model.getBoard().getHolesEmpty() == 0)
                         {
                             model.setGameDone(true);
                             break;
