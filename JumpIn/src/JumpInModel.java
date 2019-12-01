@@ -138,7 +138,6 @@ public class JumpInModel {
      */
     public void setBadMove(boolean badMove) {
         this.badMove = badMove;
-        //notifyViews();
     }
 
     /**

@@ -161,6 +161,7 @@ public class JumpInView implements View{
                         "This move cannot be made.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
+                model.setBadMove(false);
             }
 
             //Notifies the user of the game's completion in the option of a  JOptionPane confirmation message
