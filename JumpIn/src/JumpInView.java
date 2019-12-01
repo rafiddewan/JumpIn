@@ -94,7 +94,11 @@ public class JumpInView implements View{
         return build;
     }
 
-    public JFrame getFrame() {return this.frame;}
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public JOptionPane getPopUp() {return this.popUp;}
     /**
      *
      */
@@ -168,14 +172,7 @@ public class JumpInView implements View{
             }
 
             //Notifies the user of the game's completion in the option of a  JOptionPane confirmation message
-            if (model.isGameDone()) {
-                popUp.showMessageDialog(frame,
-                        "You've won",
-                        "Chicken Dinner",
-                        JOptionPane.INFORMATION_MESSAGE);
-                frame.dispose();
-                System.exit(0);
-            }
+
 
             //When the destination is false, it allows you to select a piece to move too and when the instruction is true it allows you to choose a space to move to
             if (model.isPieceSelected()) {
