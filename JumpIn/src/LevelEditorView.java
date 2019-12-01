@@ -156,6 +156,7 @@ public class LevelEditorView implements View {
                 pieces[1].setText("Mushrooms : "+ model.getBuildMushroomLeft());
                 pieces[2].setText("Foxes(Vertical) : "+ model.getBuildFoxLeft());
                 pieces[3].setText("Foxes(Horizontal) : "+ model.getBuildFoxLeft());
+                instructions.setText("Select a piece to place, remove a piece from the board or load in an existing level");
 
 
                 pieces[4].setEnabled(false);
@@ -165,12 +166,18 @@ public class LevelEditorView implements View {
                     for (int row = 0; row < 5; row++) {
                         buttons[row][column].setText(board.getSpace(row, column).toString());
                         if(model.getBuildPiece().equals("RA")||model.getBuildPiece().equals("MU")) {
+                            if(model.getBuildPiece().equals("RA")){
+                                instructions.setText("Select a spot for the rabbit");
+                            }else{
+                                instructions.setText("Select a spot for the mushroom");
+                            }
                             if (buttons[row][column].getText().equals("ES")) {
                                 buttons[row][column].setEnabled(true);
                             } else {
                                 buttons[row][column].setEnabled(false);
                             }
                         }else if(model.getBuildPiece().equals("FH")){
+                            instructions.setText("Select a spot for the foxes head, its tail will be to the left of it");
                             if (buttons[row][column].getText().equals("ES")&& column !=0 ) {
                                 if(board.getSpace(row,column-1).toString().equals("ES")) {
                                     buttons[row][column].setEnabled(true);
@@ -181,6 +188,7 @@ public class LevelEditorView implements View {
                                 buttons[row][column].setEnabled(false);
                             }
                         }else if(model.getBuildPiece().equals("FV")){
+                            instructions.setText("Select a spot for the foxes head, its tail will be above it");
                             if (buttons[row][column].getText().equals("ES") && row !=0 ) {
                                 if(board.getSpace(row-1,column).toString().equals("ES")) {
                                     buttons[row][column].setEnabled(true);
