@@ -54,6 +54,20 @@ public class Board {
     }
 
     /**
+     * Empties the board
+     */
+    public void emptyBoard(){
+        for(int row = 0; row<5; row++){
+            for(int column = 0; column<5;column++){
+                Space currentSpace = getSpace(row, column);
+                if(!(currentSpace instanceof Hole)) setSpace(row, column, new EmptySpace(row, column));
+                else if(!(((Hole) currentSpace).getIsFilled())) setSpace(row, column, new Hole(row, column, false));
+            }
+        }
+        setHolesEmpty(3);
+    }
+
+    /**
      * Fills empty board with Spaces in predetermined locations
      */
     private void initializeBoard(){
