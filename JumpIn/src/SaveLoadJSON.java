@@ -65,6 +65,7 @@ public class SaveLoadJSON {
      */
     public Board load() throws IOException {
         Board board = new Board();
+        board.emptyBoard();
         File file = new File(FILENAME);
         BufferedReader br = new BufferedReader(new FileReader(file));
         br.readLine(); //First line always {
@@ -73,9 +74,40 @@ public class SaveLoadJSON {
         for(int i = 0 ; i < 25 ; i++){
             line = br.readLine();
             line = line.replaceAll("\\s",""); //remove whitespace
-            Space space = fromJSON(line);
+            //Space space = fromJSON(line); //parse line for space
+
+            int row = 0;
+            int col = 0;
+            String ID = "";
+
+            line = line.replace("{","");
+            line = line.replace("}","");
+            line = line.replace("]","");
+
+            String[] keyValue = line.split(","); //["key":value,"key":value,"key":value]
+            /*for(String s : keyValue){
+                System.out.println(s);
+            }*/
+            Space space = new Space(0,0);
+
+            for(int j = 0 ; j < 3 ; j++){
+                String[] value = keyValue[j].split(":"); //["key",value]
+
+                if(j == 0){
+                    row = Integer.parseInt(value[1]);
+                }
+                else if(j == 1){
+                    col = Integer.parseInt(value[1]);
+                }
+                else ID = value[1];
+                //System.out.println(row + "," + col + "," + ID);
+                space = fromJSON(row, col, ID);
+            }
+
             board.setSpace(space.getRow(),space.getColumn(),space);
+
         }
+
         board.setHolesEmpty(5 - holesFilled);
 
         return board;
@@ -83,52 +115,25 @@ public class SaveLoadJSON {
 
     /**
      * JSON String parser
-     * @param line
+     * @param row, col, ID
      * @return Space corresponding to JSON line
      */
 
 
-    private Space fromJSON(String line){
-        int row = 0;
-        int col = 0;
-        String ID = "";
-
-        line = line.replace("{","");
-        line = line.replace("}","");
-        line = line.replace("]","");
-
-        String[] keyValue = line.split(","); //["key":value,"key":value,"key":value]
-        for(String s : keyValue){
-            System.out.println(s);
-        }
-
-        for(int i = 0 ; i < 3 ; i++){
-            String[] value = keyValue[i].split(":"); //["key",value]
-
-            if(i == 0){
-                row = Integer.parseInt(value[1]);
-            }
-            else if(i == 1){
-                col = Integer.parseInt(value[1]);
-            }
-            else{
-                ID = value[1];
-            }
-            //System.out.println(row + "," + col + "," + ID);
-        }
-        if(ID == "MU"){
+    private Space fromJSON(int row, int col, String ID){
+        if(ID.equals("\"MU\"")){
             return new Mushroom(row, col);
         }
-        else if(ID == "RA"){
+        else if(ID.equals("\"RA\"")){
             return new Rabbit(row, col);
         }
-        else if(ID == "ES"){
+        else if(ID.equals("\"ES\"")){
             return new EmptySpace(row,col);
         }
-        else if(ID == "OH"){
+        else if(ID.equals("\"OH\"")){
             return new Hole(row,col,false);
         }
-        else if(ID == "CH"){
+        else if(ID.equals("\"CH\"")){
             holesFilled++;
             return new Hole(row,col,true);
         }
@@ -136,6 +141,6 @@ public class SaveLoadJSON {
             return new FoxPart(row, col, true);
         }*/
 
-        return new Rabbit(1,1); //placeholder/default
+        return new EmptySpace(1,1); //placeholder/default
     }
 }

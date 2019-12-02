@@ -52,7 +52,8 @@ public class JumpInModel {
      * Setter for board, used in load
      */
     public void setBoard(Board board){
-        this.board = board;
+        Board b = new Board(board);
+        this.board = b;
         notifyViews();
     }
 
