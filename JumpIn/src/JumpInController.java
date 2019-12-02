@@ -183,20 +183,20 @@ public class JumpInController {
      * PLays
      */
     private void viewEditorToPlay(){
-        String message = "You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?";
-        if(levelEditor.getPopup().showConfirmDialog(null,message,"WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+        //String message = "You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?";
+        //if(levelEditor.getPopup().showConfirmDialog(null,message,"WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
             model.setBuild(false);
             view.setFrameVisibility(true);
             levelEditor.setFrameVisiblity(false);
-        }
+        //}
     }
 
     /**
      * Revers to the level editor from the game (after completion)
      */
     private void viewPlayToEditor(){
-        levelEditor.resetBuilder();
         model.clearPlay();
+        levelEditor.resetBuilder();
         levelEditor.setFrameVisiblity(true);
         view.setFrameVisibility(false);
     }
@@ -224,5 +224,6 @@ public class JumpInController {
         SaveLoadJSON loader = new SaveLoadJSON();
         Board loadedBoard = loader.load();
         model.setBoard(loadedBoard);
+        viewEditorToPlay();
     }
 }

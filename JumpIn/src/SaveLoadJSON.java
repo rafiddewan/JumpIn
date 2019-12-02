@@ -96,9 +96,7 @@ public class SaveLoadJSON {
                 line = line.replace("]", "");
 
                 String[] keyValue = line.split(","); //["key":value,"key":value,"key":value]
-                /*for (String s : keyValue) {
-                    System.out.println(s);
-                }*/
+
 
                 Space space = new Space(0, 0);
 
