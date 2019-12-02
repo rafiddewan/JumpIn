@@ -10,7 +10,7 @@ public class LevelEditorView implements View {
     private JFrame frame; //JFrame for the level editor
     private JButton[][] boardSpaces; //Spaces on the board
     private JButton[] placeablePieces; //Pieces that are needed to be placed
-    private JButton save, load, play,reset; //buttons that are on the menu bar
+    private JButton load, play,reset; //buttons that are on the menu bar
     private JumpInModel model; //Model that the game is associated with
     private JOptionPane popup; //popup option when the game is going to be reset
 
@@ -80,8 +80,6 @@ public class LevelEditorView implements View {
         //Main Menu bar of options to choose from
         JPanel optionPanel = new JPanel();
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.LINE_AXIS));
-        this.save = new JButton("Save Level");
-        this.save.setVisible(true);
         this.load = new JButton("Load Template");
         this.load.setVisible(true);
         this.play = new JButton("Play");
@@ -89,7 +87,6 @@ public class LevelEditorView implements View {
         this.reset = new JButton("Reset");
         this.reset.setVisible(true);
         this.reset.addActionListener(e-> resetBuilder());
-        optionPanel.add(save);
         optionPanel.add(load);
         optionPanel.add(play);
         optionPanel.add(reset);
@@ -144,6 +141,12 @@ public class LevelEditorView implements View {
     public JOptionPane getPopup() {
         return popup;
     }
+
+    /**
+     * Load button getter
+     * @return Load button
+     */
+    public JButton getLoad() { return load; }
 
     /**
      * Returns a reference of a 2-D array of the level builder's board spaces
