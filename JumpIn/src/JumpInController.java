@@ -3,6 +3,7 @@
  */
 
 import javax.swing.*;
+import java.io.*;
 
 /**
  * Handles the events that occur between the user and the view
@@ -47,11 +48,20 @@ public class JumpInController {
         levelEditor.getPlaceablePieces()[3].addActionListener(e -> selectBuildPiece("FH"));
         levelEditor.getPlaceablePieces()[4].addActionListener(e -> cancelPiece());
         levelEditor.getPlay().addActionListener(e-> viewEditorToPlay());
+        levelEditor.getLoad().addActionListener(e -> loadFromJSON());
         //Set actionlisteners for the build
         view.getBuild().addActionListener(e -> viewPlayToEditor());
         //Set action listeners for undo and redo
         view.getUndo().addActionListener(e -> model.undoMove());
         view.getRedo().addActionListener(e -> model.redoMove());
+        view.getSave().addActionListener(e -> {
+            try {
+                saveToJSON();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        view.getLoad().addActionListener(e -> loadFromJSON());
     }
 
     /**
@@ -191,5 +201,15 @@ public class JumpInController {
         JumpInController control = new JumpInController(game, view, editor);
 
         control.initController(); //initialize the event handling for the controller
+    }
+
+    public void saveToJSON() throws IOException {
+        SaveLoadJSON saver = new SaveLoadJSON();
+        saver.save(model.getBoard());
+    }
+
+    public void loadFromJSON(){
+        SaveLoadJSON loader = new SaveLoadJSON();
+        loader.load();
     }
 }

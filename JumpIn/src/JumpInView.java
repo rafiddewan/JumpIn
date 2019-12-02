@@ -9,6 +9,8 @@ public class JumpInView implements View{
     private JumpInModel model;
     private JFrame frame;
     private JLabel instruction;
+    private JButton save;
+    private JButton load;
     private JButton undo;
     private JButton redo;
     private JButton solution;
@@ -60,6 +62,10 @@ public class JumpInView implements View{
         this.undo = new JButton("Undo");
         this.redo = new JButton("Redo");
         this.build = new JButton("Build");
+        this.save = new JButton("Save");
+        this.load = new JButton("Load");
+        ctrlPanel.add(save);
+        ctrlPanel.add(load);
         ctrlPanel.add(solution);
         ctrlPanel.add(undo);
         ctrlPanel.add(redo);
@@ -115,6 +121,18 @@ public class JumpInView implements View{
     public JButton getRedo(){
         return this.redo;
     }
+
+    /**
+     * Save button getter
+     * @return Save button
+     */
+    public JButton getSave() { return this.save; }
+
+    /**
+     * Load button getter
+     * @return Load button
+     */
+    public JButton getLoad() { return this.load; }
 
     /**
      * Button opens up a JOption pane indicating the solution to solve the game from start to finish
