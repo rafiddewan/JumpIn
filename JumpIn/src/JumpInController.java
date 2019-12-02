@@ -179,6 +179,7 @@ public class JumpInController {
         view.setFrameVisibility(false);
     }
 
+
     /**
      * Initializes the game
      * @param args
