@@ -55,8 +55,10 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Can redo and undo moves that were made earlier during the game by clicking the "undo" and "redo" button
 - Created a class  called  JumpInSolver which solves the game for JumpIn using DFS
 - Can click the "hint" button and gives hints how to solve the game
+#  Milestone 4
+- The "hint" button has turned into the "solve" button which provides a solution for you to solve the game
+- Created a LevelEditorView class to represent  
 ## Roadmap
-- Add more graphics for the GUI 
 - Add more test cases for the JumpInController and JumpInModel
 - Add more test cases for different levels and not just one level
 - Refactor board constructor so that it can be easier to create different levels
@@ -73,3 +75,5 @@ Benjamin Ransom
 
 Written by: Benjamin Ransom
 Written by: Rafid Dewan (November 4, 2019)
+Written by: Rafid Dewan & Nick Coutts (November 18, 2019)
+Written by: Rafid Dewan (December 2, 2019)
