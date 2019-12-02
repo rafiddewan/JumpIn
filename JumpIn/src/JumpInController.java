@@ -142,13 +142,6 @@ public class JumpInController {
         if (model.getBoard().getHolesEmpty() == 0) {
             model.setGameDone(true);
         }
-        if (model.isGameDone()) {
-            view.getPopUp().showMessageDialog(view.getFrame(),
-                    "You've won",
-                    "Chicken Dinner",
-                    JOptionPane.INFORMATION_MESSAGE);
-            viewPlayToEditor();
-        }
     }
 
 
@@ -157,16 +150,15 @@ public class JumpInController {
         }else{
             return;
         }
-
         model.setBuild(false);
-        view.setFrameVisibility(true);
-        levelEditor.setFrameVisiblity(false);
+        view.getFrame().setVisible(true);
+        levelEditor.getFrame().setVisible(false);
     }
     private void viewPlayToEditor(){
         levelEditor.resetBuilder();
         model.clearPlay();
-        levelEditor.setFrameVisiblity(true);
-        view.setFrameVisibility(false);
+        levelEditor.getFrame().setVisible(true);
+        view.getFrame().setVisible(false);
     }
 
     /**
@@ -178,6 +170,7 @@ public class JumpInController {
 
         LevelEditorView editor = new LevelEditorView(game);
         JumpInView view = new JumpInView(game);
+        view.getFrame().setVisible(false);
         JumpInController control = new JumpInController(game, view, editor);
 
         control.initController(); //initialize the event handling for the controller

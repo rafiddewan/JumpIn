@@ -77,7 +77,7 @@ public class JumpInView implements View{
         frame.add(grid);
 
         //Set the visibility of the frame
-        setFrameVisibility(false);
+        frame.setVisible(true);
         //Notifies the model to the contents for the buttons
         this.update(model);
     }
@@ -94,11 +94,7 @@ public class JumpInView implements View{
         return build;
     }
 
-    public JFrame getFrame() {
-        return frame;
-    }
-
-    public JOptionPane getPopUp() {return this.popUp;}
+    public JFrame getFrame() {return this.frame;}
     /**
      *
      */
@@ -111,10 +107,6 @@ public class JumpInView implements View{
      */
     private void showHint(){
         popUp.showMessageDialog(frame, model.solutionString(), "Hint", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public void setFrameVisibility(boolean isVisible){
-        frame.setVisible(isVisible);
     }
 
 
@@ -169,10 +161,18 @@ public class JumpInView implements View{
                         "This move cannot be made.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
+                model.setBadMove(false);
             }
 
             //Notifies the user of the game's completion in the option of a  JOptionPane confirmation message
-
+            if (model.isGameDone()) {
+                popUp.showMessageDialog(frame,
+                        "You've won",
+                        "Chicken Dinner",
+                        JOptionPane.INFORMATION_MESSAGE);
+                frame.dispose();
+                System.exit(0);
+            }
 
             //When the destination is false, it allows you to select a piece to move too and when the instruction is true it allows you to choose a space to move to
             if (model.isPieceSelected()) {
