@@ -48,7 +48,13 @@ public class JumpInController {
         levelEditor.getPlaceablePieces()[3].addActionListener(e -> selectBuildPiece("FH"));
         levelEditor.getPlaceablePieces()[4].addActionListener(e -> cancelPiece());
         levelEditor.getPlay().addActionListener(e-> viewEditorToPlay());
-        levelEditor.getLoad().addActionListener(e -> loadFromJSON());
+        levelEditor.getLoad().addActionListener(e -> {
+            try {
+                loadFromJSON();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         //Set actionlisteners for the build
         view.getBuild().addActionListener(e -> viewPlayToEditor());
         //Set action listeners for undo and redo
@@ -61,7 +67,13 @@ public class JumpInController {
                 ex.printStackTrace();
             }
         });
-        view.getLoad().addActionListener(e -> loadFromJSON());
+        view.getLoad().addActionListener(e -> {
+            try {
+                loadFromJSON();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -208,7 +220,7 @@ public class JumpInController {
         saver.save(model.getBoard());
     }
 
-    public void loadFromJSON(){
+    public void loadFromJSON() throws IOException {
         SaveLoadJSON loader = new SaveLoadJSON();
         loader.load();
     }
