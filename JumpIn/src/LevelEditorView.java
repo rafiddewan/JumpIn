@@ -324,15 +324,17 @@ public class LevelEditorView implements View {
      */
     public void resetBuilder() {
         if(model.isBuild()){
-            if(popup.showConfirmDialog(null,"Are you sure you want to reset the board?","WARNING",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
-                Board board = model.getBoard();
-                board.emptyBoard();
-                model.setBuildRabbitLeft(3);
-                model.setBuildMushroomLeft(3);
-                model.setBuildFoxLeft(2);
-                model.setPieceSelected(false);
+            if(!(popup.showConfirmDialog(null,"Are you sure you want to reset the board?","WARNING",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION)){
+           
+                return;
             }
         }
+        Board board = model.getBoard();
+        board.emptyBoard();
+        model.setBuildRabbitLeft(3);
+        model.setBuildMushroomLeft(3);
+        model.setBuildFoxLeft(2);
+        model.setPieceSelected(false);
     }
 
 }

@@ -164,6 +164,7 @@ public class JumpInController {
         String message = "You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?";
         if(levelEditor.getPopup().showConfirmDialog(null,message,"WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
             model.setBuild(false);
+            model.setPieceSelected(false);
             view.setFrameVisibility(true);
             levelEditor.setFrameVisiblity(false);
         }
