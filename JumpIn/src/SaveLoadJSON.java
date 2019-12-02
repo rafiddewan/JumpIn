@@ -51,8 +51,17 @@ public class SaveLoadJSON {
     private String toJSON(Space space, boolean isLast){
 
         String line = "     {";
-        line = line.concat("\"row\": " + space.getRow() + ", \"column\": " + space.getColumn() + ", \"ID\": \"" + space.toString());
-        line = line.concat("\"}");
+        if(space.toString().equals("FH") || space.toString().equals("FT")){
+            line = line.concat("\"row\": " + space.getRow() + ", \"column\": " + space.getColumn() + ", \"ID\": \"" + space.toString());
+            line = line.concat("\", \"vertical\": \"" + ((FoxPart) space).getIsVertical());
+            line = line.concat("\", \"other\": \"(" +((FoxPart) space).getOtherFoxPart().getRow() + " | ");
+            line = line.concat("" + ((FoxPart) space).getOtherFoxPart().getColumn());
+            line = line.concat(")\"}");
+        }
+        else {
+            line = line.concat("\"row\": " + space.getRow() + ", \"column\": " + space.getColumn() + ", \"ID\": \"" + space.toString());
+            line = line.concat("\"}");
+        }
         if(!isLast){
             line = line.concat(",");
         }
@@ -60,67 +69,81 @@ public class SaveLoadJSON {
     }
 
     /**
-     * Returns the Board based on the current state of the JSON file
+     * Parses and returns the saved board from file
      * @return saved Board
      */
     public Board load() throws IOException {
         Board board = new Board();
         board.emptyBoard();
-        File file = new File(FILENAME);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        br.readLine(); //First line always {
-        br.readLine(); //Second line always "spaces":[
-        String line;
-        for(int i = 0 ; i < 25 ; i++){
-            line = br.readLine();
-            line = line.replaceAll("\\s",""); //remove whitespace
-            //Space space = fromJSON(line); //parse line for space
+        try {
+            File file = new File(FILENAME);
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            br.readLine(); //First line always {
+            br.readLine(); //Second line always "spaces":[
+            String line;
+            for (int i = 0; i < 25 ; i++) {
+                line = br.readLine();
+                line = line.replaceAll("\\s", ""); //remove whitespace
 
-            int row = 0;
-            int col = 0;
-            String ID = "";
+                int row = 0;
+                int col = 0;
+                String ID = "";
+                String vertical = "false";
+                String other = "";
 
-            line = line.replace("{","");
-            line = line.replace("}","");
-            line = line.replace("]","");
+                line = line.replace("{", "");
+                line = line.replace("}", "");
+                line = line.replace("]", "");
 
-            String[] keyValue = line.split(","); //["key":value,"key":value,"key":value]
-            /*for(String s : keyValue){
-                System.out.println(s);
-            }*/
-            Space space = new Space(0,0);
+                String[] keyValue = line.split(","); //["key":value,"key":value,"key":value]
+                /*for (String s : keyValue) {
+                    System.out.println(s);
+                }*/
 
-            for(int j = 0 ; j < 3 ; j++){
-                String[] value = keyValue[j].split(":"); //["key",value]
+                Space space = new Space(0, 0);
 
-                if(j == 0){
-                    row = Integer.parseInt(value[1]);
+                for (int j = 0; j < keyValue.length; j++) {
+                    String[] value = keyValue[j].split(":"); //["key",value]
+
+                    if (j == 0) {
+                        row = Integer.parseInt(value[1]);
+                    } else if (j == 1) {
+                        col = Integer.parseInt(value[1]);
+                    } else if (j == 2) {
+                        ID = value[1];
+                    } else if (j == 3) {
+                        vertical = value[1];
+                    } else if (j == 4) {
+                        other = value[1];
+                    }
                 }
-                else if(j == 1){
-                    col = Integer.parseInt(value[1]);
-                }
-                else ID = value[1];
-                //System.out.println(row + "," + col + "," + ID);
-                space = fromJSON(row, col, ID);
+                space = fromJSON(row, col, other, vertical, ID);
+                board.setSpace(space.getRow(), space.getColumn(), space);
+
             }
 
-            board.setSpace(space.getRow(),space.getColumn(),space);
+            board.setHolesEmpty(5 - holesFilled);
+
 
         }
-
-        board.setHolesEmpty(5 - holesFilled);
-
+        catch(Exception e){
+            e.printStackTrace();
+        }
         return board;
     }
 
     /**
-     * JSON String parser
+     * String space identifier
      * @param row, col, ID
      * @return Space corresponding to JSON line
      */
 
+    private Space fromJSON(int row, int col, String other, String vertical, String ID){
 
-    private Space fromJSON(int row, int col, String ID){
+        boolean v;
+        if(vertical.equals("true")){ v = true;}
+        else { v = false; }
+
         if(ID.equals("\"MU\"")){
             return new Mushroom(row, col);
         }
@@ -137,9 +160,21 @@ public class SaveLoadJSON {
             holesFilled++;
             return new Hole(row,col,true);
         }
-        /*else if(ID == "FH"){
-            return new FoxPart(row, col, true);
-        }*/
+        else {
+            String[] coord = other.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\"", "").split("\\|");
+
+             int friendRow = Integer.parseInt(coord[0]);
+             int friendCol = Integer.parseInt(coord[1]);
+
+            if(ID.equals("\"FH\"")){
+                FoxPart otherFoxPart = new FoxPart(friendRow,friendCol,v,false);
+                return new FoxPart(row, col, v, true, otherFoxPart);
+            }
+            else if(ID.equals("\"FT\"")){
+                FoxPart otherFoxPart = new FoxPart(friendRow,friendCol,v,true);
+                return new FoxPart(row, col, v, false, otherFoxPart);
+            }
+        }
 
         return new EmptySpace(1,1); //placeholder/default
     }
