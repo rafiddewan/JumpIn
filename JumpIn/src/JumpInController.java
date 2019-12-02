@@ -3,6 +3,7 @@
  */
 
 import javax.swing.*;
+import java.io.*;
 
 /**
  * Handles the events that occur between the user and the view
@@ -47,11 +48,32 @@ public class JumpInController {
         levelEditor.getPlaceablePieces()[3].addActionListener(e -> selectBuildPiece("FH"));
         levelEditor.getPlaceablePieces()[4].addActionListener(e -> cancelPiece());
         levelEditor.getPlay().addActionListener(e-> viewEditorToPlay());
+        levelEditor.getLoad().addActionListener(e -> {
+            try {
+                loadFromJSON();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         //Set actionlisteners for the build
         view.getBuild().addActionListener(e -> viewPlayToEditor());
         //Set action listeners for undo and redo
         view.getUndo().addActionListener(e -> model.undoMove());
         view.getRedo().addActionListener(e -> model.redoMove());
+        view.getSave().addActionListener(e -> {
+            try {
+                saveToJSON();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        view.getLoad().addActionListener(e -> {
+            try {
+                loadFromJSON();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -161,20 +183,20 @@ public class JumpInController {
      * PLays
      */
     private void viewEditorToPlay(){
-        String message = "You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?";
-        if(levelEditor.getPopup().showConfirmDialog(null,message,"WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+        //String message = "You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?";
+        //if(levelEditor.getPopup().showConfirmDialog(null,message,"WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
             model.setBuild(false);
             view.setFrameVisibility(true);
             levelEditor.setFrameVisiblity(false);
-        }
+        //}
     }
 
     /**
      * Revers to the level editor from the game (after completion)
      */
     private void viewPlayToEditor(){
-        levelEditor.resetBuilder();
         model.clearPlay();
+        levelEditor.resetBuilder();
         levelEditor.setFrameVisiblity(true);
         view.setFrameVisibility(false);
     }
@@ -192,5 +214,17 @@ public class JumpInController {
         JumpInController control = new JumpInController(game, view, editor);
 
         control.initController(); //initialize the event handling for the controller
+    }
+
+    public void saveToJSON() throws IOException {
+        SaveLoadJSON saver = new SaveLoadJSON();
+        saver.save(model.getBoard());
+    }
+
+    public void loadFromJSON() throws IOException {
+        SaveLoadJSON loader = new SaveLoadJSON();
+        Board loadedBoard = loader.load();
+        model.setBoard(loadedBoard);
+        viewEditorToPlay();
     }
 }
