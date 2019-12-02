@@ -36,23 +36,31 @@ public class JumpInController {
             for (int column = 0; column < 5; column++) {
                 int finalRow = row;
                 int finalColumn = column;
-                levelEditor.getButtons()[row][column].addActionListener(e -> buildSpace(finalRow,finalColumn));
+                levelEditor.getBoardSpaces()[row][column].addActionListener(e -> buildSpace(finalRow,finalColumn));
                 view.getButtons()[row][column].addActionListener(e -> selectSpace(finalRow, finalColumn));
             }
         }
-        levelEditor.getPieces()[0].addActionListener(e -> selectBuildPiece("RA"));
-        levelEditor.getPieces()[1].addActionListener(e -> selectBuildPiece("MU"));
-        levelEditor.getPieces()[2].addActionListener(e -> selectBuildPiece("FV"));
-        levelEditor.getPieces()[3].addActionListener(e -> selectBuildPiece("FH"));
-        levelEditor.getPieces()[4].addActionListener(e -> cancelPiece());
+        //Set action listener for placeable pieces
+        levelEditor.getPlaceablePieces()[0].addActionListener(e -> selectBuildPiece("RA"));
+        levelEditor.getPlaceablePieces()[1].addActionListener(e -> selectBuildPiece("MU"));
+        levelEditor.getPlaceablePieces()[2].addActionListener(e -> selectBuildPiece("FV"));
+        levelEditor.getPlaceablePieces()[3].addActionListener(e -> selectBuildPiece("FH"));
+        levelEditor.getPlaceablePieces()[4].addActionListener(e -> cancelPiece());
         levelEditor.getPlay().addActionListener(e-> viewEditorToPlay());
+        //Set actionlisteners for the build
         view.getBuild().addActionListener(e -> viewPlayToEditor());
+        //Set action listeners for undo and redo
         view.getUndo().addActionListener(e -> model.undoMove());
         view.getRedo().addActionListener(e -> model.redoMove());
     }
 
+    /**
+     * Creates the build space
+     * @param finalRow
+     * @param finalColumn
+     */
     private void buildSpace(int finalRow, int finalColumn) {
-        if(model.isPieceSelected()){
+        if(model.isPieceSelected()){ //Checks to see if the piece is selected
             if(model.getBuildPiece().equals("FV")){
                 FoxPart head = new FoxPart(finalRow,finalColumn,true,true);
                 FoxPart tail = new FoxPart(finalRow-1,finalColumn,true,false, head);
@@ -105,14 +113,19 @@ public class JumpInController {
 
     }
 
+    /**
+     * Used to change the state of the model when a piece to place the piece on the board is selected
+     * @param piece
+     */
     private void selectBuildPiece(String piece){
-
         model.setBuildPiece(piece);
         model.setPieceSelected(true);
     }
 
+    /**
+     * Used to change the state of the model when the cancel button is pressed in the level builder
+     */
     private void cancelPiece(){
-
         model.setBuildPiece("");
         model.setPieceSelected(false);
     }
@@ -144,21 +157,26 @@ public class JumpInController {
         }
     }
 
-
+    /**
+     * PLays
+     */
     private void viewEditorToPlay(){
-        if(levelEditor.getPopup().showConfirmDialog(null,"You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?","WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
-        }else{
-            return;
+        String message = "You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?";
+        if(levelEditor.getPopup().showConfirmDialog(null,message,"WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+            model.setBuild(false);
+            view.setFrameVisibility(true);
+            levelEditor.setFrameVisiblity(false);
         }
-        model.setBuild(false);
-        view.getFrame().setVisible(true);
-        levelEditor.getFrame().setVisible(false);
     }
+
+    /**
+     * Revers to the level editor from the game (after completion)
+     */
     private void viewPlayToEditor(){
         levelEditor.resetBuilder();
         model.clearPlay();
-        levelEditor.getFrame().setVisible(true);
-        view.getFrame().setVisible(false);
+        levelEditor.setFrameVisiblity(true);
+        view.setFrameVisibility(false);
     }
 
     /**
@@ -170,7 +188,6 @@ public class JumpInController {
 
         LevelEditorView editor = new LevelEditorView(game);
         JumpInView view = new JumpInView(game);
-        view.getFrame().setVisible(false);
         JumpInController control = new JumpInController(game, view, editor);
 
         control.initController(); //initialize the event handling for the controller

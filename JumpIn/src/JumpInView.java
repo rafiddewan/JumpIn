@@ -11,7 +11,7 @@ public class JumpInView implements View{
     private JLabel instruction;
     private JButton undo;
     private JButton redo;
-    private JButton hint;
+    private JButton solution;
     private JButton build;
     private JButton[][] buttons;
     private JOptionPane popUp;
@@ -55,12 +55,12 @@ public class JumpInView implements View{
         //control buttons
         JPanel ctrlPanel = new JPanel();
         ctrlPanel.setLayout(new BoxLayout(ctrlPanel,BoxLayout.X_AXIS));
-        this.hint = new JButton("Hint");
-        hint.addActionListener(e -> showHint());
+        this.solution = new JButton("Hint");
+        solution.addActionListener(e -> showSolution());
         this.undo = new JButton("Undo");
         this.redo = new JButton("Redo");
         this.build = new JButton("Build");
-        ctrlPanel.add(hint);
+        ctrlPanel.add(solution);
         ctrlPanel.add(undo);
         ctrlPanel.add(redo);
         ctrlPanel.add(build);
@@ -77,36 +77,50 @@ public class JumpInView implements View{
         frame.add(grid);
 
         //Set the visibility of the frame
-        frame.setVisible(true);
+        setFrameVisibility(false);
         //Notifies the model to the contents for the buttons
         this.update(model);
     }
 
     /**
-     *
+     * Sets the game's visibility
+     * @param isVisible is true when its visible and false when it's hidden
+     */
+    public void setFrameVisibility(boolean isVisible){
+        frame.setVisible(isVisible);
+    }
+
+    /**
+     * Undo button
+     * @return JButton
      */
     public JButton getUndo(){
         return this.undo;
     }
 
-
+    /**
+     * Build button takes you back to the level editor
+     * @return JButton
+     */
     public JButton getBuild() {
         return build;
     }
 
     public JFrame getFrame() {return this.frame;}
+
     /**
-     *
+     * Redo Button
+     * @return  JButton
      */
     public JButton getRedo(){
         return this.redo;
     }
 
     /**
-     *
+     * Button opens up a JOption pane indicating the solution to solve the game from start to finish
      */
-    private void showHint(){
-        popUp.showMessageDialog(frame, model.solutionString(), "Hint", JOptionPane.INFORMATION_MESSAGE);
+    private void showSolution(){
+        popUp.showMessageDialog(frame, model.solutionString(), "Solution", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
