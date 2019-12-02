@@ -49,6 +49,14 @@ public class JumpInModel {
     }
 
     /**
+     * Setter for board, used in load
+     */
+    public void setBoard(Board board){
+        this.board = board;
+        notifyViews();
+    }
+
+    /**
      * Gets the current build piece that on the board
      * @return String of two characters of the selected build piece at hand is
      */

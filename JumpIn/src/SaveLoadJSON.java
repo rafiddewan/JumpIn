@@ -5,6 +5,7 @@ import java.io.*;
  */
 public class SaveLoadJSON {
     public static final String FILENAME = "savedLevel.json";
+    int holesFilled = 0;
 
     /**
      * Saves the current board state to a JSON file
@@ -69,12 +70,13 @@ public class SaveLoadJSON {
         br.readLine(); //First line always {
         br.readLine(); //Second line always "spaces":[
         String line;
-        while((line = br.readLine()) != null){
+        for(int i = 0 ; i < 25 ; i++){
+            line = br.readLine();
             line = line.replaceAll("\\s",""); //remove whitespace
             Space space = fromJSON(line);
             board.setSpace(space.getRow(),space.getColumn(),space);
         }
-
+        board.setHolesEmpty(5 - holesFilled);
 
         return board;
     }
@@ -84,6 +86,8 @@ public class SaveLoadJSON {
      * @param line
      * @return Space corresponding to JSON line
      */
+
+
     private Space fromJSON(String line){
         int row = 0;
         int col = 0;
@@ -93,12 +97,24 @@ public class SaveLoadJSON {
         line = line.replace("}","");
         line = line.replace("]","");
 
-        String[] keyValue = line.split(",");
+        String[] keyValue = line.split(","); //["key":value,"key":value,"key":value]
         for(String s : keyValue){
-            String[] value = s.split(":");
-            row = Integer.parseInt(value[1]);
-            col = Integer.parseInt(value[3]);
-            ID = value[5];
+            System.out.println(s);
+        }
+
+        for(int i = 0 ; i < 3 ; i++){
+            String[] value = keyValue[i].split(":"); //["key",value]
+
+            if(i == 0){
+                row = Integer.parseInt(value[1]);
+            }
+            else if(i == 1){
+                col = Integer.parseInt(value[1]);
+            }
+            else{
+                ID = value[1];
+            }
+            //System.out.println(row + "," + col + "," + ID);
         }
         if(ID == "MU"){
             return new Mushroom(row, col);
@@ -113,6 +129,7 @@ public class SaveLoadJSON {
             return new Hole(row,col,false);
         }
         else if(ID == "CH"){
+            holesFilled++;
             return new Hole(row,col,true);
         }
         /*else if(ID == "FH"){

@@ -222,6 +222,7 @@ public class JumpInController {
 
     public void loadFromJSON() throws IOException {
         SaveLoadJSON loader = new SaveLoadJSON();
-        loader.load();
+        Board loadedBoard = loader.load();
+        model.setBoard(loadedBoard);
     }
 }
