@@ -20,10 +20,6 @@ public class Board {
         initializeBoard();
     }
 
-    /**
-     * Copy constructor for Board
-     * @param board passed in to make an instance and exact replica of that board
-     */
     public Board(Board board){
         this.gameBoard = new Space[BOARD_DIMENSION][BOARD_DIMENSION];
         this.holesEmpty = board.getHolesEmpty();
