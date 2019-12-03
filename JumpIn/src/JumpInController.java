@@ -4,7 +4,7 @@
 
 import java.io.*;
 
-import JumpInBoardAPI.*;
+import JumpInSpaces.*;
 
 /**
  * Handles the events that occur between the user and the view
