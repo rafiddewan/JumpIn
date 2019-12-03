@@ -3,7 +3,7 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
- * This class is used to provide a solution for the game provided BFS
+ * This class is used to provide a solution for the game provided DFS
  * @author Rafid Dewan
  */
 public class JumpInSolver {
