@@ -2,8 +2,9 @@
  * @author Benjamin Ransom
  */
 
-import javax.swing.*;
 import java.io.*;
+
+import JumpInSpaces.*;
 
 /**
  * Handles the events that occur between the user and the view

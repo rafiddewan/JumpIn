@@ -3,6 +3,7 @@
  *
  * @author Rafid
  */
+package JumpInSpaces;
 public class EmptySpace  extends  Space {
     public EmptySpace(int row, int column) {
         super(row, column);

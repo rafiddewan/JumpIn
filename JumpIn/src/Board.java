@@ -4,6 +4,7 @@
  *
  * @author Rafid
  */
+import JumpInSpaces.*;
 public class Board {
 
     private Space[][] gameBoard;

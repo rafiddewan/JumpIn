@@ -2,6 +2,7 @@
  * Represents one of 5 holes on the game board
  * @author Rafid
  */
+package JumpInSpaces;
 public class Hole extends Space {
     private boolean isFilled;
 
