@@ -49,21 +49,16 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Implemented Observer Pattern with the View interface so that the model can update multiple views (which will be used for the final milestone)
 - Updated UML with JumpInView and JumpInController which are classes used for the MVC architecture
 - Refactored JumpInModel so that the input logic is handled with JumpInController and the game (infrastructure) logic is handled in JumpInModel
-## Milestone 3
+### Milestone 3
 - Moved the logic from the controller to the model by having a takeTurn method which handles the turn in the model instead of the controller
 - We made the canRabbitMove and canFoxMove and moveFoxParts  to be public since the solver will need to access those variables
 - Can redo and undo moves that were made earlier during the game by clicking the "undo" and "redo" button
 - Created a class  called  JumpInSolver which solves the game for JumpIn using DFS
 - Can click the "hint" button and gives hints how to solve the game
-#  Milestone 4
+###  Milestone 4
 - The "hint" button has turned into the "solve" button which provides a solution for you to solve the game
 - Created a LevelEditorView class to represent  
-## Roadmap
-- Add more test cases for the JumpInController and JumpInModel
-- Add more test cases for different levels and not just one level
-- Refactor board constructor so that it can be easier to create different levels
-- The last milestone in place is the implementation of a save/load feature as well as a level editor function to create new puzzles.
-
+- Packaged Board and all the Space classes and it's child classes together including the MoveableSpace Interface into JumpInBoardAPI since they are related classes and the board behaves like an API
 ### Contributors
 ##### Group: I hate C
 Nick Coutts,
