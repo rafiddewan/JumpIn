@@ -3,6 +3,7 @@
  *
  * @author Rafid
  */
+package JumpInSpaces;
 public class FoxPart extends Space implements MoveableSpace {
 
     private boolean isVertical;
@@ -40,7 +41,7 @@ public class FoxPart extends Space implements MoveableSpace {
         super(fox.getRow(),fox.getColumn());
         this.isVertical = fox.getIsVertical();
         this.isHead = fox.getIsHead();
-        this.otherFoxPart = new FoxPart(fox.getRow(),fox.getColumn(),fox.getIsVertical(),fox.getIsHead(),this);
+        this.otherFoxPart = fox.getOtherFoxPart();
     }
 
     /**

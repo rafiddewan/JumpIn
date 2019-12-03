@@ -3,9 +3,10 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
- * This class is used to provide a solution for the game provided BFS
+ * This class is used to provide a solution for the game provided DFS
  * @author Rafid Dewan
  */
+import JumpInSpaces.*;
 public class JumpInSolver {
 
     private Board board; //passes in the board of the game
@@ -149,7 +150,7 @@ public class JumpInSolver {
                     {
                         if(!DFS(board.getSpace(row, col), 0, false)) unSolvedPieces++;
                         //check to see if the game is done
-                        if (model.getBoard().getHolesFilled() == 3)
+                        if (model.getBoard().getHolesEmpty() == 0)
                         {
                             model.setGameDone(true);
                             break;
