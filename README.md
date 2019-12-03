@@ -36,6 +36,8 @@ as explaining how to play the game and includes a legend explaining the meaning 
 ### Milestone 3
 - if moving a fox in a certain way after undoing, the fox head gets duplicated. works if only moving a fox one space.
 - the solver() method inside JumpInSolver could not pass the test
+### Milestone 4
+- the solver() method inside JumpInSolver could not pass the test since the rabbits cannot jump out of the holes
 ## Changelog
 ### Milestone 1
 - First version of this project
@@ -56,8 +58,8 @@ as explaining how to play the game and includes a legend explaining the meaning 
 - Created a class  called  JumpInSolver which solves the game for JumpIn using DFS
 - Can click the "hint" button and gives hints how to solve the game
 ###  Milestone 4
-- The "hint" button has turned into the "solve" button which provides a solution for you to solve the game
 - Created a LevelEditorView class to represent  
+- Fixed undo and redoing of Fox 
 - Packaged Board and all the Space classes and it's child classes together including the MoveableSpace Interface into JumpInSpaces since they are related classes and the board behaves like an API
 ### Contributors
 ##### Group: I hate C

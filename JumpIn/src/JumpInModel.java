@@ -342,7 +342,7 @@ public class JumpInModel {
                 if (currSpace instanceof EmptySpace) {
                     return false;
                 }
-                if(currSpace instanceof Hole && !((Hole) currSpace).getIsFilled()){
+                if (currSpace instanceof Hole && !((Hole) currSpace).getIsFilled()) {
                     return false;
                 }
             }//now need to check if the desiredSpace is an empty hole or an empty space
@@ -360,6 +360,7 @@ public class JumpInModel {
                 if (currSpace instanceof EmptySpace) {//if the current hole is empty or a hole its not a valid move
                     return false;
                 }
+
                 if(currSpace instanceof Hole && !((Hole) currSpace).getIsFilled()){
                     return false;
                 }

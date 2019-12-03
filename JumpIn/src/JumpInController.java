@@ -187,6 +187,7 @@ public class JumpInController {
         //String message = "You are about to play the currently loaded level, if you have not yet saved your level, it will not be saved. would you like to continue?";
         //if(levelEditor.getPopup().showConfirmDialog(null,message,"WARNING", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
             model.setBuild(false);
+            model.setPieceSelected(false);
             view.setFrameVisibility(true);
             levelEditor.setFrameVisiblity(false);
         //}
@@ -217,11 +218,19 @@ public class JumpInController {
         control.initController(); //initialize the event handling for the controller
     }
 
+    /**
+     * Saves the current model to a JSON
+     * @throws IOException
+     */
     public void saveToJSON() throws IOException {
         SaveLoadJSON saver = new SaveLoadJSON();
         saver.save(model.getBoard());
     }
 
+    /**
+     * Loads the current model from a JSON
+     * @throws IOException
+     */
     public void loadFromJSON() throws IOException {
         SaveLoadJSON loader = new SaveLoadJSON();
         Board loadedBoard = loader.load();
