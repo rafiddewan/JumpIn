@@ -1,5 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
+import JumpInBoardAPI.*;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import JumpInBoardAPI.*;
 
 /**
  * The framework of the game that is visible and interactive with the user
