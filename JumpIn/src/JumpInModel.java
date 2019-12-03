@@ -284,8 +284,12 @@ public class JumpInModel {
             difference *= -1;
             for (int i = 1; i < difference; i++) {//check blocks between the rabbit and desiredSpace to see if they can be jumped
                 Space currSpace = getBoard().getSpace(rabbitRow, rabbitColumn + i);
-                if (currSpace instanceof EmptySpace || currSpace instanceof Hole)
+                if (currSpace instanceof EmptySpace){
                     return false;
+                }
+                if(currSpace instanceof Hole && !((Hole) currSpace).getIsFilled()){
+                    return false;
+                }
             }//now need to check if the desiredSpace is an empty hole or an empty space
             if (desiredSpace instanceof EmptySpace)
                 return true;
@@ -298,8 +302,12 @@ public class JumpInModel {
         } else {//moving left
             for (int i = 1; i < difference; i++) {//check blocks between the rabbit and desiredSpace to see if they can be jumped
                 Space currSpace = board.getSpace(rabbitRow, rabbitColumn - i);
-                if (currSpace instanceof EmptySpace || currSpace instanceof Hole)//if the current hole is empty or a hole its not a valid move
+                if (currSpace instanceof EmptySpace) {//if the current hole is empty or a hole its not a valid move
                     return false;
+                }
+                if(currSpace instanceof Hole && !((Hole) currSpace).getIsFilled()){
+                    return false;
+                }
             }//now need to check if the desiredSpace is an empty hole or an empty space
             if (desiredSpace instanceof EmptySpace)
                 return true;
@@ -330,8 +338,12 @@ public class JumpInModel {
             difference *= -1;
             for (int i = 1; i < difference; i++) {//check blocks between the rabbit and desiredSpace to see if they can be jumped
                 Space currSpace = getBoard().getSpace(rabbitRow + i, rabbitColumn);
-                if (currSpace instanceof EmptySpace || currSpace instanceof Hole)
+                if (currSpace instanceof EmptySpace) {
                     return false;
+                }
+                if(currSpace instanceof Hole && !((Hole) currSpace).getIsFilled()){
+                    return false;
+                }
             }//now need to check if the desiredSpace is an empty hole or an empty space
             if (desiredSpace instanceof EmptySpace)
                 return true;
@@ -344,8 +356,12 @@ public class JumpInModel {
         } else {//moving up
             for (int i = 1; i < difference; i++) {//check blocks between the rabbit and desiredSpace to see if they can be jumped
                 Space currSpace = getBoard().getSpace(rabbitRow - i, rabbitColumn);
-                if (currSpace instanceof EmptySpace || currSpace instanceof Hole)//if the current hole is empty or a hole its not a valid move
+                if (currSpace instanceof EmptySpace) {//if the current hole is empty or a hole its not a valid move
                     return false;
+                }
+                if(currSpace instanceof Hole && !((Hole) currSpace).getIsFilled()){
+                    return false;
+                }
             }//now need to check if the desiredSpace is an empty hole or an empty space
             if (desiredSpace instanceof EmptySpace)
                 return true;
