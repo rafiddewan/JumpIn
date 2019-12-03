@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import JumpInSpaces.*;
+import JumpInBoardAPI.*;
 
 /**
  * This View implements a level  builder that appears at the start of the game

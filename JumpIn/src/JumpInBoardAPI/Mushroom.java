@@ -2,7 +2,7 @@
  * Represents a mushroom on the game board
  * @author Rafid
  */
-package JumpInSpaces;
+package JumpInBoardAPI;
 public class Mushroom extends Space {
 
     /**

@@ -1,5 +1,5 @@
 import java.io.*;
-import JumpInSpaces.*;
+import JumpInBoardAPI.*;
 /**
  * @author Lazar
  */

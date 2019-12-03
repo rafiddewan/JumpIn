@@ -6,7 +6,7 @@ import java.util.Stack;
  * This class is used to provide a solution for the game provided DFS
  * @author Rafid Dewan
  */
-import JumpInSpaces.*;
+import JumpInBoardAPI.*;
 public class JumpInSolver {
 
     private Board board; //passes in the board of the game

@@ -2,7 +2,7 @@
  * Superclass of EmptySpace, Fox, Holes, Mushroom, Rabbit, and Fox classes
  * @author Rafid
  */
-package JumpInSpaces;
+package JumpInBoardAPI;
 public class Space {
 
     private int row;
