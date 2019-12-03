@@ -58,7 +58,7 @@ as explaining how to play the game and includes a legend explaining the meaning 
 ###  Milestone 4
 - The "hint" button has turned into the "solve" button which provides a solution for you to solve the game
 - Created a LevelEditorView class to represent  
-- Packaged Board and all the Space classes and it's child classes together including the MoveableSpace Interface into JumpInBoardAPI since they are related classes and the board behaves like an API
+- Packaged Board and all the Space classes and it's child classes together including the MoveableSpace Interface into JumpInSpaces since they are related classes and the board behaves like an API
 ### Contributors
 ##### Group: I hate C
 Nick Coutts,
