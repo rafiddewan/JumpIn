@@ -64,7 +64,7 @@ public class Board {
                 else if(!(((Hole) currentSpace).getIsFilled())) setSpace(row, column, new Hole(row, column, false));
             }
         }
-        setHolesEmpty(3);
+        setHolesEmpty(0);
     }
 
     /**
