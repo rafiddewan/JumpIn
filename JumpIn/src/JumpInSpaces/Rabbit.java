@@ -2,7 +2,7 @@
  * Represents a rabbit on the game board.
  * @author Nick, Rafid
  */
-package JumpInBoardAPI;
+package JumpInSpaces;
 public class Rabbit extends Space implements MoveableSpace {
 
     /**

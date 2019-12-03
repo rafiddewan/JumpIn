@@ -3,7 +3,7 @@
  *
  * @author Rafid
  */
-package JumpInBoardAPI;
+package JumpInSpaces;
 public class FoxPart extends Space implements MoveableSpace {
 
     private boolean isVertical;

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Stack;
-import JumpInBoardAPI.*;
+import JumpInSpaces.*;
 
 /**
  * JumpIn playable game mechanics

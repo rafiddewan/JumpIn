@@ -4,7 +4,7 @@
  *
  * @author Rafid
  */
-package JumpInBoardAPI;
+package JumpInSpaces;
 public class Board {
 
     private Space[][] gameBoard;
