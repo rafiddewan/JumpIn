@@ -7,6 +7,7 @@ import JumpInSpaces.*;
 public class SaveLoadJSON {
     public static final String FILENAME = "savedLevel.json";
     int holesFilled = 0;
+    int holesRequired = 0;
 
     /**
      * Saves the current board state to a JSON file
@@ -121,7 +122,7 @@ public class SaveLoadJSON {
 
             }
 
-            board.setHolesEmpty(5 - holesFilled);
+            board.setHolesEmpty(holesRequired - holesFilled);
 
 
         }
@@ -147,6 +148,7 @@ public class SaveLoadJSON {
             return new Mushroom(row, col);
         }
         else if(ID.equals("\"RA\"")){
+            holesRequired++;
             return new Rabbit(row, col);
         }
         else if(ID.equals("\"ES\"")){
@@ -156,6 +158,7 @@ public class SaveLoadJSON {
             return new Hole(row,col,false);
         }
         else if(ID.equals("\"CH\"")){
+            holesRequired++;
             holesFilled++;
             return new Hole(row,col,true);
         }
