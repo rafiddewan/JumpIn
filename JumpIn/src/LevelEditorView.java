@@ -11,16 +11,17 @@ public class LevelEditorView implements View {
     private JFrame frame; //JFrame for the level editor
     private JButton[][] boardSpaces; //Spaces on the board
     private JButton[] placeablePieces; //Pieces that are needed to be placed
-    private JButton load, play,reset; //buttons that are on the menu bar
+    private JButton load, play, reset; //buttons that are on the menu bar
     private JumpInModel model; //Model that the game is associated with
     private JOptionPane popup; //popup option when the game is going to be reset
 
 
     /**
      * Constructs the view level editor when the game starts up
+     *
      * @param model
      */
-    public LevelEditorView(JumpInModel model){
+    public LevelEditorView(JumpInModel model) {
 
         //subscribe this view to the model
         model.addView(this);
@@ -34,7 +35,7 @@ public class LevelEditorView implements View {
         this.frame = new JFrame("LevelEditor");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
-        frame.setSize(800,500);
+        frame.setSize(800, 500);
 
 
         //5 by 5 JButton of spaces on the board
@@ -52,15 +53,15 @@ public class LevelEditorView implements View {
         instructions.setVisible(true);
 
         //Set the visibility of boardSpaces to true
-        for(int column = 0 ; column < 5 ; column++){
-            for(int row = 0 ; row < 5 ; row++){
+        for (int column = 0; column < 5; column++) {
+            for (int row = 0; row < 5; row++) {
                 boardSpaces[row][column] = new JButton();
                 boardSpaces[row][column].setVisible(true);
             }
         }
 
         //Display the placeable pieces
-        for(int i=0; i<5;i++){
+        for (int i = 0; i < 5; i++) {
             placeablePieces[i] = new JButton();
             placeablePieces[i].setVisible(true);
         }
@@ -87,7 +88,7 @@ public class LevelEditorView implements View {
         this.play.setVisible(true);
         this.reset = new JButton("Reset");
         this.reset.setVisible(true);
-        this.reset.addActionListener(e-> resetBuilder());
+        this.reset.addActionListener(e -> resetBuilder());
         optionPanel.add(load);
         optionPanel.add(play);
         optionPanel.add(reset);
@@ -99,21 +100,21 @@ public class LevelEditorView implements View {
 
         //Create the grid of spaces as the board which you are building your level on
         JPanel grid = new JPanel();
-        grid.setLayout(new GridLayout(5,5));
-        for(int i = 0 ; i < 5 ; i++){
-            for(int j = 0 ; j < 5 ; j++){
+        grid.setLayout(new GridLayout(5, 5));
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
                 grid.add(boardSpaces[i][j]);
             }
         }
-        grid.setMaximumSize(new Dimension(450,400));
+        grid.setMaximumSize(new Dimension(450, 400));
 
         //Create a vertical panel of pieces
         JPanel piecesPanel = new JPanel();
-        piecesPanel.setLayout(new GridLayout(5,1));
-        for( int i=0; i<5;i++){
+        piecesPanel.setLayout(new GridLayout(5, 1));
+        for (int i = 0; i < 5; i++) {
             piecesPanel.add(placeablePieces[i]);
         }
-        piecesPanel.setMaximumSize(new Dimension(200,400));
+        piecesPanel.setMaximumSize(new Dimension(200, 400));
 
         //Adds the board and the list of placeable pieces to the level builder panel
         builder.add(grid);
@@ -129,6 +130,7 @@ public class LevelEditorView implements View {
 
     /**
      * Displays or hides the frame
+     *
      * @param isVisible
      */
     public void setFrameVisiblity(boolean isVisible) {
@@ -136,7 +138,6 @@ public class LevelEditorView implements View {
     }
 
     /**
-     *
      * @return the popup
      */
     public JOptionPane getPopup() {
@@ -145,12 +146,16 @@ public class LevelEditorView implements View {
 
     /**
      * Load button getter
+     *
      * @return Load button
      */
-    public JButton getLoad() { return load; }
+    public JButton getLoad() {
+        return load;
+    }
 
     /**
      * Returns a reference of a 2-D array of the level builder's board spaces
+     *
      * @return the spaces on the board
      */
     public JButton[][] getBoardSpaces() {
@@ -160,29 +165,31 @@ public class LevelEditorView implements View {
     /**
      * Sets the visibility of certain buttons on the board depending if a placeable piece was selected or not
      * Takes a row and column to determine if a buttons should be enabled or disalbed
-     * @param row of the space
+     *
+     * @param row    of the space
      * @param column of the space
      */
     public void setBoardSpacesVisiblity(int row, int column, String buildPiece) {
 
         if (!model.isPieceSelected()) { //When a placeable piece is not selected
-            if (boardSpaces[row][column].getText().equals("ES")|| boardSpaces[row][column].getText().equals("OH")|| boardSpaces[row][column].getText().equals("FT"))
+            if (boardSpaces[row][column].getText().equals("ES") || boardSpaces[row][column].getText().equals("OH") || boardSpaces[row][column].getText().equals("FT"))
                 boardSpaces[row][column].setEnabled(false); //Disable the option to move empty space, open hole, and fox tail to
-            else boardSpaces[row][column].setEnabled(true); //placeable pieces can be selected to move to another space if already placed the board
-        }
-        else {
-            switch(buildPiece) { //Using buildPiece to determine which piece is selected and what buttons to disable & enable since it is selected
+            else
+                boardSpaces[row][column].setEnabled(true); //placeable pieces can be selected to move to another space if already placed the board
+        } else {
+            switch (buildPiece) { //Using buildPiece to determine which piece is selected and what buttons to disable & enable since it is selected
                 case "RA":
                 case "MU":
-                    if (boardSpaces[row][column].getText().equals("ES")) boardSpaces[row][column].setEnabled(true); //enable all empty spaces (no restrictions for mushrooms and rabbits)
+                    if (boardSpaces[row][column].getText().equals("ES"))
+                        boardSpaces[row][column].setEnabled(true); //enable all empty spaces (no restrictions for mushrooms and rabbits)
                     else
                         boardSpaces[row][column].setEnabled(false); //Disable the option to move empty space, open hole, and fox tail to
                     break;
                 case "FH":
-                    if (boardSpaces[row][column].getText().equals("ES") && column !=0 ) { //Horizontal fox head can only be put on a space that has two empty spaces and it's head not at column 0
-                        if(boardSpaces[row][column-1].getText().equals("ES")) { //check to see if the space to the left is also empty
+                    if (boardSpaces[row][column].getText().equals("ES") && column != 0) { //Horizontal fox head can only be put on a space that has two empty spaces and it's head not at column 0
+                        if (boardSpaces[row][column - 1].getText().equals("ES")) { //check to see if the space to the left is also empty
                             boardSpaces[row][column].setEnabled(true);  //both spaces are empty so you can put the fox head and tail here
-                        }else{
+                        } else {
                             boardSpaces[row][column].setEnabled(false); //the space to the left is not empty so you can't place a horizontal fox here
                         }
                     } else {
@@ -191,7 +198,7 @@ public class LevelEditorView implements View {
                     break;
                 case "FV":
                     if (boardSpaces[row][column].getText().equals("ES") && row != 0) { //Vertical fox head can only be put on a space that has two empty spaces and it's head not at row 0
-                        if (boardSpaces[row-1][column].getText().equals("ES")) { //check to see if the space below is also empty
+                        if (boardSpaces[row - 1][column].getText().equals("ES")) { //check to see if the space below is also empty
                             boardSpaces[row][column].setEnabled(true); //both spaces are empty so you can put the fox head and tail here
                         } else {
                             boardSpaces[row][column].setEnabled(false); //the space below is not empty so you can't place a vertical fox here
@@ -207,59 +214,60 @@ public class LevelEditorView implements View {
     /**
      * Sets the visbility of the placeable pieces depending on if it's bee selected or not
      */
-    public void setPlaceablePiecesVisibility(){
-        if(!model.isPieceSelected()){
+    public void setPlaceablePiecesVisibility() {
+        if (!model.isPieceSelected()) {
             //Give option to place rabbits if all of them haven't been placed
-            if(model.getBuildRabbitLeft() > 0) placeablePieces[0].setEnabled(true);
+            if (model.getBuildRabbitLeft() > 0) placeablePieces[0].setEnabled(true);
             else placeablePieces[0].setEnabled(false);
 
             //Give option to place mushrooms if all of them haven't been placed
-            if(model.getBuildMushroomLeft() > 0) placeablePieces[1].setEnabled(true);
+            if (model.getBuildMushroomLeft() > 0) placeablePieces[1].setEnabled(true);
             else placeablePieces[1].setEnabled(false);
 
             //Give option to place foxes if all of them haven't been placed
-            if(model.getBuildFoxLeft() > 0){
+            if (model.getBuildFoxLeft() > 0) {
                 placeablePieces[2].setEnabled(true);
                 placeablePieces[3].setEnabled(true);
-            }
-            else{
+            } else {
                 placeablePieces[2].setEnabled(false);
                 placeablePieces[3].setEnabled(false);
             }
 
             placeablePieces[4].setEnabled(false); //Cannot select cancel if a placeable piece hasn't been selected
-        }
-        else{
-            for(int i=0;i<4;i++){
+        } else {
+            for (int i = 0; i < 4; i++) {
                 placeablePieces[i].setEnabled(false);
             }
             placeablePieces[4].setEnabled(true); //Can select cancel since a placeable piece hasn't been selected
         }
     }
+
     /**
      * Sets the current placeablePieces buttons' strings
      */
-    public void setPlaceablePiecesString(){
-        placeablePieces[0].setText("Rabbits : "+ model.getBuildRabbitLeft());
-        placeablePieces[1].setText("Mushrooms : "+ model.getBuildMushroomLeft());
-        placeablePieces[2].setText("Foxes(Vertical) : "+ model.getBuildFoxLeft());
-        placeablePieces[3].setText("Foxes(Horizontal) : "+ model.getBuildFoxLeft());
+    public void setPlaceablePiecesString() {
+        placeablePieces[0].setText("Rabbits : " + model.getBuildRabbitLeft());
+        placeablePieces[1].setText("Mushrooms : " + model.getBuildMushroomLeft());
+        placeablePieces[2].setText("Foxes(Vertical) : " + model.getBuildFoxLeft());
+        placeablePieces[3].setText("Foxes(Horizontal) : " + model.getBuildFoxLeft());
     }
 
     /**
      * Returns an array of JButtons of PlaceablePieces
+     *
      * @return array of JButtons
      */
     public JButton[] getPlaceablePieces() {
         return placeablePieces;
     }
 
-    public JFrame getFrame(){
+    public JFrame getFrame() {
         return this.frame;
     }
 
     /**
      * Returns the play JButton
+     *
      * @return JButton
      */
     public JButton getPlay() {
@@ -268,19 +276,20 @@ public class LevelEditorView implements View {
 
     /**
      * Notified by the model of an update or a change of state in the board, all the pieces respond
+     *
      * @param model notifies it's subscribers (the views) when a change is occured to it
      */
     @Override
     public void update(JumpInModel model) {
         //Update the level builder view if its in the build state
-        if(model.isBuild()) {
+        if (model.isBuild()) {
             Board board = model.getBoard();
             /*If piece is not selected deselect empty space, open hole, and fox tail
-            * since a placeable piece wasn't selected
-            * Any other placeable piece can be selected so that it can move to another space
-            */
+             * since a placeable piece wasn't selected
+             * Any other placeable piece can be selected so that it can move to another space
+             */
             if (!model.isPieceSelected()) {
-                for(int column = 0 ; column < 5 ; column++) {
+                for (int column = 0; column < 5; column++) {
                     for (int row = 0; row < 5; row++) {
                         boardSpaces[row][column].setText(board.getSpace(row, column).toString());
                         setBoardSpacesVisiblity(row, column, null);
@@ -295,7 +304,7 @@ public class LevelEditorView implements View {
              * since a placeable piece was selected
              */
             else {
-                for(int column = 0 ; column < 5 ; column++) {
+                for (int column = 0; column < 5; column++) {
                     for (int row = 0; row < 5; row++) {
                         boardSpaces[row][column].setText(board.getSpace(row, column).toString());
                         String buildPiece = model.getBuildPiece(); //String containing the
@@ -314,7 +323,7 @@ public class LevelEditorView implements View {
                             case "FV":
                                 instructions.setText("Select a spot for the foxes head, its tail will be above it"); //instructions tell you select a vertical fox from the grid of boardSpaces to place the rabbit
                                 break;
-                            }
+                        }
                     }
                 }
             }
@@ -327,8 +336,8 @@ public class LevelEditorView implements View {
      * Resets the builder back to default status
      */
     public void resetBuilder() {
-        if(model.isBuild()){
-            if(popup.showConfirmDialog(null,"Are you sure you want to reset the board?","WARNING",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+        if (model.isBuild()) {
+            if (popup.showConfirmDialog(null, "Are you sure you want to reset the board?", "WARNING", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 Board board = model.getBoard();
                 board.emptyBoard();
                 model.setBuildRabbitLeft(3);
@@ -338,5 +347,5 @@ public class LevelEditorView implements View {
             }
         }
     }
-
 }
+
