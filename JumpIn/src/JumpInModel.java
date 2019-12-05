@@ -347,6 +347,14 @@ public class JumpInModel {
     }
 
     /**
+     * Sets the previousMoves stack when you first initialize the board
+     */
+    public void setPreviousMoves(Board firstBoard) {
+        this.previousMoves = new Stack<Board>();
+        previousMoves.push(firstBoard);
+    }
+
+    /**
      * Gets the undoneMoves Stack (used for the redo operations) which contains each board that was undone
      * @return the undoneMoves Stack of Boards
      */
