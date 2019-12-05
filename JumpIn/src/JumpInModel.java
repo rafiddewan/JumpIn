@@ -376,7 +376,7 @@ public class JumpInModel {
      * @return String which is the hints to solve the puzzle
      */
     public String solutionString(){
-        JumpInSolver solver = new JumpInSolver();
+        JumpInSolver solver = new JumpInSolver(new Board(getBoard()));
         return solver.toStringDefault();
     }
 

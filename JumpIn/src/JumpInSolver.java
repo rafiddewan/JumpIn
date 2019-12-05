@@ -7,11 +7,10 @@ import java.util.Stack;
  * @author Rafid Dewan
  */
 import JumpInSpaces.*;
-public class JumpInSolver {
+public class JumpInSolver{
 
     private Board board; //passes in the board of the game
     private ArrayList<Board> previousBoards; //previous boards that were used for each turn the solver makes
-    private JumpInModel model; //used to verify if a move is legal or not
     private Stack<String> hints; //stack of hints throughout the game
     private int currentBoard; //the current index of the board array list
 
@@ -19,12 +18,39 @@ public class JumpInSolver {
      * Constructor for JumpInSolver
      * Takes in a board and creates a new model to use to check valid moves for the solver
      */
-    public JumpInSolver(){
-        this.model = new JumpInModel();
-        this.board = this.model.getBoard();
+    public JumpInSolver(Board board){
+        this.board = board;
         this.hints = new Stack<String>();
         this.previousBoards = new ArrayList<Board>();
         this.currentBoard = 0;
+    }
+
+    public ArrayList<Board> getPreviousBoards() {
+        return previousBoards;
+    }
+
+    public void setPreviousBoards(ArrayList<Board> previousBoards) {
+        this.previousBoards = previousBoards;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public Stack<String> getHints() {
+        return hints;
+    }
+
+    public void setHints(Stack<String> hints) {
+        this.hints = hints;
+    }
+
+    public int getCurrentBoard() {
+        return currentBoard;
     }
 
 //
@@ -83,55 +109,54 @@ public class JumpInSolver {
 //        return complete;
 //    }
 
-    /**
-     * Checks to see if a certain piece has visited  a certain space or not
-     *
-     * @param movableSpace is a space which you can move
-     * @param row is the given row the player wants to move the piece too
-     * @param column is the given row the player wants to move the piece too
-     * @return boolean that indicates if the rabbit or fox has been  to that space
-     */
-    private boolean hasBeenVisited(Space movableSpace, int row, int column)
-    {
-        boolean check = false;
-        int count = 0;
-        if(previousBoards.size() == 0) return false; //will always be false when there are no previous boards
-        for(Board prevBoard: previousBoards)
-        {
-            if(prevBoard.getSpace(row, column) instanceof Rabbit && movableSpace instanceof Rabbit)
-            {
-                check = true;
-                currentBoard = count; //index of board arraylist
-                break;
-            }
-            else if(prevBoard.getSpace(row, column) instanceof FoxPart && movableSpace instanceof FoxPart)
-            {
-                if(((FoxPart) prevBoard.getSpace(row, column)).getIsHead())
-                {
-                    check = true;
-                    currentBoard = count; //index of board arraylist
-                    break;
-                }
-            }
-            count++;
-        }
-        return check;
-    }
-
-    /**
-     * Moves the piece to the new location and adds the board onto the stack to keep in track of it
-     * @param movablePiece is either the Rabbit or fox selected to move
-     * @param row moves the current piece to the board
-     * @param column moves the current column to the board
-     */
-    private void movePieces(Space movablePiece, int row, int column)
-    {
-        model.setMoveCol(movablePiece.getColumn()); //set the column for the movable piece is placed on
-        model.setMoveRow(movablePiece.getRow()); //set the row for the movable piece is placed on
-        model.setPieceSelected(true);
-        model.takeTurn(row, column);
-        previousBoards.add(new Board(board));
-    }
+//    /**
+//     * Checks to see if a certain piece has visited  a certain space or not
+//     *
+//     * @param movableSpace is a space which you can move
+//     * @param row is the given row the player wants to move the piece too
+//     * @param column is the given row the player wants to move the piece too
+//     * @return boolean that indicates if the rabbit or fox has been  to that space
+//     */
+//    private boolean hasBeenVisited(Space movableSpace, int row, int column)
+//    {
+//        boolean check = false;
+//        int count = 0;
+//        if(previousBoards.size() == 0) return false; //will always be false when there are no previous boards
+//        for(Board prevBoard: previousBoards)
+//        {
+//            if(prevBoard.getSpace(row, column) instanceof Rabbit && movableSpace instanceof Rabbit)
+//            {
+//                check = true;
+//                currentBoard = count; //index of board arraylist
+//                break;
+//            }
+//            else if(prevBoard.getSpace(row, column) instanceof FoxPart && movableSpace instanceof FoxPart)
+//            {
+//                if(((FoxPart) prevBoard.getSpace(row, column)).getIsHead())
+//                {
+//                    check = true;
+//                    currentBoard = count; //index of board arraylist
+//                    break;
+//                }
+//            }
+//            count++;
+//        }
+//        return check;
+//    }
+//
+//    /**
+//     * Moves the piece to the new location and adds the board onto the stack to keep in track of it
+//     * @param movablePiece is either the Rabbit or fox selected to move
+//     * @param row moves the current piece to the board
+//     * @param column moves the current column to the board
+//     */
+//    private void movePieces(Space movablePiece, int row, int column)
+//    {
+//        model.setMoveCol(movablePiece.getColumn()); //set the column for the movable piece is placed on
+//        model.setMoveRow(movablePiece.getRow()); //set the row for the movable piece is placed on
+//        model.setPieceSelected(true);
+//        previousBoards.add(new Board(board));
+//    }
 //
 //    /**
 //     * If there are 5 movable pieces that you cannot move then the board is unsolvable then the solver will return false
