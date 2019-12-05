@@ -26,9 +26,9 @@ public class JumpInSolverTest {
         String boardType1 = "Hints in order of sequence of moves from start to finish: Rabbit, Fox, Rabbit, Rabbit, Fox";
         assertEquals("Not the correct  solution", boardType1, solver.toString());
     }
-
-    @Test
-    public void solver() {
-        assertTrue(solver.solver());
-    }
+//
+//    @Test
+//    public void solver() {
+//        assertTrue(solver.solver());
+//    }
 }

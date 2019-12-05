@@ -26,61 +26,62 @@ public class JumpInSolver {
         this.previousBoards = new ArrayList<Board>();
         this.currentBoard = 0;
     }
-
-    /**
-     * Depth first search for solver
-     * Do not move the movable piece if it's visited the space. BACKTRACK back to the previous board and find another destination. Remove a hint as well.
-     * If the movable piece is a rabbit//fox and it can move to an empty space. Move it to that space and add a hint and add the board to the array list of boards
-     * @param movablePiece is a foxhead or a rabbit
-     * @param pass is the amount of times DFS is called by a piece
-     * @return boolean to determine if the DFS has traversed atleast one time
-     */
-    public boolean DFS(Space movablePiece, int pass, boolean complete)
-    {
-        if(movablePiece instanceof Rabbit || movablePiece instanceof FoxPart)
-        {
-            for (int row = 0; row < 5; row++)
-            {
-                for (int col = 0; col < 5; col++)
-                {
-                    //checks to see if the piece has already been moved to the spot
-                    if(hasBeenVisited(movablePiece, row, col))
-                    {
-                        board = previousBoards.get(currentBoard); //BACKTRACK get the previous board and start from there
-                        removeLastHint(); //removes the last hint of the
-                    }
-                    else
-                        {
-                            if (movablePiece instanceof Rabbit)  //if the movable piece is a rabbit
-                            {
-                                if (model.canRabbitMove(movablePiece, board.getSpace(row, col)))
-                                {
-                                    movePieces(movablePiece, row, col); //move the rabbit
-                                    addHints("Rabbit"); //add hint
-                                    pass++;
-                                    DFS(board.getSpace(row, col), pass, true); //recursion until rabbit is in the hole
-                                }
-                            }
-                            else
-                                {
-                                    if (((FoxPart) movablePiece).getIsHead()) //if the fox part is a fox head (because you can only move by the head)
-                                    {
-                                        if (model.canFoxMove(movablePiece, board.getSpace(row, col)))
-                                        {
-                                            movePieces(movablePiece, row, col); //move the fox head
-                                            addHints("Fox"); //add the hint for fox
-                                            pass++;
-                                            complete = true; //successfully completed a single pass
-                                            DFS(board.getSpace(row, col), pass, true); //recursion until fox moves to all places
-                                        }
-                                    }
-                                }
-                        }
-                    }
-                }
-            }
-        return complete;
-    }
+//
+//
+//    /**
+//     * Depth first search for solver
+//     * Do not move the movable piece if it's visited the space. BACKTRACK back to the previous board and find another destination. Remove a hint as well.
+//     * If the movable piece is a rabbit//fox and it can move to an empty space. Move it to that space and add a hint and add the board to the array list of boards
+//     * @param movablePiece is a foxhead or a rabbit
+//     * @param pass is the amount of times DFS is called by a piece
+//     * @return boolean to determine if the DFS has traversed atleast one time
+//     */
+//    public boolean DFS(Space movablePiece, int pass, boolean complete)
+//    {
+//        if(movablePiece instanceof Rabbit || movablePiece instanceof FoxPart)
+//        {
+//            for (int row = 0; row < 5; row++)
+//            {
+//                for (int col = 0; col < 5; col++)
+//                {
+//                    //checks to see if the piece has already been moved to the spot
+//                    if(hasBeenVisited(movablePiece, row, col))
+//                    {
+//                        board = previousBoards.get(currentBoard); //BACKTRACK get the previous board and start from there
+//                        removeLastHint(); //removes the last hint of the
+//                    }
+//                    else
+//                        {
+//                            if (movablePiece instanceof Rabbit)  //if the movable piece is a rabbit
+//                            {
+//                                if (model.canRabbitMove(movablePiece, board.getSpace(row, col)))
+//                                {
+//                                    movePieces(movablePiece, row, col); //move the rabbit
+//                                    addHints("Rabbit"); //add hint
+//                                    pass++;
+//                                    DFS(board.getSpace(row, col), pass, true); //recursion until rabbit is in the hole
+//                                }
+//                            }
+//                            else
+//                                {
+//                                    if (((FoxPart) movablePiece).getIsHead()) //if the fox part is a fox head (because you can only move by the head)
+//                                    {
+//                                        if (model.canFoxMove(movablePiece, board.getSpace(row, col)))
+//                                        {
+//                                            movePieces(movablePiece, row, col); //move the fox head
+//                                            addHints("Fox"); //add the hint for fox
+//                                            pass++;
+//                                            complete = true; //successfully completed a single pass
+//                                            DFS(board.getSpace(row, col), pass, true); //recursion until fox moves to all places
+//                                        }
+//                                    }
+//                                }
+//                        }
+//                    }
+//                }
+//            }
+//        return complete;
+//    }
 
     /**
      * Checks to see if a certain piece has visited  a certain space or not
@@ -132,40 +133,40 @@ public class JumpInSolver {
         previousBoards.add(new Board(board));
     }
 
-    /**
-     * If there are 5 movable pieces that you cannot move then the board is unsolvable then the solver will return false
-     * If all the rabbits go into the 3 holes then the solver will return true
-     * @return boolean, true indicating the puzzle is solved, false indicating the puzzle is unsolvable
-     */
-    public boolean solver()
-    {
-        while(!model.isGameDone()) //keep doing this until game is done
-        {
-            int unSolvedPieces = 0; //declare number of unsolved pieces in this iteration
-            for(int row = 0; row < 5; row++)
-            {
-                for(int col = 0; col < 5; col++)
-                {
-                    if(board.getSpace(row, col) instanceof Rabbit)
-                    {
-                        if(!DFS(board.getSpace(row, col), 0, false)) unSolvedPieces++;
-                        //check to see if the game is done
-                        if (model.getBoard().getHolesEmpty() == 0)
-                        {
-                            model.setGameDone(true);
-                            break;
-                        }
-                    }
-                    if(board.getSpace(row, col) instanceof FoxPart)
-                    {
-                        if(!DFS(board.getSpace(row, col), 0, false)) unSolvedPieces++; //if DFS fails first pass, increment number of unSolvedPieces
-                    }
-                }
-                if(unSolvedPieces == 5) return false; //if DFS fails first pass
-            }
-        }
-        return true;
-    }
+//    /**
+//     * If there are 5 movable pieces that you cannot move then the board is unsolvable then the solver will return false
+//     * If all the rabbits go into the 3 holes then the solver will return true
+//     * @return boolean, true indicating the puzzle is solved, false indicating the puzzle is unsolvable
+//     */
+//    public boolean solver()
+//    {
+//        while(!model.isGameDone()) //keep doing this until game is done
+//        {
+//            int unSolvedPieces = 0; //declare number of unsolved pieces in this iteration
+//            for(int row = 0; row < 5; row++)
+//            {
+//                for(int col = 0; col < 5; col++)
+//                {
+//                    if(board.getSpace(row, col) instanceof Rabbit)
+//                    {
+//                        if(!DFS(board.getSpace(row, col), 0, false)) unSolvedPieces++;
+//                        //check to see if the game is done
+//                        if (model.getBoard().getHolesEmpty() == 0)
+//                        {
+//                            model.setGameDone(true);
+//                            break;
+//                        }
+//                    }
+//                    if(board.getSpace(row, col) instanceof FoxPart)
+//                    {
+//                        if(!DFS(board.getSpace(row, col), 0, false)) unSolvedPieces++; //if DFS fails first pass, increment number of unSolvedPieces
+//                    }
+//                }
+//                if(unSolvedPieces == 5) return false; //if DFS fails first pass
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * Adding a hint to the hintStack
