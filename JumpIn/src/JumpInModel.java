@@ -229,7 +229,7 @@ public class JumpInModel {
     public void takeTurn(int row, int column){
         Space moveSpace = getBoard().getSpace(getMoveRow(), getMoveCol()); //Piece to move
         Space destSpace = getBoard().getSpace(row, column); //Space to move to
-        //Move Rabbit Piece froma hole
+        //Move Rabbit Piece from a hole
         if(moveSpace instanceof Hole && ((Hole) moveSpace).getIsFilled()){
             Rabbit rabbitOutOfTheHoleSpace = new Rabbit(getMoveRow(), getMoveCol());
             if(rabbitOutOfTheHoleSpace.canRabbitMove(rabbitOutOfTheHoleSpace, destSpace, board)){
@@ -238,6 +238,10 @@ public class JumpInModel {
                     getBoard().setSpace(row, column, rabbitOutOfTheHoleSpace);
                     ((Hole) moveSpace).setIsFilled(false);
                     board.incrementHolesEmpty();
+                }
+                else if(destSpace instanceof Hole && !((Hole) destSpace).getIsFilled()){
+                    ((Hole) moveSpace).setIsFilled(false);
+                    ((Hole) destSpace).setIsFilled(true);
                 }
                 previousMoves.push(new Board(board));
                 undoneMoves.clear();//clear undone moves if a valid move is made

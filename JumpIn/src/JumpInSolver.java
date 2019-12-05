@@ -26,7 +26,7 @@ public class JumpInSolver {
         this.previousBoards = new ArrayList<Board>();
         this.currentBoard = 0;
     }
-//
+
 //
 //    /**
 //     * Depth first search for solver
@@ -132,7 +132,7 @@ public class JumpInSolver {
         model.takeTurn(row, column);
         previousBoards.add(new Board(board));
     }
-
+//
 //    /**
 //     * If there are 5 movable pieces that you cannot move then the board is unsolvable then the solver will return false
 //     * If all the rabbits go into the 3 holes then the solver will return true
