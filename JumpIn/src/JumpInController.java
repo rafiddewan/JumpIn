@@ -3,7 +3,6 @@
  */
 
 import java.io.*;
-
 import JumpInSpaces.*;
 
 /**
@@ -189,6 +188,7 @@ public class JumpInController {
             model.setBuild(false);
             model.setPieceSelected(false);
             view.setFrameVisibility(true);
+            model.setPreviousMoves(new Board(model.getBoard()));
             levelEditor.setFrameVisiblity(false);
         //}
     }
