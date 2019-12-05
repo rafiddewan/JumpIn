@@ -140,7 +140,7 @@ public class SaveLoadJSON {
     private Space fromJSON(int row, int col, String other, String vertical, String ID){
 
         boolean v;
-        if(vertical.equals("true")){ v = true;}
+        if(vertical.equals("\"true\"")){ v = true;}
         else { v = false; }
 
         if(ID.equals("\"MU\"")){
