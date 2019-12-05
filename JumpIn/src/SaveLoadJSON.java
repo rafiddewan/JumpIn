@@ -1,4 +1,5 @@
 import java.io.*;
+
 import JumpInSpaces.*;
 /**
  * @author Lazar
@@ -161,8 +162,8 @@ public class SaveLoadJSON {
         else {
             String[] coord = other.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\"", "").split("\\|");
 
-             int friendRow = Integer.parseInt(coord[0]);
-             int friendCol = Integer.parseInt(coord[1]);
+            int friendRow = Integer.parseInt(coord[0]);
+            int friendCol = Integer.parseInt(coord[1]);
 
             if(ID.equals("\"FH\"")){
                 FoxPart otherFoxPart = new FoxPart(friendRow,friendCol,v,false);

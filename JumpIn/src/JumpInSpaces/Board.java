@@ -62,7 +62,7 @@ public class Board {
             for(int column = 0; column<5;column++){
                 Space currentSpace = getSpace(row, column);
                 if(!(currentSpace instanceof Hole)) setSpace(row, column, new EmptySpace(row, column));
-                else if(!(((Hole) currentSpace).getIsFilled())) setSpace(row, column, new Hole(row, column, false));
+                else if(((Hole) currentSpace).getIsFilled()) setSpace(row, column, new Hole(row, column, false));
             }
         }
         setHolesEmpty(0);
